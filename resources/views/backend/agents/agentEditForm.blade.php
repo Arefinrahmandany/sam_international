@@ -2,7 +2,6 @@
 
 @section('main-content')
 
-
 <!-- form start -->
 <div class="container-fluid pt-4">
     <div class="container">
@@ -32,7 +31,7 @@
                     <textarea type="Text" name="address" class="form-control col-md-10" id="address" value="{{ old('address') }}" placeholder="Address"></textarea>
                 </div>
                 <div class="text-right">
-                    <button type="submit" name="submit" class="btn btn-primary">Add Agent</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </form>
@@ -41,4 +40,5 @@
 
 
 <!-- form End -->
+
 @endsection

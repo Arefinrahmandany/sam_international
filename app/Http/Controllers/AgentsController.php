@@ -12,7 +12,10 @@ class AgentsController extends Controller
      */
     public function index()
     {
-        return view('backend.agents.agents');
+        $data = Agents::all();
+        return view('backend.agents.agents',[
+        'all_data' => $data
+        ]);
     }
 
 
@@ -29,6 +32,13 @@ class AgentsController extends Controller
      */
     public function store(Request $request)
     {
+        //validate
+        $this-> validate($request,[
+            'name' => 'required',
+            'phone' => 'required|starts_with:01,0088,+88,02|unique:agents',
+            'email' => 'email| unique:agents',
+        ]);
+        // data store to table
         Agents::create([
             'name' => $request -> name,
             'phone' => $request -> phone,
@@ -36,8 +46,8 @@ class AgentsController extends Controller
             'nid' => $request -> nid,
             'address' => $request -> address,
         ]);
-
-        return back();
+        //redirect to back same page
+        return back() -> with('success','Data successfully inserted');
     }
 
     /**
@@ -45,7 +55,7 @@ class AgentsController extends Controller
      */
     public function show($id)
     {
-        return view('backend.agents.agent-SingleView');
+        return view('backend.agents.agentSingleView');
     }
 
     /**
@@ -53,7 +63,7 @@ class AgentsController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.agents.agent-EditForm');
+        return view('backend.agents.agentEditForm');
     }
 
     /**

@@ -7,6 +7,7 @@
         <a class="btn btn-primary" href="{{route('agent.create')}}" role="button">Add New Agent</a>
         <!-- Table Start -->
         <div class="container">
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -16,23 +17,33 @@
                         <th scope="col">Email</th>
                         <th scope="col">NID</th>
                         <th scope="col">Address</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Balance Amount</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse ( $all_data as $agents)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$agents -> id }}</td>
+                        <td>{{$agents -> name }}</td>
+                        <td>{{$agents -> phone }}</td>
+                        <td>{{$agents -> email }}</td>
+                        <td>{{$agents -> nid }}</td>
+                        <td>{{$agents -> address }}</td>
+                        <td>{{$agents -> status }}</td>
+                        <td>{{$agents -> balance }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{ url('Agent-show/{id}') }}" role="button">View</a>
-                            <a class="btn btn-warning" href="{{ url('Agent-edit/{id}') }}" role="button">Edit</a>
-                            <a class="btn btn-danger" href="" role="button">Delet</a>
+                            <a class="btn btn-lg btn-primary" href="{{route('agent.show', 2)}}"><i class="fe fe-eye"></i></a>
+                            <a class="btn btn-lg btn-warning" href="{{ route('agent.edit', 2) }}"><i class="fe fe-edit"></i></a>
+                            <a class="btn btn-lgm btn-danger" href=""><i class="fe fe-trash"></i></a>
                         </td>
                     </tr>
+
+                    @empty
+
+                    @endforelse
+
                 </tbody>
             </table>
         </div>

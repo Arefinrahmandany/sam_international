@@ -15,7 +15,10 @@ class PassportController extends Controller
      */
     public function index()
     {
-        return view('backend.passports.passports');
+        $data = NewPassport::all();
+        return view('backend.passports.passports',[
+            'all_data' => $data
+        ]);
     }
 
     /**
@@ -31,6 +34,15 @@ class PassportController extends Controller
      */
     public function store(Request $request)
     {
+        //validate
+        $this-> validate($request,[
+            'passpoertNumber' => 'required',
+            'name' => 'required',
+            'phone' => 'required|starts_with:01,0088,+88,02|unique:new_passports',
+            'email' => 'email| unique:new_passports',
+            'payment' => 'integer',
+        ]);
+        //Photo upload
         if( $request -> hasFile('photo')){
             $img = $request -> file('photo');
             $file_name = md5(time().rand()) . '. ' .  $img -> clientExtension();
