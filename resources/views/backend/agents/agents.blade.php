@@ -31,7 +31,7 @@
                         <td>{{$agents -> email }}</td>
                         <td>{{$agents -> nid }}</td>
                         <td>{{$agents -> address }}</td>
-                        <td>{{$agents -> status }}</td>
+                        <td><input class="form-check-input" type="checkbox" role="switch" checked="{{$agents -> status }}"></td>
                         <td>{{$agents -> balance }}</td>
                         <td>
                             <a class="btn btn-lg btn-primary" href="{{route('agent.show', 2)}}"><i class="fe fe-eye"></i></a>

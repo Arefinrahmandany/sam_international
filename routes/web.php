@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AgentsController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PassportController;
 use App\Http\Controllers\VisaagencyController;
 use App\Http\Controllers\VisasubmissionController;
@@ -53,17 +54,18 @@ Route::post('medicalStore',[Medical_applicationController::class, 'store']) -> n
 //Route for Visa-Application
 Route::get('Visa-Application',[VisasubmissionController::class, 'index']) -> name('Visa-Application.index');
 Route::get('Visa-Application/{id}',[VisasubmissionController::class, 'edit']) -> name('Visa-Application.edit');
-Route::get('Visa-Application/Create',[VisasubmissionController::class, 'create']) -> name('Visa-Application.create');
+Route::get('VisaApplicationCreate',[VisasubmissionController::class, 'create']) -> name('VisaApplication.create');
 Route::get('Visa-Application/{id}',[VisasubmissionController::class, 'show']) -> name('Visa-Application.show');
-Route::post('Visa-Application-store}',[VisasubmissionController::class, 'store']) -> name('Visa-Application.store');
+Route::post('VisaApplicationstore}',[VisasubmissionController::class, 'store']) -> name('VisaApplication.store');
 Route::get('VisaStatus/create',[Visa_status_checkController::class, 'create']) -> name('VisaStatus.create');
 
 
 //Route for Visa Status
-Route::get('VisaStatus/{id}',[Visa_status_checkController::class, 'show']) -> name('VisaStatus.show');
-Route::get('VisaStatus/{id}',[Visa_status_checkController::class, 'edit']) -> name('VisaStatus.edit');
+Route::get('VisaStatusShow',[Visa_status_checkController::class, 'show']) -> name('VisaStatus.show');
+Route::get('VisaStatusEdit',[Visa_status_checkController::class, 'edit']) -> name('VisaStatus.edit');
 Route::get('VisaStatus',[Visa_status_checkController::class, 'index']) -> name('VisaStatus.index');
-Route::post('VisaStatus-store',[Visa_status_checkController::class, 'store']) -> name('VisaStatus.store');
+Route::post('VisaStatusStore',[Visa_status_checkController::class, 'store']) -> name('VisaStatus.store');
+Route::get('VisaStatusCreate',[Visa_status_checkController::class, 'create']) -> name('VisaStatus.create');
 
 
 //Route for Passports Eligibility
@@ -80,7 +82,7 @@ Route::post('EligibilityStore',[PassporteligibilityController::class, 'store']) 
 //Route for VisaAgency
 
 Route::get('VisaAgency',[VisaagencyController::class, 'index']) -> name('VisaAgency.index');
-Route::get('VisaAgency/create',[VisaagencyController::class, 'create']) -> name('VisaAgency.create');
+Route::get('VisaAgencyCreate',[VisaagencyController::class, 'create']) -> name('VisaAgency.create');
 Route::get('VisaAgency/{id}',[VisaagencyController::class, 'edit']) -> name('VisaAgency.edit');
 Route::get('VisaAgency/{id}',[VisaagencyController::class, 'show']) -> name('VisaAgency.show');
 Route::post('VisaAgency-store',[VisaagencyController::class, 'store']) -> name('VisaAgency.store');
@@ -89,7 +91,10 @@ Route::post('VisaAgency-store',[VisaagencyController::class, 'store']) -> name('
 //Route for Accounts
 
 Route::get('Accounts',[AccountController::class, 'index']) -> name('Accounts.index');
-Route::post('Accounts-store',[AccountController::class, 'store']) -> name('Accounts.store');
+Route::get('AccountsCreate',[AccountController::class, 'create']) -> name('Accounts.create');
+Route::post('AccountsStore',[AccountController::class, 'store']) -> name('Accounts.store');
+Route::get('AccountsStore',[AccountController::class, 'invoice']) -> name('Accounts.invoice');
+Route::post('AccountsInvoice',[InvoiceController::class, 'store']) -> name('Invoice.store');
 
 
 

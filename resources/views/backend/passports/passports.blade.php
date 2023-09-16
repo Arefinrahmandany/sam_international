@@ -4,7 +4,7 @@
 
 <!-- Table Start -->
 
-<div class="pt-4 px-4">
+<div class="pt-4 px-4 mb-3">
     <a class="btn btn-primary" href="{{route('passports.create')}}" role="button">Add New Agent</a>
     <div class="container">
         <table class="table table-striped">

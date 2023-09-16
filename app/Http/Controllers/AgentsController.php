@@ -55,7 +55,10 @@ class AgentsController extends Controller
      */
     public function show($id)
     {
-        return view('backend.agents.agentSingleView');
+        $data = Agents::all();
+        return view('backend.agents.agentSingleView',[
+            'all_data' => $data
+            ]);
     }
 
     /**
@@ -69,9 +72,18 @@ class AgentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $update_data = Agents::findorfail($id);
+
+        $update_data -> update([
+            'name' => $request -> name,
+            'phone' => $request -> phone,
+            'email' => $request -> email,
+            'nid' => $request -> nid,
+            'status' => $request -> status,
+            'address' => $request -> address,
+        ]);
     }
 
     /**

@@ -12,7 +12,7 @@
      <!-- Google Web Fonts -->
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+     <link href="{{ url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap') }}" rel="stylesheet">
 
      <!-- Icon Font Stylesheet -->
      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -30,22 +30,26 @@
     </head>
 
     <body>
-        <div class="row">
-            <div class="col-2">
-                <!-- Sidebar Start -->
-                <div class="sidebar pe-4 pb-3">
-                    <nav class="navbar nav-tabs">
-                        <a href="{{ url('/') }}" class="navbar-brand mx-4 mb-3"><h3 class="text-primary">DASHBOARD</h3></a>
-                        <!-- user id detail start -->
-                        <div class="d-flex align-items-center ms-4 mb-4">
-                            <div class="position-relative">
-                                <img class="rounded-circle" src="image/logo.png" alt="" style="width: 40px; height: 40px;">
-                                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                            </div>
-                            <div class="ms-3">
-                                <h3 class="mb-0" style="color: red">Nahian Corp.</h3>
-                                <span>Admin</span>
-                            </div>
+        <div class="container-fluid position-relative bg-white d-flex p-0">
+
+
+
+            <!-- Sidebar Start -->
+            <div class="sidebar pe-4 pb-3">
+                <nav class="navbar bg-light navbar-light">
+                    <a href="{{ route('Accounts.index') }}" class="navbar-brand mx-4 mb-3">
+                        <h3 class="text-primary">DASHBOARD</h3>
+                    </a>
+                    <div class="ms-3">
+                        <a href="{{ route('Accounts.index') }}" style="text-decoration: none;"><h3 class="mb-0" style="color: red">Nahian Corp.</h3></a>
+                    </div>
+                    <div class="d-flex align-items-center ms-4 mb-4">
+                        <span>Admin  </span>
+                        <div class="position-relative">
+                            <img class="rounded-circle" src="image/users/user_1.jpeg" alt="" style="width: 40px; height: 40px;">
+                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                        </div>
+
                         </div>
                         <!-- user id detail End -->
                         <!-- Navbar start -->
@@ -69,7 +73,7 @@
                 </div>
             </div>
             <!-- Sidebar End -->
-            <div class="col-10 ">
+            <div class="content">
                 <!-- Navbar Start -->
                 <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
                     <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
@@ -111,16 +115,24 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href='https://www.linkedin.com/in/md-arefin-rahman-939136154/'>Arefin</a>, All Right Reserved.
+                            &copy; <a href="{{ url('https://www.linkedin.com/in/md-arefin-rahman-939136154/') }}">Arefin</a>, All Right Reserved.
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
-                            Designed By <a href='https://www.linkedin.com/in/md-arefin-rahman-939136154/'>Arefin</a>
+                            Designed By <a href="{{ url('https://www.linkedin.com/in/md-arefin-rahman-939136154/') }}">Arefin</a>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Footer End -->
             <script>
+                (function ($) {
+
+                    // Sidebar Toggler
+                    $('.sidebar-toggler').click(function () {
+                        $('.sidebar, .content').toggleClass("open");
+                        return false;
+                    });
+
                 $('#photo').change(function(e){
 
                     let url = URL.createObjectURL(e.target.files[0]);
@@ -131,6 +143,7 @@
                 $('.sidebar, .content').toggleClass("open");
                 return false;
             });
+        })(jQuery);
 
             </script>
 

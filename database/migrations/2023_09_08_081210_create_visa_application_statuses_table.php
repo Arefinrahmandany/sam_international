@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('visa_application_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('passport_number')->unique();
-            $table->boolean('visa_status')->default(true);
+            $table->string('visa_status')->nullable();
             $table->date('issueDate');
             $table->date('expiryDate');
             $table->boolean('status')->default(true);

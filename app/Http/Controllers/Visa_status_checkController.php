@@ -12,7 +12,10 @@ class Visa_status_checkController extends Controller
      */
     public function index()
     {
-        return view('backend.status.status');
+        $data = VisaApplicationStatus::all();
+        return view('backend.status.status',[
+        'all_data' => $data
+        ]);
     }
 
     /**
@@ -20,7 +23,7 @@ class Visa_status_checkController extends Controller
      */
     public function create()
     {
-        return view('backend.status.status-new');
+        return view('backend.status.statusNew');
     }
 
     /**
@@ -28,13 +31,23 @@ class Visa_status_checkController extends Controller
      */
     public function store(Request $request)
     {
-        VisaApplicationStatus::create([
-            'name' => $request -> name,
-            'phone' => $request -> phone,
-            'email' => $request -> email,
-            'nid' => $request -> nid,
-            'address' => $request -> address,
+        //validate
+        $this-> validate($request,[
+            'passportNumber' => 'required',
         ]);
+
+        // data store to table
+
+        VisaApplicationStatus::create([
+            'passport_number' => $request -> passportNumber,
+            'visa_status' => $request -> visaStatus,
+            'issueDate' => $request -> issueDate,
+            'expiryDate' => $request -> expiryDate,
+        ]);
+
+        //redirect to back same page
+
+        return back() -> with('success','Data successfully inserted');
     }
 
     /**

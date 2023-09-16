@@ -11,23 +11,27 @@
                 <div class="card-body p-4">
                     <div class="d-flex text-black">
                         <div class="flex-shrink-0">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp" class="img-fluid" style="width: 180px; border-radius: 10px;">
+                            @forelse ( $all_data as $agents)
+                            <img src="{{ url('image.pexels-pixabay-220453.jpg') }}" class="img-fluid" style="width: 180px; border-radius: 10px;">
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h5 class="mb-1">Danny McLoan</h5>
+                            <h5 class="mb-1">{{$agents -> name }}</h5>
                             <p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
                             <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
                                 <div>
                                     <p class="small text-muted mb-1">Phone</p>
-                                    <p class="mb-0">41</p>
+                                    <p class="mb-0">{{$agents -> phone }}</p>
                                 </div>
                                 <div class="px-3">
                                     <p class="small text-muted mb-1">Email</p>
-                                    <p class="mb-0">976</p>
+                                    <p class="mb-0">{{$agents -> email }}</p>
                                 </div>
                                 <div>
                                     <p class="small text-muted mb-1">Total Due</p>
-                                    <p class="mb-0">8.5</p>
+                                    <p class="mb-0">{{$agents -> balance }}</p>
+                                    @empty
+
+                    @endforelse
                                 </div>
                             </div>
                         </div>

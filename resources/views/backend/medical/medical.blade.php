@@ -23,19 +23,27 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse ( $all_data as $medical)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$medical -> id }}</td>
+                        <td scope="col">
+                            <div class="align-items-center pt-2">
+                                <input class="form-check-input m-0" type="checkbox">
+                            </div>
+                        </td>
+                        <td>{{$medical -> passport_number  }}</td>
+                        <td>{{$medical -> medical_date }}</td>
+                        <td>{{$medical -> medicalStatus }}</td>
+                        <td>{{$medical -> expiryDate }}</td>
                         <td>
                             <a class="btn btn-primary" href="" role="button">View</a>
                             <a class="btn btn-warning" href="" role="button">Edit</a>
                             <a class="btn btn-danger" href="" role="button">Delet</a>
                         </td>
                     </tr>
+                    @empty
+
+                    @endforelse
                 </tbody>
             </table>
         </div>

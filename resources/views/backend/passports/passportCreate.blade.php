@@ -5,11 +5,19 @@
 
 
 <div class="content-wrapper">
-    <div class="row">
-        <div class="col-12 col-lg-6 grid-margin">
+        <div class="col-12 col-lg-6">
+            <div class="pt-4 px-4 mb-3">
+                <a class="btn btn-primary" href="{{route('passports.index')}}" role="button">Back</a>
+            </div>
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Personal details Add</h2>
+                        @if ($errors -> any())
+                        <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+                        @endif
+                        @if( Session::has('success'))
+                        <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+                        @endif
                     <form class="forms-sample" method="post" action="{{ route('passports.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
@@ -41,9 +49,10 @@
                         <div class="form-floating mb-3">
                             <select class="form-select" name="applying_country" id="applying_country">
                                 <option selected="">select applying country</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                @forelse ( $all_countries as $countrys)
+                                <option value="{{$countrys -> code }}">{{$countrys -> name }}</option>
+                                @empty
+                                @endforelse
                             </select>
                             <label for="floatingSelect">select applying country</label>
                         </div>
@@ -51,9 +60,10 @@
                             <div class="form-floating mb-3 col-lg.6">
                                 <select class="form-select" name="agents" id="agents">
                                     <option selected="">Select Agents</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    @forelse ( $all_agents as $agents)
+                                    <option value="{{$agents -> id }}">{{$agents -> name }}</option>
+                                    @empty
+                                    @endforelse
                                 </select>
                             </div><br>
                             <div class="input-group mb-3 col-sm.6">
@@ -71,6 +81,7 @@
                 </div>
             </div>
         </div>
+    </div>
 <!-- form End -->
 
 

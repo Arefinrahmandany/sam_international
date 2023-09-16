@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\invoice;
 use Illuminate\Http\Request;
-use App\Models\VisaApplicationOffice;
 
-class VisaagencyController extends Controller
+class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $visaOffice = VisaApplicationOffice::all();
-        return view('backend.visaoffice.visaoffice',[
-            'visaOffice_data' => $visaOffice
-        ]);
+        //
     }
 
     /**
@@ -23,7 +20,7 @@ class VisaagencyController extends Controller
      */
     public function create()
     {
-        return view('backend.visaoffice.visaoffice-New');
+        //
     }
 
     /**
@@ -33,15 +30,20 @@ class VisaagencyController extends Controller
     {
         //validate
         $this-> validate($request,[
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'email',
+            'invoiceNumber' => 'required',
+            'receiveFrom' => 'required',
+            'amount' => 'required',
         ]);
-        VisaApplicationOffice::create([
-            'name' => $request -> name,
-            'phone' => $request -> phone,
-            'email' => $request -> email,
-            'address' => $request -> address,
+
+        invoice::create([
+            'invoiceNumber' => $request -> invoiceNumber,
+            'category' => $request -> category,
+            'refNumber' => $request -> refNumber,
+            'receiveFrom' => $request -> receiveFrom,
+            'amount' => $request -> amount,
+            'forPayment' => $request -> forPayment,
+            'receiveby' => $request -> receiveby,
+            'paymentSystem' => $request -> paymentSystem,
         ]);
         //redirect to back same page
         return back() -> with('success','Data successfully inserted');
@@ -50,15 +52,15 @@ class VisaagencyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(invoice $invoice)
     {
-        return view('backend.visaoffice.visaofficeSingleView');
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(invoice $invoice)
     {
         //
     }
@@ -66,15 +68,15 @@ class VisaagencyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($id)
+    public function update(Request $request, invoice $invoice)
     {
-        return view('backend.visaoffice.visaofficeEditForm');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(invoice $invoice)
     {
         //
     }

@@ -6,7 +6,7 @@
 
 
     <div class="container">
-        <a class="btn btn-primary" href="{{url('AddNewAgency')}}" role="button">Add Visa Agency</a>
+        <a class="btn btn-primary" href="{{route('VisaAgency.create')}}" role="button">Add Visa Agency</a>
             <table class="table">
             <thead>
                 <tr>
@@ -19,19 +19,22 @@
                 </tr>
             </thead>
             <tbody>
-
+                @forelse ( $visaOffice_data as $visaOffice)
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{$visaOffice -> id }}</td>
+                    <td>{{$visaOffice -> name }}</td>
+                    <td>{{$visaOffice -> phone }}</td>
+                    <td>{{$visaOffice -> address }}</td>
+                    <td>{{$visaOffice -> email }}</td>
                     <td>
-                        <a class="btn btn-primary" href="{{ url('viewAgency') }}" role="button">View</a>
+                        <a class="btn btn-primary" href="" role="button">View</a>
                         <a class="btn btn-warning" href="" role="button">Edit</a>
                         <a class="btn btn-danger" href="" role="button">Delet</a>
                     </td>
                 </tr>
+                @empty
+
+                    @endforelse
             </tbody>
             </table>
 

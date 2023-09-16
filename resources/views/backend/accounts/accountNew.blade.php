@@ -7,7 +7,6 @@
     <div class="container">
         <form method="POST" action="">
             @csrf
-            @method('post')
             <div class="bg-light rounded h-100 p-4">
                 <h4 class="mb-4">New Agent Add</h4>
                 <div class="input-group mb-3 row">

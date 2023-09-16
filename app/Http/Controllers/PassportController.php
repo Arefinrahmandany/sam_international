@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agents;
+use App\Models\countries;
+
 use App\Models\NewPassport;
 use Illuminate\Http\Request;
-
 use function Termwind\render;
 
 class PassportController extends Controller
@@ -18,6 +20,7 @@ class PassportController extends Controller
         $data = NewPassport::all();
         return view('backend.passports.passports',[
             'all_data' => $data
+
         ]);
     }
 
@@ -26,7 +29,12 @@ class PassportController extends Controller
      */
     public function create()
     {
-        return view('backend.passports.passportCreate');
+        $countries_data = countries::all();
+        $agents = Agents::all();
+        return view('backend.passports.passportCreate',[
+            'all_countries' => $countries_data,
+            'all_agents' => $agents
+        ]);
     }
 
     /**
@@ -62,7 +70,10 @@ class PassportController extends Controller
             'amount' => $request -> payment,
             'photos' => $file_name,
         ]);
-    return back();
+
+
+    //redirect to back same page
+    return back() -> with('success','Data successfully inserted');
 
 
     }

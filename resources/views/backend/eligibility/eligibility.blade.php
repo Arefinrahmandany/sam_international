@@ -15,35 +15,30 @@
             <tr>
             <th scope="col">ID.</th>
             <th scope="col">Passport Number</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Address</th>
-            <th scope="col">Applying Country</th>
-            <th scope="col">Agent Name</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Photo</th>
-            <th scope="col">Action</th>
+            <th scope="col">Finger print</th>
+            <th scope="col">Training</th>
+            <th scope="col">Attested</th>
+            <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
-
-
+            @forelse ( $all_data as $eligibility)
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><img src="image" style="height:80px; width: auto;"></td>
+                <td>{{$eligibility -> id}}</td>
+                <td>{{$eligibility -> passport_number}}</td>
+                <td>{{$eligibility -> finger }}</td>
+                <td>{{$eligibility -> training }}</td>
+                <td>{{$eligibility -> attested }}</td>
+                <td>{{$eligibility -> status }}</td>
                 <td>
                     <a class="btn btn-primary" href="" role="button">View</a>
                     <a class="btn btn-warning" href="" role="button">Edit</a>
                     <a class="btn btn-danger" href="" role="button">Delet</a>
                 </td>
             </tr>
+            @empty
+
+                    @endforelse
         </tbody>
         </table>
     </div>

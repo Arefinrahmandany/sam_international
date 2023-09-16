@@ -9,8 +9,14 @@
     </div>
 
         <div class="container">
-
-            <form method="POST" action="visaStatusCheck.php">
+            @if ($errors -> any())
+        <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+        @endif
+        @if( Session::has('success'))
+        <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+        @endif
+            <form method="post" action="{{ route('VisaStatus.store')}}">
+                @csrf
                 <div class="bg-light rounded h-100 p-4">
                 <h4 class="mb-4">Visa Status Update</h4>
                     <div class="input-group mb-3 row">
@@ -18,14 +24,13 @@
                     </div>
                     <div class="input-group mb-3" name="visaStatus" >
                         <label for="visaStatus" class="form-label">Visa Status</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="visaStatus" value="accepted" id="accepted">
-                            <label class="form-check-label" for="accepted">Accepted</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="visaStatus" value="rejected" id="rejected">
-                            <label class="form-check-label" for="rejected">Rejected</label>
-                        </div>
+                    </div>
+                    <div class="btn-group mb-3" role="group">
+                        <input type="radio" name="visaStatus" value="accepted" class="btn-check" id="accepted" checked>
+                        <label class="btn btn-outline-primary" for="accepted">Accepted</label>
+
+                        <input type="radio" name="visaStatus" value="rejected" class="btn-check" id="rejected">
+                        <label class="btn btn-outline-primary" for="rejected">Rejected</label>
                     </div>
                     <div class="input-group mb-3 row">
                         <label for="issueDate" class="form-label">Issue Date</label>

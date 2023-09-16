@@ -1,10 +1,8 @@
-<?php include_once'header.php';
+@extends('backend.layouts.app')
+
+@section('main-content')
 
 
-
-
-
-?>
 
 <!-- card start -->
 <div class="card" style="width: 18rem;">
@@ -19,4 +17,7 @@
 
 <!-- card End -->
 
-<?php include_once'footer.php';?>
+
+
+
+@endsection

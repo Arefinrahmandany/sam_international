@@ -20,7 +20,16 @@ class AccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.accounts.accountNew');
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function invoice()
+    {
+        return view('backend.accounts.invoice');
     }
 
     /**
@@ -28,13 +37,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        Accounts::create([
-            'name' => $request -> name,
-            'phone' => $request -> phone,
-            'email' => $request -> email,
-            'nid' => $request -> nid,
-            'address' => $request -> address,
-        ]);
+        //
     }
 
     /**

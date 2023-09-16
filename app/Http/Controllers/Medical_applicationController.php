@@ -12,7 +12,11 @@ class Medical_applicationController extends Controller
      */
     public function index()
     {
-        return view('backend.medical.medical');
+        $data = Medical::all();
+        return view('backend.medical.medical',[
+            'all_data' => $data
+        ]);
+
     }
 
     /**
@@ -28,13 +32,21 @@ class Medical_applicationController extends Controller
      */
     public function store(Request $request)
     {
+
+        //validate
+        $this-> validate($request,[
+            'passport_number' => 'required| unique:Medical',
+        ]);
+
+        // data store to table
         Medical::create([
             'passport_number' => $request -> passportNumber,
             'medical_date' => $request -> medicalDate,
             'medicalStatus' => $request -> medicalstatus,
             'expiryDate' => $request -> expiryDate,
         ]);
-        return back();
+        //redirect to back same page
+        return back() -> with('success','Data successfully inserted');
     }
 
     /**

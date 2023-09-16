@@ -4,7 +4,7 @@
 
 
     <div class="container">
-        <a class="btn btn-primary" href="{{url('add-VisaStatus')}}" role="button">Visa Status Add</a>
+        <a class="btn btn-primary" href="{{route('VisaStatus.create')}}" role="button">Visa Status Add</a>
             <table class="table">
             <thead>
                 <tr>
@@ -17,20 +17,22 @@
                 </tr>
             </thead>
             <tbody>
-
-
+                @forelse ( $all_data as $status)
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{$status -> id }}</td>
+                    <td>{{$status -> passport_number }}</td>
+                    <td>{{$status -> visa_status }}</td>
+                    <td>{{$status -> issueDate }}</td>
+                    <td>{{$status -> expiryDate }}</td>
                     <td>
-                        <a class="btn btn-primary" href="{{ url('visa-StatusView') }}" role="button">View</a>
-                        <a class="btn btn-warning" href="{{ url('visa-StatusUpdate') }}" role="button">Edit</a>
+                        <a class="btn btn-primary" href="" role="button">View</a>
+                        <a class="btn btn-warning" href="" role="button">Edit</a>
                         <a class="btn btn-danger" href="" role="button">Delet</a>
                     </td>
                 </tr>
+                @empty
+
+                    @endforelse
             </tbody>
             </table>
 

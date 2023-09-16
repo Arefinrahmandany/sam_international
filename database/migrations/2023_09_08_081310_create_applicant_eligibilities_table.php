@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('applicant_eligibilities', function (Blueprint $table) {
             $table->id();
             $table->string('passport_number')->unique();
-            $table->boolean('finger')->default(true)->nullable();
-            $table->boolean('training')->default(true)->nullable();
-            $table->boolean('attested')->default(true)->nullable();
+            $table->string('finger')->nullable();
+            $table->string('training')->nullable();
+            $table->string('attested')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('tresh')->default(false);
             $table->timestamps();

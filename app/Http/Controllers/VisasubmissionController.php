@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\countries;
 use Illuminate\Http\Request;
 use App\Models\VisaSubmission;
+use App\Models\VisaApplicationOffice;
 
 class VisasubmissionController extends Controller
 {
@@ -12,7 +14,11 @@ class VisasubmissionController extends Controller
      */
     public function index()
     {
-        return view('backend.visasubmission.visasubmission');
+        $data = VisaSubmission::all();
+        return view('backend.visasubmission.visasubmission',[
+            'all_data' => $data
+        ]);
+
     }
 
     /**
@@ -20,7 +26,12 @@ class VisasubmissionController extends Controller
      */
     public function create()
     {
-        return view('backend.visasubmission.visasubmission-New');
+        $countries_data = countries::all();
+        $visaOffices = VisaApplicationOffice::all();
+        return view('backend.visasubmission.visasubmissionCreate',[
+            'all_countries' => $countries_data,
+            'all_visaOffices' => $visaOffices
+        ]);
     }
 
     /**
@@ -28,13 +39,16 @@ class VisasubmissionController extends Controller
      */
     public function store(Request $request)
     {
+
+        // data store to table
         VisaSubmission::create([
-            'name' => $request -> name,
-            'phone' => $request -> phone,
-            'email' => $request -> email,
-            'nid' => $request -> nid,
-            'address' => $request -> address,
+            'passport_number' => $request -> passportnumber,
+            'applyingcountry' => $request -> applyingcountry,
+            'agency' => $request -> agencies,
+            'application_date' => $request -> applyingdate,
         ]);
+        //redirect to back same page
+        return back() -> with('success','Data successfully inserted');
     }
 
     /**
