@@ -11,9 +11,6 @@
                 <a class="text-white" href="{{ route('Accounts.invoice') }}" >
                     <div class="card-body">
                         <h3 class="card-title">Invoice</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">4565</h2>
-                        </div>
                     </div>
                 </a>
             </div>
@@ -23,9 +20,6 @@
                 <a class="text-white" href="{{ route('ExpenseSheet.Expense') }}" >
                     <div class="card-body">
                         <h3 class="card-title">Expenses</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">4565</h2>
-                        </div>
                     </div>
                 </a>
             </div>
@@ -35,9 +29,6 @@
                 <a class="text-white" href="{{ route('BalanceSheet.index') }}" >
                     <div class="card-body">
                         <h3 class="card-title">Balance Sheet</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">4565</h2>
-                        </div>
                     </div>
                 </a>
             </div>
@@ -55,7 +46,19 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h4 class="card-title">Last Transaction</h4>
+                        <div class="d-flex">
+                            <div class="col align-self-start">
+                                <h4 class="card-title">Last Transaction</h4>
+                            </div>
+                            <div class="col align-self-end">
+                                <div class="d-flex mb-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Enter search criteria" id="searchInput">
+                                        <button type="button" class="btn btn-primary" id="searchButton">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
@@ -89,6 +92,9 @@
                                             @endforelse
                                         </tbody>
                                     </table>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" id="printButton">Print Table</button>
                                 </div>
                             </div>
                         </div>

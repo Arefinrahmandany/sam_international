@@ -14,7 +14,7 @@ class AccountsController extends Controller
     public function index()
     {
         $agents = Agents::all();
-        $data = Accounts::all();
+        $data = Accounts::latest()->get();
         return view('backend.accounts.accounts',[
             'all_agents'=> $agents,
             'accounts_all_data' => $data

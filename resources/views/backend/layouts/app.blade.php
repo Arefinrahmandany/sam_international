@@ -144,14 +144,47 @@
                 return false;
             });
         })
+            </script>
 
+            <!-- script For Search data from table -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const searchButton = document.getElementById("searchButton");
+                    const searchInput = document.getElementById("searchInput");
+                    const tableRows = document.querySelectorAll("table tbody tr");
 
+                    searchButton.addEventListener("click", function () {
+                        const searchText = searchInput.value.toLowerCase();
 
+                        tableRows.forEach((row) => {
+                            const rowData = row.innerText.toLowerCase();
+                            if (rowData.includes(searchText)) {
+                                row.style.display = "";
+                            } else {
+                                row.style.display = "none";
+                            }
+                        });
+                    });
+                });
+            </script>
+            <!-- script For print table -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const printButton = document.getElementById("printButton");
+                    const tableToPrint = document.querySelector(".table");
 
-
-
-
-
+                    printButton.addEventListener("click", function () {
+                        const printWindow = window.open('', '', 'width=800,height=600');
+                        printWindow.document.open();
+                        printWindow.document.write('<html><head><title>Print Table</title></head><body>');
+                        printWindow.document.write('<h2>Table to Print</h2>');
+                        printWindow.document.write(tableToPrint.outerHTML);
+                        printWindow.document.write('</body></html>');
+                        printWindow.document.close();
+                        printWindow.print();
+                        printWindow.close();
+                    });
+                });
             </script>
 
 
