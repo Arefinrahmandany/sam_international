@@ -21,15 +21,15 @@
             <tbody>
                 @forelse ( $visaOffice_data as $visaOffice)
                 <tr>
-                    <td>{{$visaOffice -> id }}</td>
+                    <td>{{$loop -> index + 1}}</td>
                     <td>{{$visaOffice -> name }}</td>
                     <td>{{$visaOffice -> phone }}</td>
                     <td>{{$visaOffice -> address }}</td>
                     <td>{{$visaOffice -> email }}</td>
                     <td>
                         <a class="btn btn-primary" href="" role="button">View</a>
-                        <a class="btn btn-warning" href="" role="button">Edit</a>
-                        <a class="btn btn-danger" href="" role="button">Delet</a>
+                        <a class="btn btn-warning" href="{{ route('visaOffice.edit',$visaOffice -> id ) }}">Edit</a>
+                        <a class="btn btn-danger"   onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('visaOffice.destroy',$visaOffice -> id ) }}">Delete</i></a>
                     </td>
                 </tr>
                 @empty

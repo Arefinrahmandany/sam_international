@@ -11,7 +11,11 @@ class VisaApplicationOffice extends Model
 
 
 
-    protected $guarded = [];
+    protected $table = 'visa_application_offices';
+
+    //table names
+    protected $fillable = ['name','phone','email','address'];
+
 
 
 

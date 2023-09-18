@@ -71,7 +71,18 @@ class Visa_status_checkController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return view('backend.status.status-EditForm');
+        $update_data = VisaApplicationStatus::findorfail($id);
+
+        // data store to table
+
+        $update_data -> update([
+            'passport_number' => $request -> passportNumber,
+            'visa_status' => $request -> visaStatus,
+            'issueDate' => $request -> issueDate,
+            'expiryDate' => $request -> expiryDate,
+        ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
@@ -79,6 +90,8 @@ class Visa_status_checkController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delete_data = VisaApplicationStatus::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

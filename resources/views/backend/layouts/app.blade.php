@@ -143,9 +143,17 @@
                 $('.sidebar, .content').toggleClass("open");
                 return false;
             });
-        })(jQuery);
+        })
+
+
+
+
+
+
+
 
             </script>
+
 
 
             <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>

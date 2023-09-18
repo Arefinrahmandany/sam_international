@@ -9,9 +9,9 @@ class Accounts extends Model
 {
     use HasFactory;
 
+    protected $table = 'accounts';
 
-    protected $guarded = [];
-
-
+    //table names
+    protected $fillable = ['invoiceNumber','category','by_agent','refNumber','receiveFrom','debit','credit','description','receiveby','paymentSystem'];
 
 }

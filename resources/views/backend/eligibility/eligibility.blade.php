@@ -24,7 +24,7 @@
         <tbody>
             @forelse ( $all_data as $eligibility)
             <tr>
-                <td>{{$eligibility -> id}}</td>
+                <td>{{$loop -> index + 1}}</td>
                 <td>{{$eligibility -> passport_number}}</td>
                 <td>{{$eligibility -> finger }}</td>
                 <td>{{$eligibility -> training }}</td>
@@ -32,8 +32,8 @@
                 <td>{{$eligibility -> status }}</td>
                 <td>
                     <a class="btn btn-primary" href="" role="button">View</a>
-                    <a class="btn btn-warning" href="" role="button">Edit</a>
-                    <a class="btn btn-danger" href="" role="button">Delet</a>
+                    <a class="btn btn-warning" href="{{ route('eligibility.edit',$eligibility -> id ) }}">Edit</a>
+                    <a class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('eligibility.destroy',$eligibility -> id ) }}">Delete</i></a>
                 </td>
             </tr>
             @empty

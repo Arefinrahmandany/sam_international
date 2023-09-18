@@ -17,7 +17,7 @@ class PassportController extends Controller
      */
     public function index()
     {
-        $data = NewPassport::all();
+        $data = NewPassport::latest() -> get();
         return view('backend.passports.passports',[
             'all_data' => $data
 
@@ -73,7 +73,7 @@ class PassportController extends Controller
 
 
     //redirect to back same page
-    return back() -> with('success','Data successfully inserted');
+    return redirect()->route('passports.index') -> with('success','Data successfully inserted');
 
 
     }
@@ -83,7 +83,11 @@ class PassportController extends Controller
      */
     public function show($id)
     {
-        return view('backend.passports.passportSingleView');
+
+        $all_data = NewPassport::findorfail($id);
+        return view('backend.passports.passportSingleView',[
+            'passport_data' => $all_data
+            ]);
     }
 
     /**
@@ -91,7 +95,17 @@ class PassportController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.passports.passportEditForm');
+        $countries_data = countries::all();
+        $agents = Agents::all();
+        $edit_data = NewPassport::findorfail($id);
+        return view('backend.passports.passportEditForm',[
+            'edit_data' => $edit_data,
+            'all_countries' => $countries_data,
+            'all_agents' => $agents
+        ]);
+
+
+
     }
 
     /**
@@ -99,7 +113,22 @@ class PassportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $update_data = NewPassport::findorfail($id);
+
+        // data store to table
+
+        $update_data -> update([
+            'passport_number' => $request -> passpoertNumber,
+            'name' => $request -> name,
+            'email' => $request -> email,
+            'phone' => $request -> phone,
+            'address' => $request -> address,
+            'applying_country' => $request -> applying_country,
+            'agent_via' => $request -> agents,
+            'amount' => $request -> payment,
+        ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
@@ -107,6 +136,8 @@ class PassportController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delete_data = NewPassport::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

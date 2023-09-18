@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Accounts;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class AccountController extends Controller
+class TransectionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('backend.accounts.accounts');
+         $all_data = Transaction::latest() -> get();
+        return view('backend.accounts.balanceSheet',[
+            'all_Transaction' => $all_data
+        ]);
+
     }
 
     /**
@@ -20,16 +24,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return view('backend.accounts.accountNew');
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function invoice()
-    {
-        return view('backend.accounts.invoice');
+        //
     }
 
     /**

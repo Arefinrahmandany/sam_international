@@ -9,7 +9,7 @@
             <a href="{{ Route('Accounts.index') }}" class="btn text-white btn-primary">Back</a>
         </div>
         <div class="mb-3">
-            <h3>Invoice</h3>
+            <h3>Expense</h3>
         </div>
         <div class="row">
             @if ($errors -> any())
@@ -18,7 +18,7 @@
             @if( Session::has('success'))
             <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
             @endif
-            <form method="post" action="{{ route('Accounts.store') }}">
+            <form method="post" action="{{ route('Accounts.expenseStore') }}">
                 @csrf
                 <div class="col-12 p-4">
                     <div class="row">
@@ -28,18 +28,6 @@
                                     <input type="number" class="form-control form-control-sm" name="invoiceNumber" id="invoiceNumber">
                                     <label for="invoiceNumber">Invoce Number</label>
                                 </div>
-
-                                <div class="col-2 form-floating">
-                                    <select class="form-select" name="agentPay">
-                                        <option selected>By Agent</option>
-                                        @forelse ( $all_agents as $agents)
-                                    <option value="{{$agents -> name }}">{{$agents -> name }}</option>
-                                    @empty
-                                    @endforelse
-                                    </select>
-                                    <label for="category">Agent Pay</label>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -49,19 +37,13 @@
                         <div class="col mb-3">
                             <div class="row">
                                 <div class="col form-floating">
-                                    <input type="text" class="form-control" name="receiveFrom" id="receiveFrom">
-                                    <label for="receiveFrom">Receive From</label>
+                                    <input type="text" class="form-control" name="payment" id="payment">
+                                    <label for="payment">Payment Detail</label>
                                 </div>
                                 <div class="col form-floating">
-                                    <input type="numer" class="form-control" name="amount" id="amount">
+                                    <input type="number" class="form-control" name="amount" id="amount">
                                     <label for="amount">Amount</label>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col form-floating mb-3">
-                                <textarea type="text" class="form-control" name="forPayment" id="forPayment"></textarea>
-                                <label for="forPayment">Payment Detail</label>
                             </div>
                         </div>
                     </div>

@@ -12,9 +12,9 @@ class AgentsController extends Controller
      */
     public function index()
     {
-        $data = Agents::all();
+        $agents = Agents::latest() -> get();
         return view('backend.agents.agents',[
-        'all_data' => $data
+        'agents_all' => $agents
         ]);
     }
 
@@ -40,14 +40,14 @@ class AgentsController extends Controller
         ]);
         // data store to table
         Agents::create([
-            'name' => $request -> name,
-            'phone' => $request -> phone,
-            'email' => $request -> email,
-            'nid' => $request -> nid,
-            'address' => $request -> address,
+            'name'      => $request -> name,
+            'phone'     => $request -> phone,
+            'email'     => $request -> email,
+            'nid'       => $request -> nid,
+            'address'   => $request -> address,
         ]);
         //redirect to back same page
-        return back() -> with('success','Data successfully inserted');
+        return back() -> with('success','Agent successfully inserted');
     }
 
     /**
@@ -55,9 +55,9 @@ class AgentsController extends Controller
      */
     public function show($id)
     {
-        $data = Agents::all();
+        $all_data = Agents::findorfail($id);
         return view('backend.agents.agentSingleView',[
-            'all_data' => $data
+            'all_data' => $all_data
             ]);
     }
 
@@ -66,7 +66,12 @@ class AgentsController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.agents.agentEditForm');
+        //send data for Edit
+        $edit_data = Agents::findorfail($id);
+        return view('backend.agents.agentEditForm',[
+            'edit_data' => $edit_data
+
+        ]);
     }
 
     /**
@@ -76,14 +81,17 @@ class AgentsController extends Controller
     {
         $update_data = Agents::findorfail($id);
 
+        // data store to table
+
         $update_data -> update([
-            'name' => $request -> name,
-            'phone' => $request -> phone,
-            'email' => $request -> email,
-            'nid' => $request -> nid,
-            'status' => $request -> status,
-            'address' => $request -> address,
+            'name'      => $request -> name,
+            'phone'     => $request -> phone,
+            'email'     => $request -> email,
+            'nid'       => $request -> nid,
+            'address'   => $request -> address,
         ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
@@ -91,6 +99,8 @@ class AgentsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delete_data = Agents::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

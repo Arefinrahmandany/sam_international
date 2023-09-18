@@ -29,8 +29,8 @@
                     <td>{{$submission -> application_date }}</td>
                     <td>
                         <a class="btn btn-primary" href="" role="button">View</a>
-                        <a class="btn btn-warning" href="" role="button">Edit</a>
-                        <a class="btn btn-danger" href="" role="button">Delet</a>
+                        <a class="btn btn-warning" href="{{ route('submission.edit',$submission -> id ) }}">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('submission.destroy',$submission -> id ) }}">Delete</i></a>
                     </td>
                 </tr>
                 @empty

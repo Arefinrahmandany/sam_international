@@ -19,15 +19,15 @@
             <tbody>
                 @forelse ( $all_data as $status)
                 <tr>
-                    <td>{{$status -> id }}</td>
+                    <td>{{$loop -> index + 1}}</td>
                     <td>{{$status -> passport_number }}</td>
                     <td>{{$status -> visa_status }}</td>
                     <td>{{$status -> issueDate }}</td>
                     <td>{{$status -> expiryDate }}</td>
                     <td>
                         <a class="btn btn-primary" href="" role="button">View</a>
-                        <a class="btn btn-warning" href="" role="button">Edit</a>
-                        <a class="btn btn-danger" href="" role="button">Delet</a>
+                        <a class="btn btn-warning" href="{{ route('status.edit',$status -> id ) }}">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('status.destroy',$status -> id ) }}">Delete</i></a>
                     </td>
                 </tr>
                 @empty

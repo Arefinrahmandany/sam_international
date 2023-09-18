@@ -26,7 +26,7 @@
         <tbody>
             @forelse ( $all_data as $passports)
             <tr>
-                <td>{{$passports -> id }}</td>
+                <td>{{$loop -> index + 1}}</td>
                 <td>{{$passports -> passport_number }}</td>
                 <td>{{$passports -> name }}</td>
                 <td>{{$passports -> email }}</td>
@@ -37,9 +37,9 @@
                 <td>{{$passports -> amount }}</td>
                 <td><img src="{{ url('photos/'. $passports->photos) }}" style="height:100px; width: auto;"></td>
                 <td>
-                    <a class="btn btn-primary" href="" role="button">View</a>
-                    <a class="btn btn-warning" href="" role="button">Edit</a>
-                    <a class="btn btn-danger" href="" role="button">Delet</a>
+                    <a class="btn btn-primary" href="{{ route('passports.show',$passports -> id) }}" role="button">View</a>
+                    <a class="btn btn-warning" href="{{ route('passports.edit',$passports -> id ) }}">Edit</a>
+                    <a class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('passports.destroy',$passports -> id ) }}">Delete</i></a>
                 </td>
             </tr>
             @empty

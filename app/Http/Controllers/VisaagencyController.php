@@ -68,7 +68,18 @@ class VisaagencyController extends Controller
      */
     public function update($id)
     {
-        return view('backend.visaoffice.visaofficeEditForm');
+        $update_data = VisaApplicationOffice::findorfail($id);
+
+        // data store to table
+
+        $update_data -> update([
+            'name' => $request -> name,
+            'phone' => $request -> phone,
+            'email' => $request -> email,
+            'address' => $request -> address,
+        ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
@@ -76,6 +87,8 @@ class VisaagencyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delete_data = VisaApplicationOffice::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

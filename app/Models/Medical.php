@@ -11,7 +11,11 @@ class Medical extends Model
 
 
 
-    protected $guarded = [];
+    protected $table = 'medicals';
+
+    //table names
+    protected $fillable = ['passport_number','medical_date','medicalStatus','expiryDate'];
+
 
 
 

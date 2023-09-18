@@ -23,9 +23,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ( $all_data as $agents)
+                    @forelse ( $agents_all as $agents)
                     <tr>
-                        <td>{{$agents -> id }}</td>
+                        <td>{{$loop -> index + 1 }}</td>
                         <td>{{$agents -> name }}</td>
                         <td>{{$agents -> phone }}</td>
                         <td>{{$agents -> email }}</td>
@@ -34,9 +34,9 @@
                         <td><input class="form-check-input" type="checkbox" role="switch" checked="{{$agents -> status }}"></td>
                         <td>{{$agents -> balance }}</td>
                         <td>
-                            <a class="btn btn-lg btn-primary" href="{{route('agent.show', 2)}}"><i class="fe fe-eye"></i></a>
-                            <a class="btn btn-lg btn-warning" href="{{ route('agent.edit', 2) }}"><i class="fe fe-edit"></i></a>
-                            <a class="btn btn-lgm btn-danger" href=""><i class="fe fe-trash"></i></a>
+                            <a class="btn btn-primary" href="{{ route('agent.show',$agents -> id) }}">View</a>
+                            <a class="btn btn-warning" href="{{ route('agent.edit',$agents -> id ) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ route('agent.destroy',$agents -> id ) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</i></a>
                         </td>
                     </tr>
 

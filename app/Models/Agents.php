@@ -9,10 +9,12 @@ class Agents extends Model
 {
     use HasFactory;
 
+    protected $table = 'agents';
 
+    //table names
+    protected $fillable = ['name','phone','email','nid','address'];
 
-    protected $guarded = [];
-
-
+    // hidden for api
+    protected $hidden = ['phone', 'email'];
 
 }

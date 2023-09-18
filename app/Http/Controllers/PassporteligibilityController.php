@@ -60,7 +60,19 @@ class PassporteligibilityController extends Controller
      */
     public function update($id)
     {
-        return view('backend.eligibility.eligibility-EditForm');
+
+        $update_data = ApplicantEligibility::findorfail($id);
+
+        // data store to table
+
+        $update_data -> update([
+            'passport_number' => $request -> passportNumber,
+            'finger' => $request -> finger,
+            'training' => $request -> training,
+            'attested' => $request -> attested,
+        ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
@@ -68,6 +80,8 @@ class PassporteligibilityController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delete_data = ApplicantEligibility::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

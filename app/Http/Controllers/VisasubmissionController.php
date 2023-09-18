@@ -42,10 +42,10 @@ class VisasubmissionController extends Controller
 
         // data store to table
         VisaSubmission::create([
-            'passport_number' => $request -> passportnumber,
-            'applyingcountry' => $request -> applyingcountry,
-            'agency' => $request -> agencies,
-            'application_date' => $request -> applyingdate,
+            'passport_number'   => $request -> passportnumber,
+            'applyingcountry'   => $request -> applyingcountry,
+            'agency'            => $request -> agencies,
+            'application_date'  => $request -> applyingdate,
         ]);
         //redirect to back same page
         return back() -> with('success','Data successfully inserted');
@@ -72,7 +72,19 @@ class VisasubmissionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return view('backend.visasubmission.visasubmission-EditForm');
+        //call data by id
+        $update_data = VisaSubmission::findorfail($id);
+
+        // data store to table
+
+        $update_data -> update([
+            'passport_number'   => $request -> passportnumber,
+            'applyingcountry'   => $request -> applyingcountry,
+            'agency'            => $request -> agencies,
+            'application_date'  => $request -> applyingdate,
+        ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
@@ -80,6 +92,8 @@ class VisasubmissionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delete_data = VisaSubmission::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

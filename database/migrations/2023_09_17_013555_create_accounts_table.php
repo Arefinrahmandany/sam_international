@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
+            $table->integer('invoiceNumber')->unique()->nullable();
+            $table->string('category')->nullable();
+            $table->integer('refNumber')->nullable();
+            $table->string('receiveFrom')->nullable();
             $table->integer('debit')->nullable();
             $table->integer('credit')->nullable();
-            $table->integer('balance');
-            $table->boolean('status')->default(true);
-            $table->boolean('tresh')->default(false);
+            $table->integer('balance')->nullable();
+            $table->string('description')->nullable();
+            $table->string('receiveby')->nullable();
+            $table->string('paymentSystem');
             $table->timestamps();
         });
     }

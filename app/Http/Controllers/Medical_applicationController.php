@@ -70,7 +70,18 @@ class Medical_applicationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $update_data = Medical::findorfail($id);
+
+        // data store to table
+
+        $update_data -> update([
+            'passport_number' => $request -> passportNumber,
+            'medical_date' => $request -> medicalDate,
+            'medicalStatus' => $request -> medicalstatus,
+            'expiryDate' => $request -> expiryDate,
+        ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
@@ -78,6 +89,8 @@ class Medical_applicationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delete_data = Medical::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

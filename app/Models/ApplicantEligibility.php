@@ -11,7 +11,10 @@ class ApplicantEligibility extends Model
 
 
 
-    protected $guarded = [];
+    protected $table = 'applicant_eligibilities';
+
+    //table names
+    protected $fillable = ['passport_number','finger','training','attested'];
 
 
 

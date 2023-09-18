@@ -25,7 +25,7 @@
                 <tbody>
                     @forelse ( $all_data as $medical)
                     <tr>
-                        <td>{{$medical -> id }}</td>
+                        <td>{{$loop -> index + 1}}</td>
                         <td scope="col">
                             <div class="align-items-center pt-2">
                                 <input class="form-check-input m-0" type="checkbox">
@@ -37,8 +37,8 @@
                         <td>{{$medical -> expiryDate }}</td>
                         <td>
                             <a class="btn btn-primary" href="" role="button">View</a>
-                            <a class="btn btn-warning" href="" role="button">Edit</a>
-                            <a class="btn btn-danger" href="" role="button">Delet</a>
+                            <a class="btn btn-warning" href="{{ route('medical.edit',$medical -> id ) }}">Edit</a>
+                            <a class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('medical.destroy',$medical -> id ) }}">Delete</i></a>
                         </td>
                     </tr>
                     @empty
