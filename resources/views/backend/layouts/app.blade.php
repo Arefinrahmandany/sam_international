@@ -37,7 +37,7 @@
             <!-- Sidebar Start -->
             <div class="sidebar pe-4 pb-3">
                 <nav class="navbar bg-light navbar-light">
-                    <a href="{{ route('Accounts.index') }}" class="navbar-brand mx-4 mb-3">
+                    <a href="{{ route('home.home') }}" class="navbar-brand mx-4 mb-3">
                         <h3 class="text-primary">DASHBOARD</h3>
                     </a>
                     <div class="ms-3">
@@ -58,13 +58,13 @@
                             <a href="{{ route('agent.index') }}" class="nav-item nav-link"><img src="image/icon/agent_icon.png"><b>  Agents</b></a>
                             <a href="{{ route('passports.index') }}" class="nav-item nav-link"><img src="image/icon/passport_icon.png"><b>  Passport Entry</b></a>
                             <a href="{{ route('medical.index') }}" class="nav-item nav-link"><img src="image/icon/medical_icon.png"><b>  Medical</b></a>
-                            <a href="{{ route('Visa-Application.index') }}" class="nav-item nav-link"><img src="image/icon/accounting_icon.png"><b>  Visa Submission</b></a>
-                            <a href="{{ route('VisaStatus.index') }}" class="nav-item nav-link"><img src="image/icon/visaStatus_icon.png"><b>  Visa Status Check</b></a>
+                            <a href="{{ route('visa-application.index') }}" class="nav-item nav-link"><img src="image/icon/accounting_icon.png"><b>  Visa Submission</b></a>
+                            <a href="{{ route('visa-status.index') }}" class="nav-item nav-link"><img src="image/icon/visaStatus_icon.png"><b>  Visa Status Check</b></a>
                             <div class="nav-item dropdown">
                                 <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img src="image/icon/menPower_icon.png"><b>  Man Power</b></a>
                                     <div class="dropdown-menu bg-transparent border-0">
                                         <a href="{{ route('Eligibility.index') }}" class="dropdown-item"><img src="image/icon/passportEligible_icon.png"><b>  Passport Eligible status</b></a>
-                                        <a href="{{ route('VisaAgency.index') }}" class="dropdown-item"><img src="image/icon/visaAgancy_icon.png"><b>  Visa Application Agency</b></a>
+                                        <a href="{{ route('visa-agency.index') }}" class="dropdown-item"><img src="image/icon/visaAgancy_icon.png"><b>  Visa Application Agency</b></a>
                                     </div>
                             </div>
                         </div>
@@ -176,16 +176,52 @@
                     printButton.addEventListener("click", function () {
                         const printWindow = window.open('', '', 'width=800,height=600');
                         printWindow.document.open();
-                        printWindow.document.write('<html><head><title>Print Table</title></head><body>');
+                        printWindow.document.write('<html><head><title>Print Table</title>');
+                        printWindow.document.write('<style>@media print{table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}tr:nth-child(even){background-color:#f2f2f2}}</style>');
+                        printWindow.document.write('</head><body>');
                         printWindow.document.write('<h2>Table to Print</h2>');
                         printWindow.document.write(tableToPrint.outerHTML);
                         printWindow.document.write('</body></html>');
                         printWindow.document.close();
+
+                        // Add page numbers to each page
+                        printWindow.document.querySelectorAll('.page').forEach(function(page, index) {
+                            const pageNumber = index + 1;
+                            const pageNumberElement = document.createElement('div');
+                            pageNumberElement.classList.add('page-number');
+                            pageNumberElement.innerText = 'Page ' + pageNumber;
+                            page.appendChild(pageNumberElement);
+                        });
+
                         printWindow.print();
                         printWindow.close();
                     });
                 });
             </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tableRows = document.querySelectorAll("table tbody tr");
+        let balance = 0;
+
+        tableRows.forEach((row) => {
+            const debit = parseFloat(row.cells[4].textContent);
+            const credit = parseFloat(row.cells[5].textContent);
+
+            if (!isNaN(debit)) {
+                balance += debit;
+            }
+
+            if (!isNaN(credit)) {
+                balance -= credit;
+            }
+        });
+
+        const balanceAmount = document.getElementById("balanceAmount");
+        balanceAmount.textContent = balance.toFixed(2);
+    });
+</script>
+
 
 
 

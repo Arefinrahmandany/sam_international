@@ -4,7 +4,7 @@
 
 
     <div class="container">
-        <a class="btn btn-primary" href="{{route('VisaStatus.create')}}" role="button">Visa Status Add</a>
+        <a class="btn btn-primary" href="{{route('visa-agency.create')}}" role="button">Visa Status Add</a>
             <table class="table">
             <thead>
                 <tr>
@@ -26,8 +26,8 @@
                     <td>{{$status -> expiryDate }}</td>
                     <td>
                         <a class="btn btn-primary" href="" role="button">View</a>
-                        <a class="btn btn-warning" href="{{ route('status.edit',$status -> id ) }}">Edit</a>
-                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('status.destroy',$status -> id ) }}">Delete</i></a>
+                        <a class="btn btn-warning" href="{{ route('visa-status.edit',$status -> id ) }}">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('visa-status.destroy',$status -> id ) }}">Delete</i></a>
                     </td>
                 </tr>
                 @empty

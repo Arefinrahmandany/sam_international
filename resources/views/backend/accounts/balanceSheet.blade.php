@@ -7,7 +7,7 @@
     <div class="mb-4">
         <div class="p-4">
             <div class="mb-4 pt-4 heading">
-                <a href="{{ route('Accounts.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('home.home') }}" class="btn btn-primary">Back</a>
             </div>
             <div class="mb-4 pt-4 heading">
                 <h3>Balance Sheet</h3>

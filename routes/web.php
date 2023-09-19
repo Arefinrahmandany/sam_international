@@ -23,13 +23,11 @@ use App\Http\Controllers\PassporteligibilityController;
 */
 
 
-Route::get('/', function () {
-    return view('backend.accounts.accounts');
-});
+// Home route
 
-Route::get('home', function () {
-    return view('backend.home');
-});
+Route::get('/',[AccountsController::class, 'home']) -> name('home.home');
+
+
 
 //Route for agents
 Route::get('Agents',[AgentsController::class, 'index']) -> name('agent.index');
@@ -58,22 +56,21 @@ Route::get('medical-destroy/{id}',[Medical_applicationController::class, 'destro
 Route::post('medicalStore',[Medical_applicationController::class, 'store']) -> name('medical.store');
 
 //Route for Visa-Application
-Route::get('Visa-Application',[VisasubmissionController::class, 'index']) -> name('Visa-Application.index');
-Route::get('Visa-Application/{id}',[VisasubmissionController::class, 'edit']) -> name('Visa-Application.edit');
-Route::get('VisaApplicationCreate',[VisasubmissionController::class, 'create']) -> name('VisaApplication.create');
-Route::get('Visa-Application/{id}',[VisasubmissionController::class, 'show']) -> name('Visa-Application.show');
-Route::get('VisaApplication-destroy/{id}',[VisasubmissionController::class, 'destroy']) -> name('Visa-Application.destroy');
-Route::post('VisaApplicationstore}',[VisasubmissionController::class, 'store']) -> name('VisaApplication.store');
-Route::get('VisaStatus/create',[Visa_status_checkController::class, 'create']) -> name('VisaStatus.create');
+Route::get('VisaApplication',[VisasubmissionController::class, 'index']) -> name('visa-application.index');
+Route::get('VisaApplication-edit/{id}',[VisasubmissionController::class, 'edit']) -> name('visa-application.edit');
+Route::get('VisaApplication-create',[VisasubmissionController::class, 'create']) -> name('visa-application.create');
+Route::get('VisaApplication-show/{id}',[VisasubmissionController::class, 'show']) -> name('visa-application.show');
+Route::get('VisaApplication-destroy/{id}',[VisasubmissionController::class, 'destroy']) -> name('visa-application.destroy');
+Route::post('VisaApplication-store}',[VisasubmissionController::class, 'store']) -> name('visa-application.store');
 
 
 //Route for Visa Status
-Route::get('VisaStatusShow',[Visa_status_checkController::class, 'show']) -> name('VisaStatus.show');
-Route::get('VisaStatusEdit',[Visa_status_checkController::class, 'edit']) -> name('VisaStatus.edit');
-Route::get('VisaStatus',[Visa_status_checkController::class, 'index']) -> name('VisaStatus.index');
-Route::get('VisaStatus-destroy/{id}',[Visa_status_checkController::class, 'destroy']) -> name('VisaStatus.destroy');
-Route::post('VisaStatusStore',[Visa_status_checkController::class, 'store']) -> name('VisaStatus.store');
-Route::get('VisaStatusCreate',[Visa_status_checkController::class, 'create']) -> name('VisaStatus.create');
+Route::get('visa-status-show/{id}',[Visa_status_checkController::class, 'show']) -> name('visa-status.show');
+Route::get('visa-status-edit/{id}',[Visa_status_checkController::class, 'edit']) -> name('visa-status.edit');
+Route::get('visa-status',[Visa_status_checkController::class, 'index']) -> name('visa-status.index');
+Route::get('visa-status-destroy/{id}',[Visa_status_checkController::class, 'destroy']) -> name('visa-status.destroy');
+Route::post('visa-status-store/{id}',[Visa_status_checkController::class, 'store']) -> name('visa-status.store');
+Route::get('visa-status-create',[Visa_status_checkController::class, 'create']) -> name('visa-status.create');
 
 
 //Route for Passports Eligibility
@@ -90,12 +87,12 @@ Route::post('EligibilityStore',[PassporteligibilityController::class, 'store']) 
 
 //Route for VisaAgency
 
-Route::get('VisaAgency',[VisaagencyController::class, 'index']) -> name('VisaAgency.index');
-Route::get('VisaAgencyCreate',[VisaagencyController::class, 'create']) -> name('VisaAgency.create');
-Route::get('VisaAgency/{id}',[VisaagencyController::class, 'edit']) -> name('VisaAgency.edit');
-Route::get('VisaAgency/{id}',[VisaagencyController::class, 'show']) -> name('VisaAgency.show');
-Route::get('VisaAgency-destroy/{id}',[VisaagencyController::class, 'destroy']) -> name('VisaAgency.destroy');
-Route::post('VisaAgency-store',[VisaagencyController::class, 'store']) -> name('VisaAgency.store');
+Route::get('visa-agency',[VisaagencyController::class, 'index']) -> name('visa-agency.index');
+Route::get('visa-agency-create',[VisaagencyController::class, 'create']) -> name('visa-agency.create');
+Route::get('visa-agency-edit/{id}',[VisaagencyController::class, 'edit']) -> name('visa-agency.edit');
+Route::get('visa-agency-show/{id}',[VisaagencyController::class, 'show']) -> name('visa-agency.show');
+Route::get('visa-agency-destroy/{id}',[VisaagencyController::class, 'destroy']) -> name('visa-agency.destroy');
+Route::post('visa-agency-store/{id}',[VisaagencyController::class, 'store']) -> name('visa-agency.store');
 
 
 //Route for Accounts

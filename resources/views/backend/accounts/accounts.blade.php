@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="col pt-4 mb-3">
-            <div class="card gradient-1">
+            <div class="card gradient-2">
                 <a class="text-white" href="{{ route('ExpenseSheet.Expense') }}" >
                     <div class="card-body">
                         <h3 class="card-title">Expenses</h3>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="col pt-4 mb-3">
-            <div class="card gradient-1">
+            <div class="card gradient-3">
                 <a class="text-white" href="{{ route('BalanceSheet.index') }}" >
                     <div class="card-body">
                         <h3 class="card-title">Balance Sheet</h3>
@@ -74,9 +74,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ( $accounts_all_data as $transection)
-
-
+                                            @forelse ($transections as $transection)
+                                            <tr class="page"> <!-- Add the class "page" to separate rows into pages -->
                                             <tr>
                                                 <td>{{ $loop -> index + 1 }}</td>
                                                 <td>{{ $transection -> created_at}}</td>
@@ -87,14 +86,15 @@
                                                 <td>{{ $transection -> paymentSystem}}</td>
                                                 <td>{{ $transection -> balance}}</td>
                                             </tr>
+                                            </tr>
                                             @empty
-
                                             @endforelse
                                         </tbody>
+                                        <p id="balanceDisplay">Balance: <span id="balanceAmount">0.00</span></p>
                                     </table>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-secondary" id="printButton">Print Table</button>
+                                    <button type="button" class="btn btn-primary" id="printButton">Print Table</button>
                                 </div>
                             </div>
                         </div>

@@ -11,13 +11,24 @@ class AccountsController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function home()
+     {
+         $agents = Agents::all();
+         $transection_data = Accounts::all();
+         return view('backend.accounts.accounts',[
+             'all_agents'=> $agents,
+             'transections' => $transection_data
+         ]);
+     }
+
     public function index()
     {
         $agents = Agents::all();
-        $data = Accounts::latest()->get();
-        return view('backend.accounts.accounts',[
+        $transection_data = Accounts::all();
+        return view('backend.accounts.invoice',[
             'all_agents'=> $agents,
-            'accounts_all_data' => $data
+            'transections' => $transection_data
         ]);
     }
 

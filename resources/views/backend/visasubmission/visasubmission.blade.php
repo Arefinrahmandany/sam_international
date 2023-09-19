@@ -7,7 +7,7 @@
 
 
     <div class="container">
-        <a class="btn btn-primary" href="{{route('VisaApplication.create')}}" role="button">Update Visa Application</a>
+        <a class="btn btn-primary" href="{{ route('visa-application.create') }}" role="button">Update Visa Application</a>
             <table class="table">
             <thead>
                 <tr>
@@ -20,17 +20,16 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ( $all_data as $submission)
+                @forelse ( $visaSubmissionData as $visaSubmissionData)
                 <tr>
-                    <td>{{$submission -> id }}</td>
-                    <td>{{$submission -> passport_number }}</td>
-                    <td>{{$submission -> applyingcountry }}</td>
-                    <td>{{$submission -> agency }}</td>
-                    <td>{{$submission -> application_date }}</td>
+                    <td>{{$visaSubmissionData -> id }}</td>
+                    <td>{{$visaSubmissionData -> passport_number }}</td>
+                    <td>{{$visaSubmissionData -> applyingcountry }}</td>
+                    <td>{{$visaSubmissionData -> agency }}</td>
+                    <td>{{$visaSubmissionData -> application_date }}</td>
                     <td>
-                        <a class="btn btn-primary" href="" role="button">View</a>
-                        <a class="btn btn-warning" href="{{ route('submission.edit',$submission -> id ) }}">Edit</a>
-                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('submission.destroy',$submission -> id ) }}">Delete</i></a>
+                        <a class="btn btn-warning" href="{{ route('visa-application.edit',$visaSubmissionData -> id)}}">Edit</a>
+                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('visa-application.destroy', $visaSubmissionData -> id) }}">Delete</i></a>
                     </td>
                 </tr>
                 @empty

@@ -14,9 +14,9 @@ class VisasubmissionController extends Controller
      */
     public function index()
     {
-        $data = VisaSubmission::all();
+        $visaSubmissionData = VisaSubmission::all();
         return view('backend.visasubmission.visasubmission',[
-            'all_data' => $data
+            'visaSubmissionData' => $visaSubmissionData
         ]);
 
     }
@@ -62,9 +62,13 @@ class VisasubmissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        //send data for Edit
+        $edit_data = VisaSubmission::findorfail($id);
+        return view('backend.visasubmission.visasubmissionEditForm',[
+            'edit_data' => $edit_data
+        ]);
     }
 
     /**

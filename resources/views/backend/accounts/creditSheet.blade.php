@@ -6,7 +6,7 @@
 <div class="container-fluid pt-4 px-4 card-body">
     <div class="card">
         <div class="pt-4 mb-3">
-            <a href="{{ Route('Accounts.index') }}" class="btn text-white btn-primary">Back</a>
+            <a href="{{ Route('home.home') }}" class="btn text-white btn-primary">Back</a>
         </div>
         <div class="mb-3">
             <h3>Expense</h3>
