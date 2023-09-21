@@ -6,39 +6,66 @@
 <!-- form start -->
 <div class="container-fluid pt-4">
     <div class="container">
+
         @if ($errors -> any())
-        <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+            <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
         @endif
+
         @if( Session::has('success'))
-        <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+            <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
         @endif
-        <form method="post" action="{{ route('agent.store') }}">
-            @csrf
-            <div class="bg-light rounded h-100 p-4">
-                <h4 class="mb-4">New Agent Add</h4>
-                <div class="input-group mb-3 row">
-                    <input type="text" name="name" class="form-control col-md-10" value="{{ old('name') }}" placeholder="AGENT NAME*">
-                </div>
-                <div class="input-group mb-3 row">
-                    <input type="tel" name="phone" class="form-control col-md-10" value="{{ old('phone') }}" placeholder="Phone Number" id="phone">
-                </div>
-                <div class="input-group mb-3 row">
-                    <input type="email" name="email" class="form-control col-md-10" value="{{ old('email') }}" id="email" placeholder="Email address">
-                </div>
-                <div class="input-group mb-3 row">
-                    <input type="text" name="nid" class="form-control col-md-10" value="{{ old('nid') }}" id="nid" placeholder="NID Number">
-                </div>
-                <div class="input-group mb-3 row">
-                    <textarea type="Text" name="address" class="form-control col-md-10" id="address" value="{{ old('address') }}" placeholder="Address"></textarea>
-                </div>
-                <div class="text-right">
-                    <button type="submit" name="submit" class="btn btn-primary">Add Agent</button>
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">AGENT Information</h4>
+                    <div class="basic-form">
+                        <form method="post" action="{{route('agent.store')}}">
+                            @csrf
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>AGENT NAME</label>
+                                    <input type="text" value="" name="name" class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Phone Number</label>
+                                    <input type="tel" value="" name="phone" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email address</label>
+                                <input type="email" value="" name="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>NID Number</label>
+                                <input type="number" value="" name="nid" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" value="" name="address" class="form-control">
+                            </div>
+
+                            <button type="submit" name="submit" class="btn btn-dark">Insert</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
 
 <!-- form End -->
+
+
+
+
+
+
+
+
+
+
+
+
 @endsection

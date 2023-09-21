@@ -9,78 +9,116 @@ use Illuminate\Http\Request;
 class AccountsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * method for calculet balance.
      */
+    public function calculateBalances($transections)
+    {
+    $balance = 0;
 
-     public function home()
-     {
-         $agents = Agents::all();
-         $transection_data = Accounts::all();
-         return view('backend.accounts.accounts',[
-             'all_agents'=> $agents,
-             'transections' => $transection_data
-         ]);
-     }
+    foreach ($transections as $transection) {
+        $debit = floatval($transection->debit);
+        $credit = floatval($transection->credit);
 
+        $balance += ($debit - $credit);
+
+        $transection->balance = $balance;
+    }
+
+    return $transections;
+}
+
+
+    /**
+     * method for accounts home page.
+     */
     public function index()
     {
         $agents = Agents::all();
         $transection_data = Accounts::all();
-        return view('backend.accounts.invoice',[
-            'all_agents'=> $agents,
-            'transections' => $transection_data
-        ]);
-    }
+        $transections = $this->calculateBalances($transection_data);
+            return view('backend.accounts.accounts',[
+                'all_agents'=> $agents,
+                'transections' => $transection_data
+            ]);
+        }
+
+    public function balancesheet()
+    {
+        $agents = Agents::all();
+        $transection_data = Accounts::all();
+        $transections = $this->calculateBalances($transection_data);
+            return view('backend.accounts.account-invoice-table',[
+                'all_agents'=> $agents,
+                'transections' => $transection_data
+            ]);
+        }
 
     /**
-     * Show the form for creating a new resource.
+     * method for recive money recipt form in accounts.
      */
+
     public function create()
     {
-        return view('backend.accounts.accountNew');
-    }
+        $agents = Agents::all();
+            return view('backend.accounts.recipt-form',[
+                'all_agents'=> $agents,
+            ]);
+        }
 
-    /**
-     * Store a newly created resource in storage.
+        /**
+     * method for expense money form in accounts.
      */
-    public function store(Request $request)
-    {
-
-
-
-        // data store to table
-        Accounts::create([
-            'invoiceNumber' => $request -> invoiceNumber,
-            'by_agent' => $request ->byAgent,
-            'receiveFrom' => $request ->receiveFrom,
-            'debit' => $request -> amount,
-            'description' => $request -> forPayment,
-            'receiveby' => $request -> receiveby,
-            'paymentSystem' => $request -> paymentSystem,
-        ]);
-
-        //redirect to back same page
-
-        return back() -> with('success','Data successfully inserted');
-    }
 
     public function expense()
     {
         $agents = Agents::all();
-        $data = Accounts::all();
-        return view('backend.accounts.creditSheet',[
-            'all_agents'=> $agents,
-            'accounts_all_data' => $data
-        ]);
-
+            return view('backend.accounts.creditSheet',[
+                'all_agents'=> $agents,
+            ]);
     }
-    public function expenseStore(Request $request)
+
+
+
+/**
+     * method for recive money recipt form store data in accounts.
+     */
+
+    public function paymentstore(Request $request)
+    {
+         // Initialize the data array with common fields
+        $data = [
+            'invoiceNumber' => $request->invoiceNumber,
+            'debit' => $request->amount,
+            'description' => $request->forPayment,
+            'receiveby' => $request->receiveby,
+            'paymentSystem' => $request->paymentSystem,
+        ];
+
+        // Conditionally set the 'receiveFrom' field based on 'byAgent' or 'receiveFrom' in the request
+        if (!empty($request->byAgent)) {
+            $data['receiveFrom'] = $request->byAgent;
+        } else {
+            $data['receiveFrom'] = $request->receiveFrom;
+        }
+
+        // Create a new record in the 'Accounts' model using the $data array
+        Accounts::create($data);
+
+        // Redirect back to the same page with a success message
+        return back()->with('success', 'Data successfully inserted');
+    }
+
+    /**
+     * method for Expense form store data in accounts.
+     */
+
+    public function expenseCreate(Request $request)
     {
 
         // data store to table
         Accounts::create([
             'invoiceNumber' => $request -> invoiceNumber,
-            'description' => $request -> payment,
+            'description' => $request -> description,
             'credit' => $request -> amount,
             'receiveby' => $request -> receiveby,
             'paymentSystem' => $request -> paymentSystem,
@@ -89,45 +127,64 @@ class AccountsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a all created resource in storage.
      */
-    public function show(Accounts $accounts)
+    public function table()
     {
-        //
+        $transactions = Accounts::table('accounts')
+    ->select(Accounts::raw('COALESCE(by_agent, receiveFrom) as agent_or_receive'))
+    ->get();
+        $transection_table = Accounts::all();
+        return view('backend.accounts.account-invoice-table',[
+            'transection_table' => $transection_table
+        ]);
     }
 
+
     /**
-     * Show the form for creating a Invoice.
+     * Edit the input .
      */
-    public function invoice()
+    public function edit($id)
     {
+        //send data for Edit
         $agents = Agents::all();
-        return view('backend.accounts.invoice',[
-            'all_agents'=> $agents
-                ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Accounts $accounts)
-    {
-        //
+        $edit_data = Accounts::findorfail($id);
+        return view('backend.accounts.accountEditForm',[
+            'edit_data' => $edit_data,
+            'all_agents' => $agents
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Accounts $accounts)
+    public function update(Request $request, $id)
     {
-        //
+        $update_data = Accounts::findorfail($id);
+
+        // data store to table
+
+        $update_data -> update([
+            'invoiceNumber'      => $request -> invoiceNumber,
+            'debit'     => $request -> debit,
+            'credit'       => $request -> credit,
+            'description'   => $request -> balance,
+            'address'   => $request -> description,
+            'receiveFrom'   => $request -> reciveFrom,
+            'receiveby'   => $request -> receiveby,
+            'paymentSystem'   => $request -> paymentSystem,
+        ]);
+
+        return back() -> with('success','Data successfully update');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Accounts $accounts)
+    public function destroy($id)
     {
-        //
+        $delete_data = Accounts::findorfail($id);
+        $delete_data -> delete();
+        return back() -> with('success','Data successfully inserted');
     }
 }

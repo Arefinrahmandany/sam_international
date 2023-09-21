@@ -3,88 +3,108 @@
 @section('main-content')
 
 
-<div class="container-fluid pt-4 px-4 card-body">
-    <div class="card">
-        <div class="pt-4 mb-3">
-            <a href="{{ Route('home.home') }}" class="btn text-white btn-primary">Back</a>
-        </div>
-        <div class="mb-3">
-            <h3>Expense</h3>
-        </div>
-        <div class="row">
-            @if ($errors -> any())
-            <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
-            @endif
-            @if( Session::has('success'))
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-validation">
+
+        @if ($errors -> any())
+                <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+        @endif
+
+        @if( Session::has('success'))
             <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
-            @endif
-            <form method="post" action="{{ route('Accounts.expenseStore') }}">
-                @csrf
-                <div class="col-12 p-4">
-                    <div class="row">
-                        <div class="col-12 p-4 px-4 mb-3">
-                            <div class="row">
-                                <div class="col-2 form-floating">
-                                    <input type="number" class="form-control form-control-sm" name="invoiceNumber" id="invoiceNumber">
-                                    <label for="invoiceNumber">Invoce Number</label>
+        @endif
+
+                                    <form class="form-valide" id="invoiceForm" action="{{ route('Accounts.expenseCreate') }}" method="post">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label" for="val-username">Invoce Number <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="col-lg-6">
+                                                        <input type="text" class="form-control" id="val-username" name="invoiceNumber" placeholder="Invoce Number">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label" for="val-suggestions">Receive By <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="col-lg-6">
+                                                        <input class="form-control" id="val-suggestions" name="receiveby" rows="5" placeholder="Receive By">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" id="invoiceForm">
+                                                <label class="col-lg-4 col-form-label" for="invoiceNumber">Invoce Number</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="invoiceNumber" name="invoiceNumber" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-confirm-password">Payment Detail</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-confirm-password" name="description" placeholder="Payment Detail">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-password">Amount <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="number" class="form-control" id="val-password" name="amount" placeholder="Amount">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="radio-inline mr-3">
+                                                <input type="radio" name="paymentSystem" value="cash"> Cash</label>
+                                            <label class="radio-inline mr-3">
+                                                <input type="radio" name="paymentSystem" value="Check"> Check</label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="paymentSystem" value="Mobile Banking"> Mobile Banking</label>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-4">
-                    <div class="row">
-                        <div class="col mb-3">
-                            <div class="row">
-                                <div class="col form-floating">
-                                    <input type="text" class="form-control" name="payment" id="payment">
-                                    <label for="payment">Payment Detail</label>
-                                </div>
-                                <div class="col form-floating">
-                                    <input type="number" class="form-control" name="amount" id="amount">
-                                    <label for="amount">Amount</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 p-4">
-                    <div class="row">
-                        <div class="col mb-3">
-                            <div class="row">
-                                <div class="col form-floating">
-                                    <input type="text" class="form-control" name="receiveby" id="receiveby">
-                                    <label for="receiveby">Receive By</label>
-                                </div>
-                                <div class="col form-floating">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="paymentSystem" id="paymentSystem1" value="cash" checked>
-                                        <label class="form-check-label" for="paymentSystem1">Cash</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="paymentSystem" id="paymentSystem2" value="check">
-                                        <label class="form-check-label" for="paymentSystem2">Check</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="paymentSystem" id="paymentSystem3" value="mobileBanking">
-                                        <label class="form-check-label" for="paymentSystem3">Mobile Banking</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col form-floating mb-3">
-                                <button class="btn btn-success" name="submit">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            </div>
+            <!-- #/ container -->
         </div>
-    </div>
-
-
-</div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
 
 
 

@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->integer('invoiceNumber')->unique()->nullable();
-            $table->string('category')->nullable();
-            $table->integer('refNumber')->nullable();
             $table->string('receiveFrom')->nullable();
             $table->integer('debit')->nullable();
             $table->integer('credit')->nullable();

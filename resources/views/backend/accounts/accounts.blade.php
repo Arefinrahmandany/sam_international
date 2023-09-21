@@ -3,108 +3,57 @@
 @section('main-content')
 
 
-<!-- Cards start-->
-<div class="container-fluid mt-3">
-    <div class="row">
-        <div class="col pt-4 mb-3">
-            <div class="card gradient-1">
-                <a class="text-white" href="{{ route('Accounts.invoice') }}" >
-                    <div class="card-body">
-                        <h3 class="card-title">Invoice</h3>
+<!--**********************************
+                Content body start
+            ***********************************-->
+
+<div class="content-body">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+
+            <div class="col-sm-6 col-xl-3 btn-box">
+                <div class="shadow gradient-1 p-3 mb-3 bg-body-tertiary rounded">
+                    <a class="text-decoration-none" href="{{ route('Accounts.create') }}">
+                        <div class="align-items-center justify-content-between p-4">
+                            <div class="ms-3">
+                                <h2 class="mb-2 text-white">Payment Receive</h2>
+                        </div>
                     </div>
-                </a>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="col pt-4 mb-3">
-            <div class="card gradient-2">
-                <a class="text-white" href="{{ route('ExpenseSheet.Expense') }}" >
-                    <div class="card-body">
-                        <h3 class="card-title">Expenses</h3>
-                    </div>
-                </a>
+
+            <div class="col-sm-6 col-xl-3 btn-box">
+                <div class="shadow gradient-2 p-3 mb-3 bg-body-tertiary rounded">
+                    <a class="text-decoration-none" href="{{ route('expen-sheet.expense') }}" >
+                        <div class="align-items-center justify-content-between p-4">
+                            <div class="ms-3">
+                                <h2 class="mb-2 text-white">Expense</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="col pt-4 mb-3">
-            <div class="card gradient-3">
-                <a class="text-white" href="{{ route('BalanceSheet.index') }}" >
-                    <div class="card-body">
-                        <h3 class="card-title">Balance Sheet</h3>
-                    </div>
-                </a>
+
+            <div class="col-sm-6 col-xl-3 btn-box">
+                <div class="shadow gradient-3 p-3 mb-3 bg-body-tertiary rounded">
+                    <a class="text-decoration-none" href="{{ route('balance-sheet.balancesheet') }}" >
+                        <div class="align-items-center justify-content-between p-4">
+                            <div class="ms-3">
+                                <h2 class="mb-2 text-white">Balance Sheet</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
-<!-- Cards end-->
 
 
 
-<div class="content-body">
-    <!-- row -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <div class="col align-self-start">
-                                <h4 class="card-title">Last Transaction</h4>
-                            </div>
-                            <div class="col align-self-end">
-                                <div class="d-flex mb-2">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Enter search criteria" id="searchInput">
-                                        <button type="button" class="btn btn-primary" id="searchButton">Search</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sl.</th>
-                                                <th>Date</th>
-                                                <th>receiveFrom</th>
-                                                <th>Detail</th>
-                                                <th>Debit</th>
-                                                <th>Credit</th>
-                                                <th>Transection Type</th>
-                                                <th>Balance</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($transections as $transection)
-                                            <tr class="page"> <!-- Add the class "page" to separate rows into pages -->
-                                            <tr>
-                                                <td>{{ $loop -> index + 1 }}</td>
-                                                <td>{{ $transection -> created_at}}</td>
-                                                <td>{{ $transection -> receiveFrom}}</td>
-                                                <td>{{ $transection -> description}}</td>
-                                                <td>{{ $transection -> debit}}</td>
-                                                <td>{{ $transection -> credit}}</td>
-                                                <td>{{ $transection -> paymentSystem}}</td>
-                                                <td>{{ $transection -> balance}}</td>
-                                            </tr>
-                                            </tr>
-                                            @empty
-                                            @endforelse
-                                        </tbody>
-                                        <p id="balanceDisplay">Balance: <span id="balanceAmount">0.00</span></p>
-                                    </table>
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-primary" id="printButton">Print Table</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- #/ container -->
-        </div>
-        <!--**********************************
-            Content body end
+
 
 
 

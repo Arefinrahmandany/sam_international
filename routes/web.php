@@ -25,18 +25,32 @@ use App\Http\Controllers\PassporteligibilityController;
 
 // Home route
 
-Route::get('/',[AccountsController::class, 'home']) -> name('home.home');
+//Route for Accounts
+
+Route::get('/',[AccountsController::class, 'index']) -> name('accounts-home.index');
+Route::get('accounts-create',[AccountsController::class, 'create']) -> name('Accounts.create');
+Route::post('Accounts-payment-receive',[AccountsController::class, 'paymentstore']) -> name('Accounts.paymentstore');
+Route::get('account-invoice-table',[AccountsController::class, 'table']) -> name('invoice-table.table');
+Route::get('account-expense-sheet',[AccountsController::class, 'expense']) -> name('expen-sheet.expense');
+Route::post('accounts-expense',[AccountsController::class, 'expenseCreate']) -> name('Accounts.expenseCreate');
+Route::get('balance-sheet',[AccountsController::class, 'balancesheet']) -> name('balance-sheet.balancesheet');
+Route::get('accounts-edit/{id}',[AccountsController::class, 'edit']) -> name('accounts-edit.edit');
+Route::post('accounts-update/{id}',[AccountsController::class, 'update']) -> name('accounts-edit.update');
+Route::get('accounts-entry-destroy/{id}',[AccountsController::class, 'destroy']) -> name('accounts-entry.destroy');
+
+
 
 
 
 //Route for agents
 Route::get('Agents',[AgentsController::class, 'index']) -> name('agent.index');
 Route::get('AgentCretae',[AgentsController::class, 'create']) -> name('agent.create');
+Route::post('Agent-store',[AgentsController::class, 'store']) -> name('agent.store');
 Route::get('Agent-Show/{id}',[AgentsController::class, 'show']) -> name('agent.show');
 Route::get('Agent-edit/{id}',[AgentsController::class, 'edit']) -> name('agent.edit');
-Route::post('Agent-store',[AgentsController::class, 'store']) -> name('agent.store');
-Route::get('Agent-destroy/{id}',[AgentsController::class, 'destroy']) -> name('agent.destroy');
 Route::post('Agent-update/{id}',[AgentsController::class, 'update']) -> name('agent.update');
+Route::get('Agent-destroy/{id}',[AgentsController::class, 'destroy']) -> name('agent.destroy');
+
 
 //Route for Passports
 Route::get('Passports',[PassportController::class, 'index'])->name('passports.index');
@@ -78,8 +92,8 @@ Route::get('visa-status-create',[Visa_status_checkController::class, 'create']) 
 Route::get('Eligibility',[PassporteligibilityController::class, 'index']) -> name('Eligibility.index');
 Route::get('EligibilityCreate',[PassporteligibilityController::class, 'create']) -> name('Eligibility.create');
 Route::get('Eligibility/{id}',[PassporteligibilityController::class, 'show']) -> name('Eligibility.show');
-Route::get('Eligibility/{id}',[PassporteligibilityController::class, 'edit']) -> name('Eligibility.edit');
-Route::get('Eligibility-destroy/{id}',[PassporteligibilityController::class, 'destroy']) -> name('Eligibility.destroy');
+Route::get('Eligibility/{id}',[PassporteligibilityController::class, 'edit']) -> name('eligibility.edit');
+Route::get('Eligibility-destroy/{id}',[PassporteligibilityController::class, 'destroy']) -> name('eligibility.destroy');
 Route::post('EligibilityStore',[PassporteligibilityController::class, 'store']) -> name('Eligibility.store');
 
 
@@ -95,17 +109,6 @@ Route::get('visa-agency-destroy/{id}',[VisaagencyController::class, 'destroy']) 
 Route::post('visa-agency-store/{id}',[VisaagencyController::class, 'store']) -> name('visa-agency.store');
 
 
-//Route for Accounts
-
-Route::get('Accounts',[AccountsController::class, 'index']) -> name('Accounts.index');
-Route::get('Accounts-Create',[AccountsController::class, 'create']) -> name('Accounts.create');
-Route::get('Accounts-show/{}',[AccountsController::class, 'show']) -> name('Accounts.show');
-Route::post('Accounts-Store',[AccountsController::class, 'store']) -> name('Accounts.store');
-Route::post('Accounts-expenseStore',[AccountsController::class, 'expenseStore']) -> name('Accounts.expenseStore');
-Route::get('Accounts-invoiceStore',[AccountsController::class, 'invoice']) -> name('Accounts.invoice');
-Route::get('ExpenseSheet',[AccountsController::class, 'expense']) -> name('ExpenseSheet.Expense');
-Route::get('AccountsInvoiceStore-destroy/{id}',[AccountsController::class, 'destroy']) -> name('Accounts.destroy');
-Route::get('BalanceSheet',[TransectionController::class, 'index']) -> name('BalanceSheet.index');
 
 
 
@@ -118,3 +121,5 @@ Route::get('sign_up', function () {
 Route::get('login', function () {
     return view('login');
 });
+
+

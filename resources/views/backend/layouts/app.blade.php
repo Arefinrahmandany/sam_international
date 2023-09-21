@@ -1,233 +1,148 @@
 <!DOCTYPE html>
-<html>
-    <head>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
-    <title></title>
+    <title>DASHMIN - Bootstrap Admin Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-     <!-- Favicon -->
-     <link href="img/favicon.ico" rel="icon">
 
-     <!-- Google Web Fonts -->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="{{ url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap') }}" rel="stylesheet">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
 
-     <!-- Icon Font Stylesheet -->
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="{{ url('https://fonts.googleapis.com') }}">
+    <link rel="preconnect" href="{{ url('https://fonts.gstatic.com') }}" crossorigin>
+    <link href="{{ url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap') }}" rel="stylesheet">
 
-     <!-- Libraries Stylesheet -->
-     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- Icon Font Stylesheet -->
+    <link href="{{url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css') }}" rel="stylesheet">
+    <link href="{{ url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css') }}" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Stylesheet -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    </head>
+    <!-- Template Stylesheet -->
+    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+</head>
 
-    <body>
-        <div class="container-fluid position-relative bg-white d-flex p-0">
-
-
-
-            <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
-                <nav class="navbar bg-light navbar-light">
-                    <a href="{{ route('home.home') }}" class="navbar-brand mx-4 mb-3">
-                        <h3 class="text-primary">DASHBOARD</h3>
-                    </a>
+<body>
+    <div class="container-fluid position-relative bg-white d-flex p-0">
+        <!-- Sidebar Start -->
+        <div class="sidebar gradient-6 pe-4 pb-3">
+            <nav class="navbar navbar-light">
+                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="{{ asset('assets/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
                     <div class="ms-3">
-                        <a href="{{ route('Accounts.index') }}" style="text-decoration: none;"><h3 class="mb-0" style="color: red">Nahian Corp.</h3></a>
+                        <h6 class="mb-0">Jhon Doe</h6>
+                        <span>Admin</span>
                     </div>
-                    <div class="d-flex align-items-center ms-4 mb-4">
-                        <span>Admin  </span>
-                        <div class="position-relative">
-                            <img class="rounded-circle" src="image/users/user_1.jpeg" alt="" style="width: 40px; height: 40px;">
-                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                        </div>
+                </div>
 
-                        </div>
-                        <!-- user id detail End -->
-                        <!-- Navbar start -->
-                        <div class="navbar-nav w-100">
-                            <a href="{{ route('Accounts.index') }}" class="nav-item nav-link active"><img src="image/icon/accounting_icon.png"><b>  Accounts</b></a>
-                            <a href="{{ route('agent.index') }}" class="nav-item nav-link"><img src="image/icon/agent_icon.png"><b>  Agents</b></a>
-                            <a href="{{ route('passports.index') }}" class="nav-item nav-link"><img src="image/icon/passport_icon.png"><b>  Passport Entry</b></a>
-                            <a href="{{ route('medical.index') }}" class="nav-item nav-link"><img src="image/icon/medical_icon.png"><b>  Medical</b></a>
-                            <a href="{{ route('visa-application.index') }}" class="nav-item nav-link"><img src="image/icon/accounting_icon.png"><b>  Visa Submission</b></a>
-                            <a href="{{ route('visa-status.index') }}" class="nav-item nav-link"><img src="image/icon/visaStatus_icon.png"><b>  Visa Status Check</b></a>
-                            <div class="nav-item dropdown">
-                                <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img src="image/icon/menPower_icon.png"><b>  Man Power</b></a>
-                                    <div class="dropdown-menu bg-transparent border-0">
-                                        <a href="{{ route('Eligibility.index') }}" class="dropdown-item"><img src="image/icon/passportEligible_icon.png"><b>  Passport Eligible status</b></a>
-                                        <a href="{{ route('visa-agency.index') }}" class="dropdown-item"><img src="image/icon/visaAgancy_icon.png"><b>  Visa Application Agency</b></a>
-                                    </div>
-                            </div>
-                        </div>
-                        <!-- Navbar End -->
-                    </nav>
+
+                <div class="navbar-nav w-100">
+                    <a href="{{ route('accounts-home.index') }}" class="nav-item nav-link text-white"><img src="image/icon/accounting_icon.png"> Accounts</a>
+                    <a href="{{ route('agent.index')}}" class="nav-item nav-link text-white"><img src="image/icon/agent_icon.png"> Agents</a>
+                    <a href="{{ route('passports.index') }}" class="nav-item nav-link text-white"><img src="image/icon/passport_icon.png"> Passport Entry</a>
+                    <a href="{{ route('medical.index') }}" class="nav-item nav-link text-white"><img src="image/icon/medical_icon.png"> Medical</a>
+                    <a href="{{ route('visa-application.index') }}" class="nav-item nav-link text-white"><img src="image/icon/accounting_icon.png"> Visa Submission</a>
+                    <a href="{{ route('visa-status.index') }}" class="nav-item nav-link text-white"><img src="image/icon/visaStatus_icon.png"> Visa Check</a>
+                    <span class="text-white"><img src="image/icon/passportEligible_icon.png"> Man Power</a></span>
+                    <a href="{{ route('Eligibility.index') }}" class="nav-item nav-link text-white"> Passport Eligible status</a>
+                    <a href="{{ route('visa-agency.index') }}" class="nav-item nav-link text-white"> Visa Agency</a>
+
+
                 </div>
-            </div>
-            <!-- Sidebar End -->
-            <div class="content">
-                <!-- Navbar Start -->
-                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <form class="d-none d-md-flex ms-4">
-                        <input class="form-control border-0" type="search" placeholder="Search">
-                    </form>
-                    <div class="navbar-nav align-items-center ms-auto">
-                        <div class="nav-item dropdown">
-                            <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <img class="rounded-circle me-lg-2" src="image/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">John Doe</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="{{ url('backend.users') }}" class="dropdown-item">My Profile</a>
-                                <a href="" class="dropdown-item">Settings</a>
-                                <a href="{{ url('backend.login') }}" class="dropdown-item">Log Out</a>
-                                <a href="{{ url('backend.sign_up') }}" class="dropdown-item">Sign UP</a>
-                            </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-0">
+                <a href="" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a>
+                <a href="" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+
+                <div class="navbar-nav align-items-center ms-auto">
+
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="{{ asset('assets/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
-                </nav>
-                <!-- Navbar End -->
-                    @section('main-content')
-                    <section class="p-3 mb-2 bg-warning-subtle text-emphasis-warning">
-                        <p>@yield('page-name','This is page name') / @yield('page-sub-title','This is our sub title')</p>
-                        <p></p>
-                    </section>
-                    @show
                 </div>
-            </div>
-        </div>
+            </nav>
+            <!-- Navbar End -->
+
+            @section('main-content')
+            <section class="p-3 mb-2 bg-warning-subtle text-emphasis-warning">
+                <p>@yield('page-name','This is page name') / @yield('page-sub-title','This is our sub title')</p>
+            </section>
+
+
+            @show
+
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="{{ url('https://www.linkedin.com/in/md-arefin-rahman-939136154/') }}">Arefin</a>, All Right Reserved.
+                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
-                            Designed By <a href="{{ url('https://www.linkedin.com/in/md-arefin-rahman-939136154/') }}">Arefin</a>
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Footer End -->
-            <script>
-                (function ($) {
-
-                    // Sidebar Toggler
-                    $('.sidebar-toggler').click(function () {
-                        $('.sidebar, .content').toggleClass("open");
-                        return false;
-                    });
-
-                $('#photo').change(function(e){
-
-                    let url = URL.createObjectURL(e.target.files[0]);
-                    $('#preload').attr('src', url);
-                });
-
-                $('.sidebar-toggler').click(function () {
-                $('.sidebar, .content').toggleClass("open");
-                return false;
-            });
-        })
-            </script>
-
-            <!-- script For Search data from table -->
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const searchButton = document.getElementById("searchButton");
-                    const searchInput = document.getElementById("searchInput");
-                    const tableRows = document.querySelectorAll("table tbody tr");
-
-                    searchButton.addEventListener("click", function () {
-                        const searchText = searchInput.value.toLowerCase();
-
-                        tableRows.forEach((row) => {
-                            const rowData = row.innerText.toLowerCase();
-                            if (rowData.includes(searchText)) {
-                                row.style.display = "";
-                            } else {
-                                row.style.display = "none";
-                            }
-                        });
-                    });
-                });
-            </script>
-            <!-- script For print table -->
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const printButton = document.getElementById("printButton");
-                    const tableToPrint = document.querySelector(".table");
-
-                    printButton.addEventListener("click", function () {
-                        const printWindow = window.open('', '', 'width=800,height=600');
-                        printWindow.document.open();
-                        printWindow.document.write('<html><head><title>Print Table</title>');
-                        printWindow.document.write('<style>@media print{table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}tr:nth-child(even){background-color:#f2f2f2}}</style>');
-                        printWindow.document.write('</head><body>');
-                        printWindow.document.write('<h2>Table to Print</h2>');
-                        printWindow.document.write(tableToPrint.outerHTML);
-                        printWindow.document.write('</body></html>');
-                        printWindow.document.close();
-
-                        // Add page numbers to each page
-                        printWindow.document.querySelectorAll('.page').forEach(function(page, index) {
-                            const pageNumber = index + 1;
-                            const pageNumberElement = document.createElement('div');
-                            pageNumberElement.classList.add('page-number');
-                            pageNumberElement.innerText = 'Page ' + pageNumber;
-                            page.appendChild(pageNumberElement);
-                        });
-
-                        printWindow.print();
-                        printWindow.close();
-                    });
-                });
-            </script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const tableRows = document.querySelectorAll("table tbody tr");
-        let balance = 0;
-
-        tableRows.forEach((row) => {
-            const debit = parseFloat(row.cells[4].textContent);
-            const credit = parseFloat(row.cells[5].textContent);
-
-            if (!isNaN(debit)) {
-                balance += debit;
-            }
-
-            if (!isNaN(credit)) {
-                balance -= credit;
-            }
-        });
-
-        const balanceAmount = document.getElementById("balanceAmount");
-        balanceAmount.textContent = balance.toFixed(2);
-    });
-</script>
+        </div>
+        <!-- Content End -->
 
 
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
 
+    <!-- JavaScript Libraries -->
 
-            <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-            <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ url('https://code.jquery.com/jquery-3.4.1.min.js') }}"></>
+    <script src="{{ url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ ('assets/lib/chart/chart.min.js') }}"></script>
+    <script src="{{ ('assets/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ ('assets/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ ('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ ('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ ('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ ('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
+    <!-- Template Javascript -->
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+</body>
 
-        </body>
-    </html>
+</html>
