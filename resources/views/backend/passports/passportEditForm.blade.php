@@ -63,7 +63,7 @@
                             </select>
                             <label for="floatingSelect">Select Agents</label>
                         </div><br>
-                        <div class="form-group">
+                        <div class="form-group d-flex">
                             <span class="input-group-text">&#2547;</span>
                             <input type="text" name="payment" value="{{ $edit_data -> amount }}" class="form-control" placeholder="Payment" >
                             <span class="input-group-text">.00</span>

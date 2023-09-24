@@ -8,8 +8,6 @@
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
-
             <div class="row page-titles mx-0">
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
@@ -21,6 +19,7 @@
             <!-- row -->
 
             <div class="container-fluid">
+                <h4 class="card-title p-3">Payment Receipt</h4>
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="card">
@@ -35,17 +34,17 @@
                                     <form class="form-valide" method="post" action="{{ route('Accounts.paymentstore') }}">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-3">
+                                            <div class="col-5">
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="invoiceNumber">Invoce Number</span>
+                                                    <label class="col-lg-5 col-form-label" for="invoiceNumber">Invoce Number</span>
                                                     </label>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-7">
                                                         <input type="text" class="form-control" id="invoiceNumber" name="invoiceNumber" placeholder="Invoce Number">
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-9">
+                                            <div class="col-7">
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label" for="val-skill">payment by</label>
                                                     <div class="col-lg-6">
@@ -98,9 +97,11 @@
                                                     <label class="radio-inline mr-3">
                                                         <input type="radio" name="paymentSystem" value="cash">Cash</label>
                                                     <label class="radio-inline mr-3">
-                                                        <input type="radio" name="paymentSystem" value="Check"> Check</label>
+                                                        <input type="radio" name="paymentSystem" value="check"> Check</label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="paymentSystem" value="Mobile Banking"> Mobile Banking</label>
+                                                        <input type="radio" name="paymentSystem" value="mobile banking"> Mobile Banking</label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="paymentSystem" value="banking"> Banking</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +121,6 @@
                 </div>
             </div>
             <!-- #/ container -->
-        </div>
         <!--**********************************
             Content body end
         ***********************************-->

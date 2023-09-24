@@ -1,16 +1,7 @@
 
-(function ($) {
     "use strict";
 
-    // Spinner
-    var spinner = function () {
-        setTimeout(function () {
-            if ($('#spinner').length > 0) {
-                $('#spinner').removeClass('show');
-            }
-        }, 1);
-    };
-    spinner();
+
 
 
     // Back to top button
@@ -21,6 +12,7 @@
             $('.back-to-top').fadeOut('slow');
         }
     });
+
     $('.back-to-top').click(function () {
         $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
         return false;
@@ -60,7 +52,7 @@
     });
 
 
-    // Worldwide Sales Chart
+    /** Worldwide Sales Chart
     var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
     var myChart1 = new Chart(ctx1, {
         type: "bar",
@@ -87,9 +79,10 @@
             responsive: true
         }
     });
+    ***/
 
 
-    // Salse & Revenue Chart
+    /** Salse & Revenue Chart
     var ctx2 = $("#salse-revenue").get(0).getContext("2d");
     var myChart2 = new Chart(ctx2, {
         type: "line",
@@ -113,7 +106,7 @@
             responsive: true
         }
     });
-
+**/
 
 
     // Single Line Chart
@@ -204,106 +197,122 @@
     });
 
 
-})(jQuery);
 
 
 
 
+    (function ($) {
 
-<script>
-                (function ($) {
-
-                    // Sidebar Toggler
-                    $('.sidebar-toggler').click(function () {
-                        $('.sidebar, .content').toggleClass("open");
-                        return false;
-                    });
-
-                $('#photo').change(function(e){
-
-                    let url = URL.createObjectURL(e.target.files[0]);
-                    $('#preload').attr('src', url);
-                });
-
-                $('.sidebar-toggler').click(function () {
-                $('.sidebar, .content').toggleClass("open");
-                return false;
-            });
-        })
-            </script>
-
-            <!-- script For Search data from table -->
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const searchButton = document.getElementById("searchButton");
-                    const searchInput = document.getElementById("searchInput");
-                    const tableRows = document.querySelectorAll("table tbody tr");
-
-                    searchButton.addEventListener("click", function () {
-                        const searchText = searchInput.value.toLowerCase();
-
-                        tableRows.forEach((row) => {
-                            const rowData = row.innerText.toLowerCase();
-                            if (rowData.includes(searchText)) {
-                                row.style.display = "";
-                            } else {
-                                row.style.display = "none";
-                            }
-                        });
-                    });
-                });
-            </script>
-            <!-- script For print table -->
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const printButton = document.getElementById("printButton");
-                    const tableToPrint = document.querySelector(".table");
-
-                    printButton.addEventListener("click", function () {
-                        const printWindow = window.open('', '', 'width=800,height=600');
-                        printWindow.document.open();
-                        printWindow.document.write('<html><head><title>Print Table</title>');
-                        printWindow.document.write('<style>@media print{table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}tr:nth-child(even){background-color:#f2f2f2}}</style>');
-                        printWindow.document.write('</head><body>');
-                        printWindow.document.write('<h2>Table to Print</h2>');
-                        printWindow.document.write(tableToPrint.outerHTML);
-                        printWindow.document.write('</body></html>');
-                        printWindow.document.close();
-
-                        // Add page numbers to each page
-                        printWindow.document.querySelectorAll('.page').forEach(function(page, index) {
-                            const pageNumber = index + 1;
-                            const pageNumberElement = document.createElement('div');
-                            pageNumberElement.classList.add('page-number');
-                            pageNumberElement.innerText = 'Page ' + pageNumber;
-                            page.appendChild(pageNumberElement);
-                        });
-
-                        printWindow.print();
-                        printWindow.close();
-                    });
-                });
-            </script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const tableRows = document.querySelectorAll("table tbody tr");
-        let balance = 0;
-
-        tableRows.forEach((row) => {
-            const debit = parseFloat(row.cells[4].textContent);
-            const credit = parseFloat(row.cells[5].textContent);
-
-            if (!isNaN(debit)) {
-                balance += debit;
-            }
-
-            if (!isNaN(credit)) {
-                balance -= credit;
-            }
+        // Sidebar Toggler
+        $('.sidebar-toggler').click(function () {
+            $('.sidebar, .content').toggleClass("open");
+            return false;
         });
 
-        const balanceAmount = document.getElementById("balanceAmount");
-        balanceAmount.textContent = balance.toFixed(2);
+    $('#photo').change(function(e){
+
+        let url = URL.createObjectURL(e.target.files[0]);
+        $('#preload').attr('src', url);
     });
-</script>
+
+    $('.sidebar-toggler').click(function () {
+    $('.sidebar, .content').toggleClass("open");
+    return false;
+});
+})
+
+
+<!-- script For Search data from table -->
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchButton = document.getElementById("searchButton");
+        const searchInput = document.getElementById("searchInput");
+        const tableRows = document.querySelectorAll("table tbody tr");
+
+        searchButton.addEventListener("click", function () {
+            const searchText = searchInput.value.toLowerCase();
+
+            tableRows.forEach((row) => {
+                const rowData = row.innerText.toLowerCase();
+                if (rowData.includes(searchText)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    });
+
+
+
+<!-- script For print table -->
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const printButton = document.getElementById("printButton");
+        const tableToPrint = document.querySelector(".table");
+
+        printButton.addEventListener("click", function () {
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.open();
+            printWindow.document.write('<html><head><title>Print Table</title>');
+            printWindow.document.write('<style>@media print{table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}tr:nth-child(even){background-color:#f2f2f2}}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Table to Print</h2>');
+            printWindow.document.write(tableToPrint.outerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            // Add page numbers to each page
+            printWindow.document.querySelectorAll('.page').forEach(function(page, index) {
+                const pageNumber = index + 1;
+                const pageNumberElement = document.createElement('div');
+                pageNumberElement.classList.add('page-number');
+                pageNumberElement.innerText = 'Page ' + pageNumber;
+                page.appendChild(pageNumberElement);
+            });
+
+            printWindow.print();
+            printWindow.close();
+        });
+    });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+const tableRows = document.querySelectorAll("table tbody tr");
+let balance = 0;
+
+tableRows.forEach((row) => {
+const debit = parseFloat(row.cells[4].textContent);
+const credit = parseFloat(row.cells[5].textContent);
+
+if (!isNaN(debit)) {
+    balance += debit;
+}
+
+if (!isNaN(credit)) {
+    balance -= credit;
+}
+});
+
+const balanceAmount = document.getElementById("balanceAmount");
+balanceAmount.textContent = balance.toFixed(2);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

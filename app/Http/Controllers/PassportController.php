@@ -50,6 +50,7 @@ class PassportController extends Controller
             'email' => 'email| unique:new_passports',
             'payment' => 'integer',
         ]);
+
         //Photo upload
         if( $request -> hasFile('photo')){
             $img = $request -> file('photo');
@@ -83,6 +84,15 @@ class PassportController extends Controller
      */
     public function show($id)
     {
+
+        $image = NewPassport::find($id);
+
+        if (!$image) {
+            abort(404);
+        }
+
+        $imageData = $image->image_data; // Replace with your actual column name for image data
+        $mimeType = $image->mime_type; // Replace with your actual column name for MIME type
 
         $all_data = NewPassport::findorfail($id);
         return view('backend.passports.passportSingleView',[

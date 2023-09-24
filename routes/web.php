@@ -37,6 +37,7 @@ Route::get('balance-sheet',[AccountsController::class, 'balancesheet']) -> name(
 Route::get('accounts-edit/{id}',[AccountsController::class, 'edit']) -> name('accounts-edit.edit');
 Route::post('accounts-update/{id}',[AccountsController::class, 'update']) -> name('accounts-edit.update');
 Route::get('accounts-entry-destroy/{id}',[AccountsController::class, 'destroy']) -> name('accounts-entry.destroy');
+Route::get('accounts/receipt',[AccountsController::class, 'showReceipt']) -> name('accounts/receipt.showReceipt');
 
 
 
@@ -60,6 +61,8 @@ Route::get('passport-Edit/{id}',[PassportController::class, 'edit'])->name('pass
 Route::get('passportDelet/{id}',[PassportController::class, 'destroy'])->name('passports.destroy');
 Route::post('passportupdate/{id}',[PassportController::class, 'update'])->name('passports.update');
 Route::post('passportStore',[PassportController::class,'store'])->name('passports.store');
+
+Route::get('/image/{id}', 'ImageController@show')->name('image.show');
 
 //Route for Medical
 Route::get('medical',[Medical_applicationController::class, 'index']) -> name('medical.index');

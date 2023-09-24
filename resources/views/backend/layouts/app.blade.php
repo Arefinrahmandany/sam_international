@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>Sam International</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -26,18 +26,23 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+
 </head>
 
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Sidebar Start -->
-        <div class="sidebar gradient-6 pe-4 pb-3">
+        <div class="sidebar gradient-6 pe-4 pb-3" id="sidebar">
             <nav class="navbar navbar-light">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                <a href="{{ route('accounts-home.index') }}" class="navbar-brand mx-4 mb-3">
+                    <h4 class="text-primary">Sam International</h4>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -45,7 +50,7 @@
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
+                        <h6 class="mb-0">Arefin</h6>
                         <span>Admin</span>
                     </div>
                 </div>
@@ -107,7 +112,7 @@
             @show
 
             <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
+            <div class="container-fluid pt-4 px-4" style="bottom:0;">
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
@@ -131,18 +136,27 @@
 
     <!-- JavaScript Libraries -->
 
+
+
+
     <script src="{{ url('https://code.jquery.com/jquery-3.4.1.min.js') }}"></>
     <script src="{{ url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ ('assets/lib/chart/chart.min.js') }}"></script>
-    <script src="{{ ('assets/lib/easing/easing.min.js') }}"></script>
-    <script src="{{ ('assets/lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ ('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ ('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
-    <script src="{{ ('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-    <script src="{{ ('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/chart/chart.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script src="{{ asset('js/styleSwitcher.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Template Javascript -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    <script src="{{asset('main.js')}}"></script>
+    <script src="{{asset('js/old/main.js')}}"></script>
+    <script src="{{asset('assets/js/main.js')}}"></script>
 </body>
 
 </html>

@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <img src="{{ base64_encode($passport_data->photos) }}" alt="Image" width="15px">
                         <div class="mt-3">
                             <h4>{{ $passport_data -> name}}</h4>
                             <p class="text-muted font-size-sm">{{ $passport_data -> address}}</p>
@@ -134,6 +134,76 @@
 
                   </div>
 
+                      <style>
+                          /* Basic CSS styling for the progress bar and steps */
+                          .progress-container {
+                              display: flex;
+                              justify-content: space-between;
+                              align-items: center;
+                          }
+
+                          .step {
+                              width: 20px;
+                              height: 20px;
+                              background-color: #ccc;
+                              border-radius: 50%;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                          }
+
+                          .step.active {
+                              background-color: #007bff;
+                              color: white;
+                          }
+
+                          .progress-bar {
+                              flex-grow: 1;
+                              height: 4px;
+                              background-color: #ccc;
+                              position: relative;
+                          }
+
+                          .progress-bar-fill {
+                              height: 100%;
+                              background-color: #007bff;
+                              transition: width 0.3s ease-in-out;
+                          }
+                      </style>
+                  </head>
+                  <body>
+                      <div class="progress-container">
+                          <div class="step active">1</div>
+                          <div class="step">2</div>
+                          <div class="step">3</div>
+                          <div class="step">4</div>
+                          <div class="progress-bar">
+                              <div class="progress-bar-fill" style="width: 25%;"></div>
+                          </div>
+                      </div>
+
+                      <script>
+                          // JavaScript to update the progress bar based on the active step
+                          const steps = document.querySelectorAll('.step');
+                          const progressBarFill = document.querySelector('.progress-bar-fill');
+
+                          steps.forEach((step, index) => {
+                              step.addEventListener('click', () => {
+                                  // Update the progress bar width
+                                  const stepWidth = (index + 1) * (100 / steps.length);
+                                  progressBarFill.style.width = `${stepWidth}%`;
+
+                                  // Mark the clicked step as active
+                                  steps.forEach((s, i) => {
+                                      if (i <= index) {
+                                          s.classList.add('active');
+                                      } else {
+                                          s.classList.remove('active');
+                                      }
+                                  });
+                              });
+                          });
+                      </script>
 
 
 

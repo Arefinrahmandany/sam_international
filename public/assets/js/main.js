@@ -40,16 +40,23 @@
 
 
 
-    document.getElementById('printButton').addEventListener('click', function () {
-        var printWindow = window.open('', '', 'width=800,height=1000');
-        printWindow.document.open();
-        printWindow.document.write('<html><head><title>Print Table</title></head><body>');
-        printWindow.document.write('<h4>Transactions Table</h4>');
-        printWindow.document.write(document.getElementById('transaction-table').outerHTML);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-        printWindow.close();
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchButton = document.getElementById("searchButton");
+        const searchInput = document.getElementById("searchInput");
+        const tableRows = document.querySelectorAll("table tbody tr");
+
+        searchButton.addEventListener("click", function () {
+            const searchText = searchInput.value.toLowerCase();
+
+            tableRows.forEach((row) => {
+                const rowData = row.innerText.toLowerCase();
+                if (rowData.includes(searchText)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
     });
 
 
@@ -78,21 +85,7 @@
 
 
 
-    // Add an event listener to the select element
-document.addEventListener('DOMContentLoaded', function() {
-    const entriesSelect = document.getElementById('entriesSelect');
 
-    // Add event listener to handle changes in the select element
-    entriesSelect.addEventListener('change', function() {
-        // Get the selected value (number of entries)
-        const selectedEntries = this.value;
-
-        // You can use this value to update the number of entries in your table
-        // For example, you can send an AJAX request to fetch the updated data
-        // and display it in your table.
-
-    });
-});
 
 
 

@@ -74,7 +74,7 @@
                         </div>
                         <div>
                             <label for="photo" class="form-label">Photos</label>
-                            <input class="form-control form-control-lg" name="photo" id="photo" type="file">
+                            <input class="form-control form-control-lg" name="photo" id="photo" type="file" multiple>
                         </div><br>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>

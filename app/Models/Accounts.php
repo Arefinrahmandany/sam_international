@@ -12,6 +12,6 @@ class Accounts extends Model
     protected $table = 'accounts';
 
     //table names
-    protected $fillable = ['invoiceNumber','receiveFrom','debit','credit','description','receiveby'];
+    protected $fillable = ['invoiceNumber','receiveFrom','debit','credit','description','receiveby','paymentSystem'];
 
 }

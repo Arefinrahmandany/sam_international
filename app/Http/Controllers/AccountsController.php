@@ -94,19 +94,46 @@ class AccountsController extends Controller
             'paymentSystem' => $request->paymentSystem,
         ];
 
-        // Conditionally set the 'receiveFrom' field based on 'byAgent' or 'receiveFrom' in the request
+         // Conditionally set the 'receiveFrom' field based on 'byAgent' or 'receiveFrom' in the request
         if (!empty($request->byAgent)) {
             $data['receiveFrom'] = $request->byAgent;
         } else {
             $data['receiveFrom'] = $request->receiveFrom;
         }
 
-        // Create a new record in the 'Accounts' model using the $data array
+         // Create a new record in the 'Accounts' model using the $data array
         Accounts::create($data);
 
-        // Redirect back to the same page with a success message
-        return back()->with('success', 'Data successfully inserted');
+        // Store the data in the session
+    $request->session()->put('receiptData', $data);
+
+         // Redirect back to the same page with a success message
+        return redirect()->route('accounts/receipt.showReceipt');
     }
+    public function showReceipt(Request $request)
+{
+    // Retrieve data to be displayed on the receipt
+    $data = [
+        'invoiceNumber' => $request->invoiceNumber,
+        'debit' => $request->amount,
+        'forPayment' => $request->forPayment,
+        'description' => $request->forPayment,
+        'receiveby' => $request->receiveby,
+        'paymentSystem' => $request->paymentSystem,
+
+    ];
+    // Conditionally set the 'receiveFrom' field based on 'byAgent' or 'receiveFrom' in the request
+    if (!empty($request->byAgent)) {
+        $data['receiveFrom'] = $request->byAgent;
+    } else {
+        $data['receiveFrom'] = $request->receiveFrom;
+    }
+
+    // Retrieve data to be displayed on the receipt from the session
+    $data = $request->session()->get('receiptData');
+
+    return view('backend.accounts.receipt', $data);
+}
 
     /**
      * method for Expense form store data in accounts.
