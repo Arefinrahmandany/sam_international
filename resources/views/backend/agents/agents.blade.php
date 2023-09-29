@@ -59,7 +59,7 @@
                                         <td>
                                             <a class="btn btn-primary" href="{{route('agent.show',$agents_all-> id)}}">View</a>
                                             <a class="btn btn-warning" href="{{route('agent.edit',$agents_all-> id)}}">Edit</a>
-                                            <a class="btn btn-danger" href="{{route('agent.destroy',$agents_all -> id)}}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</i></a>
+                                            <a class="btn btn-danger delete-btn" href="{{route('agent.destroy',$agents_all -> id)}}">Delete</i></a>
                                         </td>
                                     </tr>
                                     @empty

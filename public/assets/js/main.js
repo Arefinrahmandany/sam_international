@@ -1,16 +1,18 @@
 (function ($) {
-    "use strict";
 
-    // Spinner
-    var spinner = function () {
-        setTimeout(function () {
-            if ($('#spinner').length > 0) {
-                $('#spinner').removeClass('show');
-            }
-        }, 1);
-    };
-    spinner();
+    // Delete COnfirmation
 
+
+    $('.delete-btn').click(function(){
+
+        let confirmation = confirm('Are you sure, you want to delete this item?');
+
+        if(confirmation){
+            return true;
+        }else{
+            return false;
+        }
+    })
 
 // Search button script
 
@@ -113,7 +115,7 @@
         return false;
     });
 
-
+/*
     // Progress Bar
     $('.pg-bar').waypoint(function () {
         $('.progress .progress-bar').each(function () {
@@ -282,7 +284,7 @@
             responsive: true
         }
     });
-
+*/
 
 })(jQuery);
 

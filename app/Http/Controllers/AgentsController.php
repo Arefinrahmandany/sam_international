@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agents;
+use App\Models\Accounts;
 use Illuminate\Http\Request;
 
 class AgentsController extends Controller
@@ -55,9 +56,12 @@ class AgentsController extends Controller
      */
     public function show($id)
     {
+
         $all_data = Agents::findorfail($id);
+        $transactions = Accounts::where('receiveFrom', $id)->get();
         return view('backend.agents.agentSingleView',[
-            'all_data' => $all_data
+            'all_data' => $all_data,
+            'transections' => $transactions
             ]);
     }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('receiveFrom')->nullable();
             $table->integer('debit')->nullable();
             $table->integer('credit')->nullable();
+            $table->integer('due')->nullable();
             $table->integer('balance')->nullable();
             $table->string('description')->nullable();
             $table->string('receiveby')->nullable();

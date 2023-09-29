@@ -56,7 +56,7 @@
                                     <td>
                                         <a class="btn btn-primary" href="" role="button">View</a>
                                         <a class="btn btn-warning" href="{{ route('medical.edit',$medical -> id ) }}">Edit</a>
-                                        <a class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('medical.destroy',$medical -> id ) }}">Delete</i></a>
+                                        <a class="btn btn-danger  delete-btn" href="{{ route('medical.destroy',$medical -> id ) }}">Delete</i></a>
                                     </td>
                                 </tr>
                                 @empty

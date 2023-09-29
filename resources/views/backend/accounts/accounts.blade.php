@@ -91,6 +91,7 @@
                                         <th scope="col">Description</th>
                                         <th scope="col">Debit</th>
                                         <th scope="col">Credit</th>
+                                        <th scope="col">Due</th>
                                         <th scope="col">Balance</th>
                                         <th scope="col">Receive By</th>
                                         <th scope="col">Payment System</th>
@@ -108,12 +109,13 @@
                                     <td>{{$transection_table-> description }}</td>
                                     <td>{{$transection_table-> debit }}</td>
                                     <td>{{$transection_table-> credit }}</td>
+                                    <td>{{$transection_table-> due }}</td>
                                     <td>{{$transection_table-> balance }}</td>
                                     <td>{{$transection_table-> receiveby }}</td>
                                     <td>{{$transection_table-> paymentSystem }}</td>
                                     <td>
                                         <a class="btn btn-warning" href="{{ route('accounts-edit.edit',$transection_table-> id ) }}">Edit</a>
-                                        <a class="btn btn-danger" href="{{ route('accounts-entry.destroy',$transection_table -> id ) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</i></a>
+                                        <a class="btn btn-danger delete-btn" href="{{ route('accounts-entry.destroy',$transection_table -> id ) }}">Delete</i></a>
                                     </td>
                                 </tr>
                                 @empty

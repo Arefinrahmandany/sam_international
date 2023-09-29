@@ -18,5 +18,4 @@ class Medical extends Model
 
 
 
-
 }

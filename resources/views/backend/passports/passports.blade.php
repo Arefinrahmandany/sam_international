@@ -17,12 +17,11 @@
         <!-- row -->
 
         <div class="container-fluid">
-            <h6 class="card-title p-3">Back</h6>
             <h4 class="card-title p-3">Applicant</h4>
             <div class="table-responsive">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-3"><a class="btn btn-primary" href="{{route('agent.create')}}" role="button">Add New Passport</a></h6>
+                        <h6 class="mb-3"><a class="btn btn-primary" href="{{route('passports.create')}}" role="button">Add New Passport</a></h6>
                         <a href="" class="text-dark">Show All</a>
                     </div>
                     <!-- Search Button -->
@@ -63,11 +62,11 @@
                                     <td>{{$passports -> applying_country }}</td>
                                     <td>{{$passports -> agent_via }}</td>
                                     <td>{{$passports -> amount }}</td>
-                                    <td><img src="{{ url('photos/'. $passports->photos) }}" style="height:100px; width: auto;"></td>
+                                    <td><img src="{{ url('storage/passports/'. $passports -> photo ) }}" style="height:100px; width: auto;"></td>
                                     <td>
                                         <a class="btn btn-primary" href="{{ route('passports.show',$passports -> id) }}" role="button">View</a>
                                         <a class="btn btn-warning" href="{{ route('passports.edit',$passports -> id ) }}">Edit</a>
-                                        <a class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('passports.destroy',$passports -> id ) }}">Delete</i></a>
+                                        <a class="btn btn-danger  delete-btn" href="{{ route('passports.destroy',$passports -> id ) }}">Delete</i></a>
                                     </td>
                                 </tr>
                                 @empty

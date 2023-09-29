@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Image;
 use App\Models\Agents;
-use App\Models\countries;
 
+use App\Models\Accounts;
+use App\Models\countries;
+use App\Mail\SendMail;
 use App\Models\NewPassport;
 use Illuminate\Http\Request;
 use function Termwind\render;
+use Illuminate\Support\Facades\Mail;
 
 class PassportController extends Controller
 {
@@ -51,13 +55,20 @@ class PassportController extends Controller
             'payment' => 'integer',
         ]);
 
-        //Photo upload
+
+       //Photo upload
         if( $request -> hasFile('photo')){
+
             $img = $request -> file('photo');
+
             $file_name = md5(time().rand()) . '. ' .  $img -> clientExtension();
-            $img -> move(public_path('photos'), $file_name);
+
+            $img -> move(storage_path('app/public/passports/'), $file_name);
+
         }else{
+
             $file_name = NULL;
+
         }
 
         NewPassport::create([
@@ -72,9 +83,20 @@ class PassportController extends Controller
             'photos' => $file_name,
         ]);
 
+        //validate
+        Accounts::create([
+            'receiveFrom' => $request -> agents,
+            'due' => $request -> payment,
+        ]);
+
+        // Send confirmation email
+        Mail::to($request->email)->send(new SendMail([
+            'name' => $request->name, // Pass any additional data you want to include in the email
+            'passport_number' => $request -> passpoertNumber,
+        ]));
 
     //redirect to back same page
-    return redirect()->route('passports.index') -> with('success','Data successfully inserted');
+    return redirect()->route('passports.index')->with('success', 'Data successfully inserted, and a confirmation email has been sent.');
 
 
     }

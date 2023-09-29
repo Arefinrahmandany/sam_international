@@ -18,29 +18,27 @@
 
     <!-- Icon Font Stylesheet -->
     <link href="{{url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css') }}" rel="stylesheet">
-    <link href="{{ url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{asset('css/cdn.jsdelivr.net_npm_bootstrap-icons@1.4.1_font_bootstrap-icons.css') }}" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
+    <link href="{{asset('css/cdn.datatables.net_v_dt_dt-1.13.6_datatables.min.css') }}" rel="stylesheet">
     <link href="{{asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{asset('DataTables/datatables.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
-    <link href="{{asset('style.css')}}" rel="stylesheet">
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 
 </head>
 
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Sidebar Start -->
-        <div class="sidebar gradient-6 pe-4 pb-3" id="sidebar">
-            <nav class="navbar navbar-light">
+        <div class="sidebar text-bg-primary" id="sidebar">
+            <nav class="navbar">
                 <a href="{{ route('accounts-home.index') }}" class="navbar-brand mx-4 mb-3">
                     <h4 class="text-primary">Sam International</h4>
                 </a>
@@ -57,15 +55,17 @@
 
 
                 <div class="navbar-nav w-100">
-                    <a href="{{ route('accounts-home.index') }}" class="nav-item nav-link text-white"><img src="image/icon/accounting_icon.png"> Accounts</a>
-                    <a href="{{ route('agent.index')}}" class="nav-item nav-link text-white"><img src="image/icon/agent_icon.png"> Agents</a>
-                    <a href="{{ route('passports.index') }}" class="nav-item nav-link text-white"><img src="image/icon/passport_icon.png"> Passport Entry</a>
-                    <a href="{{ route('medical.index') }}" class="nav-item nav-link text-white"><img src="image/icon/medical_icon.png"> Medical</a>
-                    <a href="{{ route('visa-application.index') }}" class="nav-item nav-link text-white"><img src="image/icon/accounting_icon.png"> Visa Submission</a>
-                    <a href="{{ route('visa-status.index') }}" class="nav-item nav-link text-white"><img src="image/icon/visaStatus_icon.png"> Visa Check</a>
+                    <a href="{{ route('accounts-home.index') }}" class="nav-item nav-link "><img src="image/icon/accounting_icon.png"> Accounts</a>
+                    <a href="{{ route('agent.index')}}" class="nav-item nav-link"><img src="image/icon/agent_icon.png"> Agents</a>
+                    <a href="{{ route('passports.index') }}" class="nav-item nav-link"><img src="image/icon/passport_icon.png"> Passport Entry</a>
+                    <a href="{{ route('medical.index') }}" class="nav-item nav-link"><img src="image/icon/medical_icon.png"> Medical</a>
+                    <a href="{{ route('visa-application.index') }}" class="nav-item nav-link"><img src="image/icon/accounting_icon.png"> Visa Submission</a>
+                    <a href="{{ route('visa-status.index') }}" class="nav-item nav-link"><img src="image/icon/visaStatus_icon.png"> Visa Check</a>
+                    <u>
                     <span class="text-white"><img src="image/icon/passportEligible_icon.png"> Man Power</a></span>
-                    <a href="{{ route('Eligibility.index') }}" class="nav-item nav-link text-white"> Passport Eligible status</a>
-                    <a href="{{ route('visa-agency.index') }}" class="nav-item nav-link text-white"> Visa Agency</a>
+                    </u>
+                    <a href="{{ route('Eligibility.index') }}" class="nav-item nav-link"> Passport Eligible status</a>
+                    <a href="{{ route('visa-agency.index') }}" class="nav-item nav-link"> Visa Agency</a>
 
 
                 </div>
@@ -137,9 +137,12 @@
     <!-- JavaScript Libraries -->
 
 
+    <!-- Include jQuery once -->
+    <script type="text/javascript" charset="utf8" src="{{ url('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- Include DataTables script -->
 
 
-    <script src="{{ url('https://code.jquery.com/jquery-3.4.1.min.js') }}"></>
     <script src="{{ url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/lib/chart/chart.min.js') }}"></script>
     <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
@@ -147,16 +150,14 @@
     <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-    <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <script src="{{ asset('js/styleSwitcher.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/cdn.datatables.net_v_dt_dt-1.13.6_datatables.min.js') }}"></script>
+    <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-
-    <script src="{{asset('main.js')}}"></script>
-    <script src="{{asset('js/old/main.js')}}"></script>
-    <script src="{{asset('assets/js/main.js')}}"></script>
+    <script src="{{asset('assets/js/main.js') }}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
 </body>
 
 </html>

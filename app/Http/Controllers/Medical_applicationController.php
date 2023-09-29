@@ -35,15 +35,15 @@ class Medical_applicationController extends Controller
 
         //validate
         $this-> validate($request,[
-            'passport_number' => 'required| unique:Medical',
+            'passportNumber' => 'required',
         ]);
 
         // data store to table
         Medical::create([
-            'passport_number' => $request -> passportNumber,
-            'medical_date' => $request -> medicalDate,
-            'medicalStatus' => $request -> medicalstatus,
-            'expiryDate' => $request -> expiryDate,
+            'passport_number'   => $request -> passportNumber,
+            'medical_date'      => $request -> medicalDate,
+            'medicalStatus'     => $request -> medicalstatus,
+            'expiryDate'        => $request -> expiryDate,
         ]);
         //redirect to back same page
         return back() -> with('success','Data successfully inserted');

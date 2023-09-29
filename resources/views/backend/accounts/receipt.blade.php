@@ -66,8 +66,8 @@
 
 <!-- Add a print button -->
 <button type="button" onclick="printReceipt()" id="printReceipt" class="btn btn-primary mb-3">Print Receipt</button>
+<script>
 
-
-
+</script>
 
 @endsection

@@ -12,7 +12,7 @@
         @if( Session::has('success'))
         <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
         @endif
-        <form method="post" action="{{ route('VisaAgency.store') }}">
+        <form method="post" action="{{ route('visa-agency.store') }}">
             @csrf
             <div class="bg-light rounded h-100 p-4">
             <h4 class="mb-4">Visa Application Agency</h4>

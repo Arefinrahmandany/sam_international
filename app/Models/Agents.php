@@ -12,7 +12,7 @@ class Agents extends Model
     protected $table = 'agents';
 
     //table names
-    protected $fillable = ['name','phone','email','nid','address'];
+    protected $fillable = ['name','phone','email','nid','debit','credit','balance','address'];
 
     // hidden for api
     protected $hidden = ['phone', 'email'];

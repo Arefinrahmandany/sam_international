@@ -4,8 +4,7 @@
 
 
 <!-- form start -->
-<div class="container-fluid pt-4">
-    <div class="container">
+    <div class="container pt-4">
 
         @if ($errors -> any())
             <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
@@ -52,7 +51,6 @@
             </div>
         </div>
     </div>
-</div>
 
 
 <!-- form End -->

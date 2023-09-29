@@ -22,13 +22,25 @@
                 <div class="bg-light text-center rounded p-4">
 
                     <!-- Search Button -->
-                    <div class="col-4 search-container">
-                        <input type="text" class="search-input" id="searchInput" placeholder="Search...">
-                        <button for="searchInput" class="search-button" id="searchButton">Search</button>
-                        <a href="" class="text-dark">Show All</a>
+                    <div class="row  mb-3">
+                        <div class="col-4 search-container">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Search...">
+                            <button for="searchInput" class="search-button" id="searchButton">Search</button>
+                            <a href="" class="text-dark">Show All</a>
+                        </div>
+                        <div class="col-3 ">
+                            <label for="rowsPerPage">Show:</label>
+                            <select id="rowsPerPage">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                     </div>
+
                     <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0" id="dataTable">
                             <thead>
                                 <tr class="text-dark">
                                     <tr>
@@ -40,6 +52,7 @@
                                         <th scope="col">Description</th>
                                         <th scope="col">Debit</th>
                                         <th scope="col">Credit</th>
+                                        <th scope="col">Due</th>
                                         <th scope="col">Balance</th>
                                         <th scope="col">Receive By</th>
                                         <th scope="col">Payment System</th>
@@ -57,12 +70,13 @@
                                     <td>{{$transection_table-> description }}</td>
                                     <td>{{$transection_table-> debit }}</td>
                                     <td>{{$transection_table-> credit }}</td>
+                                    <td>{{$transection_table-> due }}</td>
                                     <td>{{$transection_table-> balance }}</td>
                                     <td>{{$transection_table-> receiveby }}</td>
                                     <td>{{$transection_table-> paymentSystem }}</td>
                                     <td>
                                         <a class="btn btn-warning" href="{{ route('accounts-edit.edit',$transection_table-> id ) }}">Edit</a>
-                                        <a class="btn btn-danger" href="{{ route('accounts-entry.destroy',$transection_table -> id ) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</i></a>
+                                        <a class="btn btn-danger delete-btn" href="{{ route('accounts-entry.destroy',$transection_table -> id ) }}">Delete</i></a>
                                     </td>
                                 </tr>
                                 @empty

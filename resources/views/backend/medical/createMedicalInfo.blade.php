@@ -6,7 +6,17 @@
 <!-- form start -->
 <div class="container-fluid pt-4">
     <div class="container">
-        <form method="post" action="{{ route('medical.store') }}">
+
+        @if ($errors -> any())
+            <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+        @endif
+
+        @if( Session::has('success'))
+            <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
+        @endif
+
+
+        <form method="post" action="{{route('medical.store')}}">
             @csrf
             <div class="bg-light rounded h-100 p-4">
                 <h4 class="mb-4">Medical Application Status Update</h4>
@@ -39,6 +49,7 @@
     </div>
 </div>
 <!-- form End -->
+
 
 
 @endsection

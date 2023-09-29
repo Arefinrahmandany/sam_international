@@ -86,7 +86,7 @@ Route::get('visa-status-show/{id}',[Visa_status_checkController::class, 'show'])
 Route::get('visa-status-edit/{id}',[Visa_status_checkController::class, 'edit']) -> name('visa-status.edit');
 Route::get('visa-status',[Visa_status_checkController::class, 'index']) -> name('visa-status.index');
 Route::get('visa-status-destroy/{id}',[Visa_status_checkController::class, 'destroy']) -> name('visa-status.destroy');
-Route::post('visa-status-store/{id}',[Visa_status_checkController::class, 'store']) -> name('visa-status.store');
+Route::post('visa-status-store',[Visa_status_checkController::class, 'store']) -> name('visa-status.store');
 Route::get('visa-status-create',[Visa_status_checkController::class, 'create']) -> name('visa-status.create');
 
 
@@ -109,7 +109,7 @@ Route::get('visa-agency-create',[VisaagencyController::class, 'create']) -> name
 Route::get('visa-agency-edit/{id}',[VisaagencyController::class, 'edit']) -> name('visa-agency.edit');
 Route::get('visa-agency-show/{id}',[VisaagencyController::class, 'show']) -> name('visa-agency.show');
 Route::get('visa-agency-destroy/{id}',[VisaagencyController::class, 'destroy']) -> name('visa-agency.destroy');
-Route::post('visa-agency-store/{id}',[VisaagencyController::class, 'store']) -> name('visa-agency.store');
+Route::post('visa-agency-store',[VisaagencyController::class, 'store']) -> name('visa-agency.store');
 
 
 

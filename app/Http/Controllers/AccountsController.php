@@ -6,25 +6,35 @@ use App\Models\Agents;
 use App\Models\Accounts;
 use Illuminate\Http\Request;
 
+
+
+
+
 class AccountsController extends Controller
 {
     /**
      * method for calculet balance.
      */
+
     public function calculateBalances($transections)
     {
-    $balance = 0;
+        $balance = 0;
 
-    foreach ($transections as $transection) {
-        $debit = floatval($transection->debit);
-        $credit = floatval($transection->credit);
+        foreach ($transections as $transection) {
+            $debit = floatval($transection->debit);
+            $credit = floatval($transection->credit);
 
-        $balance += ($debit - $credit);
+            // Calculate due by deducting debit and then credit from the balance
+            $due = $debit - $credit;
 
-        $transection->balance = $balance;
-    }
+            $balance += $due;
 
-    return $transections;
+            // Set the due and balance values in the transection object
+            $transection->due = $due;
+            $transection->balance = $balance;
+        }
+
+        return $transections;
 }
 
 
@@ -34,7 +44,7 @@ class AccountsController extends Controller
     public function index()
     {
         $agents = Agents::all();
-        $transection_data = Accounts::all();
+        $transection_data = Accounts::latest() -> get();
         $transections = $this->calculateBalances($transection_data);
             return view('backend.accounts.accounts',[
                 'all_agents'=> $agents,
@@ -45,7 +55,7 @@ class AccountsController extends Controller
     public function balancesheet()
     {
         $agents = Agents::all();
-        $transection_data = Accounts::all();
+        $transection_data = Accounts::latest() -> get();
         $transections = $this->calculateBalances($transection_data);
             return view('backend.accounts.account-invoice-table',[
                 'all_agents'=> $agents,
@@ -101,8 +111,21 @@ class AccountsController extends Controller
             $data['receiveFrom'] = $request->receiveFrom;
         }
 
+
          // Create a new record in the 'Accounts' model using the $data array
-        Accounts::create($data);
+
+    $newPayment = Accounts::create($data);
+
+    // Update the agent's balance if the payment was made to an agent
+    if (!empty($request->agent_id)) {
+        $agent = Agents::find($request->agent_id);
+
+        if ($agent) {
+            $paymentAmount = floatval($request->amount);
+            $agent->credit += $paymentAmount; // Increase credit for received payment
+            $agent->balance = $agent->credit - $agent->debit; // Calculate the new balance
+            $agent->save(); // Save the agent's updated balance
+        }
 
         // Store the data in the session
     $request->session()->put('receiptData', $data);
@@ -110,6 +133,7 @@ class AccountsController extends Controller
          // Redirect back to the same page with a success message
         return redirect()->route('accounts/receipt.showReceipt');
     }
+}
     public function showReceipt(Request $request)
 {
     // Retrieve data to be displayed on the receipt

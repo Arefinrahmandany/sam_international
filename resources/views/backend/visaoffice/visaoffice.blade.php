@@ -17,12 +17,11 @@
         <!-- row -->
 
         <div class="container-fluid">
-            <h6 class="card-title p-3">Back</h6>
             <h4 class="card-title p-3">Visa Agencies</h4>
             <div class="table-responsive">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-3"><a class="btn btn-primary" href="{{route('agent.create')}}" role="button">Add Visa Agency</a></h6>
+                        <h6 class="mb-3"><a class="btn btn-primary" href="{{route('visa-agency.create')}}" role="button">Add Visa Agency</a></h6>
                         <a href="" class="text-dark">Show All</a>
                     </div>
                     <!-- Search Button -->
@@ -57,7 +56,7 @@
                                     <td>
                                         <a class="btn btn-primary" href="" role="button">View</a>
                                         <a class="btn btn-warning" href="{{ route('visa-agency.edit',$visaOffice -> id ) }}">Edit</a>
-                                        <a class="btn btn-danger"   onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('visa-agency.destroy',$visaOffice -> id ) }}">Delete</i></a>
+                                        <a class="btn btn-danger delete-btn" href="{{ route('visa-agency.destroy',$visaOffice -> id ) }}">Delete</i></a>
                                     </td>
                                 </tr>
                                 @empty

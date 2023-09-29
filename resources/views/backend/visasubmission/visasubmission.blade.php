@@ -17,7 +17,6 @@
         <!-- row -->
 
         <div class="container-fluid">
-            <h6 class="card-title p-3">Back</h6>
             <h4 class="card-title p-3">Visa Application</h4>
             <div class="table-responsive">
                 <div class="bg-light text-center rounded p-4">
@@ -57,7 +56,7 @@
                                     <td>{{$visaSubmissionData -> application_date }}</td>
                                     <td>
                                         <a class="btn btn-warning" href="{{ route('visa-application.edit',$visaSubmissionData -> id)}}">Edit</a>
-                                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('visa-application.destroy', $visaSubmissionData -> id) }}">Delete</i></a>
+                                        <a class="btn btn-danger delete-btn" href="{{ route('visa-application.destroy', $visaSubmissionData -> id) }}">Delete</i></a>
                                     </td>
                                 </tr>
                                 @empty

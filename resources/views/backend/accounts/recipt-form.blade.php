@@ -53,7 +53,7 @@
                                                                 <select class="form-control" id="val-skill" name="byAgent">
                                                                     <option value="">Select an Agent</option>
                                                                     @forelse ($all_agents as $agent)
-                                                                        <option value="{{ $agent->name }}">{{ $agent->name }}</option>
+                                                                        <option value="{{ $agent->id }}">{{ $agent->name }}</option>
                                                                     @empty
                                                                     @endforelse
                                                                 </select>

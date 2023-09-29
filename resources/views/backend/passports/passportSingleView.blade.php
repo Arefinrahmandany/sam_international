@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <img src="{{ base64_encode($passport_data->photos) }}" alt="Image" width="15px">
+                        <img src="{{ url('storage/passports/'. $passport_data -> photo ) }}" alt="Image" width="15px">
                         <div class="mt-3">
                             <h4>{{ $passport_data -> name}}</h4>
                             <p class="text-muted font-size-sm">{{ $passport_data -> address}}</p>
