@@ -1,22 +1,4 @@
-
-(function ($) {
-    function printTable() {
-    // Clone the table and remove both the first and last columns
-    var printableTable = document.querySelector('table').cloneNode(true);
-    var rows = printableTable.querySelectorAll('tr');
-    for (var i = 0; i < rows.length; i++) {
-        var checkbox = rows[i].querySelector('input[type="checkbox"]');
-        if (checkbox && checkbox.checked) {
-            rows[i].removeChild(rows[i].firstElementChild); // Remove first column
-            var lastCell = rows[i].lastElementChild;
-            if (lastCell) {
-                rows[i].removeChild(lastCell); // Remove last column
-            }
-        } else {
-            rows[i].remove(); // Remove the entire row if checkbox is not checked
-        }
-    }
-
+/*
     // table Print
 function printTable() {
     // Clone the table and remove both the first and last columns
@@ -54,34 +36,13 @@ function printTable() {
     printWindow.print();
     printWindow.close();
 }
-
-
-    // Open a new window for printing
-    var printWindow = window.open('', '_blank');
-
-    // Add the table content to the new window
-    printWindow.document.write('<html><head><title>Printed Table</title>');
-    printWindow.document.write('<style>');
-    printWindow.document.write('table { border-collapse: collapse; width: 100%; border: 1px solid #000; }');
-    printWindow.document.write('th, td { border: 1px solid #000; padding: 8px; text-align: left; }');
-    printWindow.document.write('</style>');
-    printWindow.document.write('</head><body>');
-    printWindow.document.write('<h1>Agents</h1>');
-    printWindow.document.write(printableTable.outerHTML);
-    printWindow.document.write('</body></html>');
-
-    // Close the new window after printing is done
-    printWindow.document.close();
-    printWindow.print();
-    printWindow.close();
-}
-
+*/
 // Recipt Print
 
 
 
  // Function to trigger the print dialog
- function printReceipt() {
+function printReceipt() {
     var printContents = document.querySelector('.invoice-box').outerHTML;
     var originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
@@ -121,8 +82,21 @@ $(document).ready( function () {
 
 "use strict";
 
+//Auto- Genarate Invoice number
+    document.addEventListener('DOMContentLoaded', function () {
+        const transactionNumberInput = document.getElementById('invoiceNumber');
+        const form = document.querySelector('form');
 
+        form.addEventListener('submit', function () {
+            // Generate a unique transaction number using the current timestamp
+            const timestamp = new Date().getTime();
+            const randomString = Math.random().toString(36).substring(7);
+            const transactionNumber = timestamp + randomString;
 
+            // Populate the transaction number in the input field
+            transactionNumberInput.value = transactionNumber;
+        });
+    });
 
 // Back to top button
 $(window).scroll(function () {
@@ -317,23 +291,27 @@ var myChart6 = new Chart(ctx6, {
 });
 
 **/
+
+$(document).ready(function(){
+
+});
+
     // Sidebar Toggler
     $('.sidebar-toggler').click(function () {
         $('.sidebar, .content').toggleClass("open");
         return false;
     });
 
-$('#photo').change(function(e){
+    $('#photo').change(function(e){
 
-    let url = URL.createObjectURL(e.target.files[0]);
-    $('#preload').attr('src', url);
-});
+        let url = URL.createObjectURL(e.target.files[0]);
+        $('#preload').attr('src', url);
+    });
 
-$('.sidebar-toggler').click(function () {
-$('.sidebar, .content').toggleClass("open");
-return false;
-});
-})
+    $('.sidebar-toggler').click(function () {
+    $('.sidebar, .content').toggleClass("open");
+    return false;
+    });
 
 
 // script For Search data from table
@@ -413,8 +391,6 @@ const balanceAmount = document.getElementById("balanceAmount");
 balanceAmount.textContent = balance.toFixed(2);
 });
 */
-
-
 
 
 

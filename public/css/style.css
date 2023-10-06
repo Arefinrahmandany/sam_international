@@ -39,8 +39,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 .gradient-5 {
   background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%); }
 
-.gradient-6 {
-  background-image: linear-gradient(135deg, #97ABFF 10%, #123597 100%); }
+.gradient_6 {
+    background-color: black;
+}
 
 .gradient-7 {
   background-image: linear-gradient(135deg, #3C8CE7 10%, #00EAFF 100%); }
@@ -14893,10 +14894,10 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 /*** Navbar ***/
 .sidebar .navbar .navbar-nav .nav-link {
+    font-size: 1rem;
     padding: 7px 20px;
     color: var(--dark);
-    font-weight: 500;
-    border-left: 3px solid var(--light);
+    font-weight: 800;
     border-radius: 0 30px 30px 0;
     outline: none;
 }
@@ -15261,6 +15262,7 @@ th, td {
       margin-right: 0; /* Remove margin on smaller screens */
   }
 }
+
 
 
 

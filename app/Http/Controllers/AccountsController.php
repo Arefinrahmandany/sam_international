@@ -23,15 +23,19 @@ class AccountsController extends Controller
         foreach ($transections as $transection) {
             $debit = floatval($transection->debit);
             $credit = floatval($transection->credit);
+            $due = floatval($transection->due);
 
+            // Calculate the balance for the current transaction
+        $transection->balance = $balance + $debit - $credit + $due;
+
+        // Update the running balance for the next iteration
+        $balance = $transection->balance;
+
+/*
             // Calculate due by deducting debit and then credit from the balance
-            $due = $debit - $credit;
+            $balance = $debit - $credit;
 
-            $balance += $due;
-
-            // Set the due and balance values in the transection object
-            $transection->due = $due;
-            $transection->balance = $balance;
+            $transection->balance = $balance;*/
         }
 
         return $transections;
@@ -117,6 +121,7 @@ class AccountsController extends Controller
     $newPayment = Accounts::create($data);
 
     // Update the agent's balance if the payment was made to an agent
+
     if (!empty($request->agent_id)) {
         $agent = Agents::find($request->agent_id);
 
@@ -128,10 +133,11 @@ class AccountsController extends Controller
         }
 
         // Store the data in the session
+
     $request->session()->put('receiptData', $data);
 
          // Redirect back to the same page with a success message
-        return redirect()->route('accounts/receipt.showReceipt');
+        return redirect()->route('accounts-receipt.showReceipt');
     }
 }
     public function showReceipt(Request $request)

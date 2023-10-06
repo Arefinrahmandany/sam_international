@@ -79,20 +79,18 @@
                         <a href="" class="text-dark">Show All</a>
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0" id="transaction-table">
                             <thead>
                                 <tr class="text-dark">
                                     <tr>
-                                        <td><input class="form-check-input" type="checkbox" id="selectAll" checked></td>
                                         <th scope="col">Date</th>
-
                                         <th scope="col">Invoice Number</th>
                                         <th scope="col">Payment By</th>
                                         <th scope="col">Description</th>
-                                        <th scope="col">Debit</th>
-                                        <th scope="col">Credit</th>
-                                        <th scope="col">Due</th>
-                                        <th scope="col">Balance</th>
+                                        <th scope="col">Debit</th> 
+                                        <th scope="col">Due</th>  
+                                        <th scope="col">Credit</th>                                     
+                                        <th scope="col">Balance</th> 
                                         <th scope="col">Receive By</th>
                                         <th scope="col">Payment System</th>
                                         <th>Action</th>
@@ -102,14 +100,13 @@
                             <tbody>
                                 @forelse (  $transections as  $transection_table)
                                 <tr>
-                                    <td><input class="form-check-input" type="checkbox" id="selectAll"></td>
                                     <td>{{$transection_table->created_at->format('d/m/Y')}}</td>
                                     <td>{{$transection_table->invoiceNumber}}</td>
                                     <td>{{$transection_table-> receiveFrom }}</td>
                                     <td>{{$transection_table-> description }}</td>
                                     <td>{{$transection_table-> debit }}</td>
-                                    <td>{{$transection_table-> credit }}</td>
-                                    <td>{{$transection_table-> due }}</td>
+                                    <td>{{$transection_table-> due }}</td>   
+                                    <td>{{$transection_table-> credit }}</td>                                     
                                     <td>{{$transection_table-> balance }}</td>
                                     <td>{{$transection_table-> receiveby }}</td>
                                     <td>{{$transection_table-> paymentSystem }}</td>

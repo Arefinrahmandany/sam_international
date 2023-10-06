@@ -30,59 +30,54 @@
                         <button for="searchInput" class="search-button" id="searchButton">Search</button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-dark">
-                                    <tr>
-                                        <td><input class="form-check-input" type="checkbox" id="selectAll" checked></td>
-                                            <th scope="col">Sl.</th>
-                                            <th scope="col">Passport Number</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Phone</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Applying Country</th>
-                                            <th scope="col">Agent Name</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Photo</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ( $all_data as $passports)
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" id="selectAll"></td>
-                                    <td>{{$loop-> index + 1}}</td>
-                                    <td>{{$passports -> passport_number }}</td>
-                                    <td>{{$passports -> name }}</td>
-                                    <td>{{$passports -> email }}</td>
-                                    <td>{{$passports -> phone }}</td>
-                                    <td>{{$passports -> address }}</td>
-                                    <td>{{$passports -> applying_country }}</td>
-                                    <td>{{$passports -> agent_via }}</td>
-                                    <td>{{$passports -> amount }}</td>
-                                    <td><img src="{{ url('storage/passports/'. $passports -> photo ) }}" style="height:100px; width: auto;"></td>
-                                    <td>
-                                        <a class="btn btn-primary" href="{{ route('passports.show',$passports -> id) }}" role="button">View</a>
-                                        <a class="btn btn-warning" href="{{ route('passports.edit',$passports -> id ) }}">Edit</a>
-                                        <a class="btn btn-danger  delete-btn" href="{{ route('passports.destroy',$passports -> id ) }}">Delete</i></a>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="12">No Data found.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table text-start align-middle table-bordered table-hover mb-0" id="transaction-table">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col"><input class="form-check-input" type="checkbox" id="selectAll" checked></th>
+                                <th scope="col">Sl.</th>
+                                <th scope="col">Passport Number</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Applying Country</th>
+                                <th scope="col">Agent Name</th>
+                                <th scope="col">Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($all_data as $passport)
+                            <tr>
+                                <td><input class="form-check-input" type="checkbox" id="selectAll"></td>
+                                <td>{{$loop->index + 1}}</td>
+                                <td>{{$passport->passport_number}}</td>
+                                <td>{{$passport->name}}</td>
+                                <td>{{$passport->email}}</td>
+                                <td>{{$passport->phone}}</td>
+                                <td>{{$passport->address}}</td>
+                                <td>{{$passport->applying_country}}</td>
+                                <td>{{$passport->agent_via}}</td>
+                                <td>{{$passport->amount}}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="{{ route('passports.show', $passport->id) }}" role="button">View</a>
+                                    <a class="btn btn-warning" href="{{ route('passports.edit', $passport->id) }}">Edit</a>
+                                    <a class="btn btn-danger delete-btn" href="{{ route('passports.destroy', $passport->id) }}">Delete</a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="11">No Data found.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
+            </div>
                 <!-- Recent Sales End -->
-            </div>
-            <div class="container-fluid mb-3 p-4">
-                <button type="button" onclick="printTable()" id="print-button" class="btn btn-primary mb-3">Print</button>
-            </div>
+        </div>
+        <div class="container-fluid mb-3 p-4">
+            <button type="button" onclick="printTable()" id="print-button" class="btn btn-primary mb-3">Print</button>
         </div>
 
         <!-- #/ container -->

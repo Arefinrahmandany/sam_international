@@ -14,8 +14,9 @@ class NewPassport extends Model
     protected $table = 'new_passports';
 
     //table names
-    protected $fillable = ['passport_number','name','email','phone','address','applying_country','agent_via','amount','photos'];
-
+    //protected $fillable = ['passport_number','name','email','phone','address','applying_country','agent_via','amount','photos'];
+    protected $guarded =[];
+    
     // hidden for api
     protected $hidden = ['phone','email'];
 

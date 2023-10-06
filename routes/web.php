@@ -37,7 +37,7 @@ Route::get('balance-sheet',[AccountsController::class, 'balancesheet']) -> name(
 Route::get('accounts-edit/{id}',[AccountsController::class, 'edit']) -> name('accounts-edit.edit');
 Route::post('accounts-update/{id}',[AccountsController::class, 'update']) -> name('accounts-edit.update');
 Route::get('accounts-entry-destroy/{id}',[AccountsController::class, 'destroy']) -> name('accounts-entry.destroy');
-Route::get('accounts/receipt',[AccountsController::class, 'showReceipt']) -> name('accounts/receipt.showReceipt');
+Route::get('accounts/receipt',[AccountsController::class, 'showReceipt']) -> name('accounts-receipt.showReceipt');
 
 
 
@@ -82,6 +82,7 @@ Route::post('VisaApplication-store}',[VisasubmissionController::class, 'store'])
 
 
 //Route for Visa Status
+
 Route::get('visa-status-show/{id}',[Visa_status_checkController::class, 'show']) -> name('visa-status.show');
 Route::get('visa-status-edit/{id}',[Visa_status_checkController::class, 'edit']) -> name('visa-status.edit');
 Route::get('visa-status',[Visa_status_checkController::class, 'index']) -> name('visa-status.index');
@@ -91,7 +92,6 @@ Route::get('visa-status-create',[Visa_status_checkController::class, 'create']) 
 
 
 //Route for Passports Eligibility
-
 Route::get('Eligibility',[PassporteligibilityController::class, 'index']) -> name('Eligibility.index');
 Route::get('EligibilityCreate',[PassporteligibilityController::class, 'create']) -> name('Eligibility.create');
 Route::get('Eligibility/{id}',[PassporteligibilityController::class, 'show']) -> name('Eligibility.show');

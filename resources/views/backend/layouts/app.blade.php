@@ -37,10 +37,10 @@
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Sidebar Start -->
-        <div class="sidebar text-bg-primary" id="sidebar">
+        <div class="sidebar text-bg-primary" id="sidebar" style="background-color:#7b4fcd;">
             <nav class="navbar">
                 <a href="{{ route('accounts-home.index') }}" class="navbar-brand mx-4 mb-3">
-                    <h4 class="text-primary">Sam International</h4>
+                    <h3 class="text-white samp"><b>Sam International</b></h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -78,9 +78,9 @@
         <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-0">
-                <a href="" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                </a>
+                    <a href="" class="navbar-brand d-flex d-lg-none me-4">
+                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                    </a>
                 <a href="" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
@@ -154,10 +154,10 @@
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/cdn.datatables.net_v_dt_dt-1.13.6_datatables.min.js') }}"></script>
     <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 
     <!-- Template Javascript -->
     <script src="{{asset('assets/js/main.js') }}"></script>
-    <script src="{{asset('js/main.js')}}"></script>
 </body>
 
 </html>

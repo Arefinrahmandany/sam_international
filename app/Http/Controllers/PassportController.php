@@ -46,29 +46,50 @@ class PassportController extends Controller
      */
     public function store(Request $request)
     {
+
         //validate
         $this-> validate($request,[
             'passpoertNumber' => 'required',
             'name' => 'required',
             'phone' => 'required|starts_with:01,0088,+88,02|unique:new_passports',
-            'email' => 'email| unique:new_passports',
+            'email' => 'email',
             'payment' => 'integer',
         ]);
 
 
        //Photo upload
+    /*single file upload function
         if( $request -> hasFile('photo')){
+
 
             $img = $request -> file('photo');
 
             $file_name = md5(time().rand()) . '. ' .  $img -> clientExtension();
 
-            $img -> move(storage_path('app/public/passports/'), $file_name);
+            $img -> move(public_path('photos/passportsPaper/'), $file_name);
 
         }else{
 
-            $file_name = NULL;
+            $file_name = null;
 
+        }*/
+        $fileNames = []; // Create an array to store the generated file names
+
+        if ($request->hasFile('photo')) {
+
+            foreach ($request->file('photo') as $index => $img) {
+
+        // Generate a unique file name for each uploaded photo
+                $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
+
+        // Move the uploaded file to the destination directory with the unique file name
+                $img->move(public_path('photos/passportsPaper/'), $file_name);
+
+        // Add the file name to the array
+                $fileNames[] = $file_name;
+            }
+        } else {
+            $fileNames = []; // If no files were uploaded, initialize the array as empty
         }
 
         NewPassport::create([
@@ -80,12 +101,13 @@ class PassportController extends Controller
             'applying_country' => $request -> applying_country,
             'agent_via' => $request -> agents,
             'amount' => $request -> payment,
-            'photos' => $file_name,
+            'photos' => implode('|', $fileNames),
         ]);
 
         //validate
         Accounts::create([
             'receiveFrom' => $request -> agents,
+            'description' => $request -> passpoertNumber . $request -> visa_process,
             'due' => $request -> payment,
         ]);
 
@@ -107,7 +129,7 @@ class PassportController extends Controller
     public function show($id)
     {
 
-        $image = NewPassport::find($id);
+        $image = NewPassport::findorfail($id);
 
         if (!$image) {
             abort(404);

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('applying_country');
             $table->string('agent_via');
             $table->integer('amount');
-            $table->string('photos')->nullable();
+            $table->text('photos')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('tresh')->default(false);
             $table->timestamps();

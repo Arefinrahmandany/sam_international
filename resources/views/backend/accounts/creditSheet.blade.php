@@ -38,13 +38,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-3">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="val-username">Invoce Number <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="val-username" name="invoiceNumber" placeholder="Invoce Number">
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
 
                                             <div class="col-4">
