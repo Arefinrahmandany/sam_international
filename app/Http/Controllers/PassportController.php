@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Image;
-use App\Models\Agents;
+use App\Mail\SendMail;
 
+use App\Models\Agents;
 use App\Models\Accounts;
 use App\Models\countries;
-use App\Mail\SendMail;
+use App\Mail\notification;
 use App\Models\NewPassport;
 use Illuminate\Http\Request;
 use function Termwind\render;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\NewPassportNotification;
 
 class PassportController extends Controller
 {
@@ -92,7 +94,7 @@ class PassportController extends Controller
             $fileNames = []; // If no files were uploaded, initialize the array as empty
         }
 
-        NewPassport::create([
+        $newPassport = NewPassport::create([
             'passport_number' => $request -> passpoertNumber,
             'name' => $request -> name,
             'email' => $request -> email,
@@ -104,7 +106,18 @@ class PassportController extends Controller
             'photos' => implode('|', $fileNames),
         ]);
 
-        //validate
+        $newPassportdata = [
+            'passport_number' => $request -> passpoertNumber,
+            'name' => $request -> name,
+            'email' => $request -> email,
+            'applying_country' => $request -> applying_country,
+            'agent_via' => $request -> agents,
+        ];
+
+
+        $newPassport -> notify( new NewPassportNotification($newPassportdata));
+
+        //send data to Accounts Table
         Accounts::create([
             'receiveFrom' => $request -> agents,
             'description' => $request -> passpoertNumber . $request -> visa_process,
@@ -112,9 +125,10 @@ class PassportController extends Controller
         ]);
 
         // Send confirmation email
-        Mail::to($request->email)->send(new SendMail([
+        Mail::to($request->email)->send(new sendMail ([
             'name' => $request->name, // Pass any additional data you want to include in the email
             'passport_number' => $request -> passpoertNumber,
+            'amount' => $request -> payment,
         ]));
 
     //redirect to back same page

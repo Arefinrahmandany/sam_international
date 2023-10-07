@@ -28,15 +28,6 @@
                             <button for="searchInput" class="search-button" id="searchButton">Search</button>
                             <a href="" class="text-dark">Show All</a>
                         </div>
-                        <div class="col-3 ">
-                            <label for="rowsPerPage">Show:</label>
-                            <select id="rowsPerPage">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
                     </div>
 
                     <div class="table-responsive">
@@ -44,9 +35,7 @@
                             <thead>
                                 <tr class="text-dark">
                                     <tr>
-                                        <td><input class="form-check-input" type="checkbox" id="selectAll" checked></td>
                                         <th scope="col">Date</th>
-
                                         <th scope="col">Invoice Number</th>
                                         <th scope="col">Payment By</th>
                                         <th scope="col">Description</th>
@@ -63,7 +52,6 @@
                             <tbody>
                                 @forelse (  $transections as  $transection_table)
                                 <tr>
-                                    <td><input class="form-check-input" type="checkbox" id="selectAll"></td>
                                     <td>{{$transection_table->created_at->format('d/m/Y')}}</td>
                                     <td>{{$transection_table->invoiceNumber}}</td>
                                     <td>{{$transection_table-> receiveFrom }}</td>
@@ -86,6 +74,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+
+                        {{ $transections -> links() }}
+
                     </div>
                 </div>
                 <!-- Recent Sales End -->

@@ -56,13 +56,38 @@ class AgentsController extends Controller
      */
     public function show($id)
     {
-
-        $all_data = Agents::findorfail($id);
+        $agent = Agents::findOrFail($id);
         $transactions = Accounts::where('receiveFrom', $id)->get();
-        return view('backend.agents.agentSingleView',[
-            'all_data' => $all_data,
-            'transections' => $transactions
-            ]);
+
+        // Initialize the balance and due to 0 for the first transaction
+        $balance = 0;
+        $due = 0;
+
+        foreach ($transactions as $transaction) {
+            $debit = floatval($transaction->debit);
+            $credit = floatval($transaction->credit);
+
+            // Calculate the due for the current transaction
+            $currentDue = $debit - $credit;
+
+            // Calculate the balance for the current transaction
+            $balance = $balance + $debit - $credit + $currentDue;
+
+            // Assign the calculated balance and due to the current transaction
+            $transaction->balance = $balance;
+            $transaction->due = $currentDue;
+
+            // Update the total due amount
+            if ($currentDue > 0) {
+                $due += $currentDue;
+            }
+        }
+
+        return view('backend.agents.agentSingleView', [
+            'all_data' => $agent,
+            'transactions' => $transactions,
+            'due' => $due, // Pass the total due amount to the view
+        ]);
     }
 
     /**

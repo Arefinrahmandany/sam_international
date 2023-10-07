@@ -23,19 +23,12 @@ class AccountsController extends Controller
         foreach ($transections as $transection) {
             $debit = floatval($transection->debit);
             $credit = floatval($transection->credit);
-            $due = floatval($transection->due);
+
 
             // Calculate the balance for the current transaction
-        $transection->balance = $balance + $debit - $credit + $due;
+        $balance = $debit - $credit;
 
-        // Update the running balance for the next iteration
-        $balance = $transection->balance;
-
-/*
-            // Calculate due by deducting debit and then credit from the balance
-            $balance = $debit - $credit;
-
-            $transection->balance = $balance;*/
+            $transection->balance = $balance;
         }
 
         return $transections;
@@ -48,7 +41,7 @@ class AccountsController extends Controller
     public function index()
     {
         $agents = Agents::all();
-        $transection_data = Accounts::latest() -> get();
+        $transection_data = Accounts::latest() -> paginate(5);
         $transections = $this->calculateBalances($transection_data);
             return view('backend.accounts.accounts',[
                 'all_agents'=> $agents,
@@ -59,7 +52,7 @@ class AccountsController extends Controller
     public function balancesheet()
     {
         $agents = Agents::all();
-        $transection_data = Accounts::latest() -> get();
+        $transection_data = Accounts::latest() -> paginate(5);
         $transections = $this->calculateBalances($transection_data);
             return view('backend.accounts.account-invoice-table',[
                 'all_agents'=> $agents,

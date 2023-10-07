@@ -87,10 +87,10 @@
                                         <th scope="col">Invoice Number</th>
                                         <th scope="col">Payment By</th>
                                         <th scope="col">Description</th>
-                                        <th scope="col">Debit</th> 
-                                        <th scope="col">Due</th>  
-                                        <th scope="col">Credit</th>                                     
-                                        <th scope="col">Balance</th> 
+                                        <th scope="col">Debit</th>
+                                        <th scope="col">Due</th>
+                                        <th scope="col">Credit</th>
+                                        <th scope="col">Balance</th>
                                         <th scope="col">Receive By</th>
                                         <th scope="col">Payment System</th>
                                         <th>Action</th>
@@ -105,8 +105,8 @@
                                     <td>{{$transection_table-> receiveFrom }}</td>
                                     <td>{{$transection_table-> description }}</td>
                                     <td>{{$transection_table-> debit }}</td>
-                                    <td>{{$transection_table-> due }}</td>   
-                                    <td>{{$transection_table-> credit }}</td>                                     
+                                    <td>{{$transection_table-> due }}</td>
+                                    <td>{{$transection_table-> credit }}</td>
                                     <td>{{$transection_table-> balance }}</td>
                                     <td>{{$transection_table-> receiveby }}</td>
                                     <td>{{$transection_table-> paymentSystem }}</td>
@@ -122,6 +122,7 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        {{ $transections -> links() }}
                     </div>
                 </div>
                 <!-- Recent Sales End -->

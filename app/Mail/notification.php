@@ -3,14 +3,17 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Symfony\Component\Mailer\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class notification extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $mailData;
+
 
     // Add a constructor with the required arguments
     public function __construct($mailData)
@@ -18,16 +21,6 @@ class notification extends Mailable
         $this->mailData = $mailData;
     }
 
-    /**
-     *  Get the messege Envelop
-     */
-
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'EmailNotification',
-        );
-    }
 
     /**
      * Get the message content definition.
@@ -35,9 +28,8 @@ class notification extends Mailable
     public function build()
     {
         return $this
-        ->from('arefinrahman.dany@gmail.com')
-        ->subject('you are getting test notification')
+        ->from('sayemtimecenter.naviforce@gmail.com')
+        ->subject('We Collect your passport')
         ->view('backend.mail.email');
-
     }
 }
