@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Image;
+
 use App\Mail\SendMail;
 
 use App\Models\Agents;
@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use function Termwind\render;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\NewPassportNotification;
+use Intervention\Image\Facades\Image;
 
 class PassportController extends Controller
 {
@@ -75,23 +76,20 @@ class PassportController extends Controller
             $file_name = null;
 
         }*/
-        $fileNames = []; // Create an array to store the generated file names
 
-        if ($request->hasFile('photo')) {
 
-            foreach ($request->file('photo') as $index => $img) {
+        if( $request -> hasFile('photo')){
 
-        // Generate a unique file name for each uploaded photo
-                $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
 
-        // Move the uploaded file to the destination directory with the unique file name
-                $img->move(public_path('photos/passportsPaper/'), $file_name);
+            $img = $request -> file('photo');
 
-        // Add the file name to the array
-                $fileNames[] = $file_name;
-            }
-        } else {
-            $fileNames = []; // If no files were uploaded, initialize the array as empty
+            $file_name = md5(time().rand()) . '. ' .  $img -> clientExtension();
+
+            $img -> move(public_path('photos/passportsPaper/'), $file_name);
+
+        }else{
+
+            $file_name = null;
         }
 
         $newPassport = NewPassport::create([
@@ -103,7 +101,7 @@ class PassportController extends Controller
             'applying_country' => $request -> applying_country,
             'agent_via' => $request -> agents,
             'amount' => $request -> payment,
-            'photos' => implode('|', $fileNames),
+            'photos' => $file_name,
         ]);
 
         $newPassportdata = [

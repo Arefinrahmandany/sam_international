@@ -103,7 +103,7 @@
 
                         <div>
                             <label for="photo" class="form-label">Photos</label>
-                            <input class="form-control form-control-lg" name="photo[]" id="photo" type="file" multiple>
+                            <input class="form-control form-control-lg" name="photo" id="photo" type="file">
                         </div><br>
 
 

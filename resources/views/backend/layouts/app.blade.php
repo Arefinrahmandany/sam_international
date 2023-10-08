@@ -128,10 +128,12 @@
             </nav>
             <!-- Navbar End -->
 
-            @section('main-content')
             <section class="p-3 mb-2 bg-warning-subtle text-emphasis-warning">
                 <p>@yield('page-name','This is page name') / @yield('page-sub-title','This is our sub title')</p>
             </section>
+
+            @section('main-content')
+
 
 
             @show
