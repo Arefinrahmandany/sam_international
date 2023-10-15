@@ -13,7 +13,7 @@ class Visa_status_checkController extends Controller
     public function index()
     {
         $data = VisaApplicationStatus::all();
-        return view('backend.status.status',[
+        return view('backend.page.status.status',[
         'all_data' => $data
         ]);
     }

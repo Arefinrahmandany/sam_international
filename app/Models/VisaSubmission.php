@@ -14,6 +14,6 @@ class VisaSubmission extends Model
     protected $table = 'visa_submissions';
 
     //table names
-    protected $fillable = ['passport_number','applyingcountry','agency','application_date'];
+    protected $guarded =[];
 
 }

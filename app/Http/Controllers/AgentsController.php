@@ -25,7 +25,7 @@ class AgentsController extends Controller
      */
     public function create()
     {
-        return view('backend.agents.agentCretae');
+        return view('backend.page.agents.agentCretae');
     }
 
     /**

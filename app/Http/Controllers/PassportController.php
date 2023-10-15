@@ -25,7 +25,7 @@ class PassportController extends Controller
     public function index()
     {
         $data = NewPassport::latest() -> get();
-        return view('backend.passports.passports',[
+        return view('backend.page.passports.passports',[
             'all_data' => $data
 
         ]);

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('nid')->nullable();
             $table->integer('debit')->nullable();
             $table->integer('credit')->nullable();
-            $table->integer('balance');
             $table->string('address')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('tresh')->default(false);

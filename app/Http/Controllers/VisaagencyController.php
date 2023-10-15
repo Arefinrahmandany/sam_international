@@ -13,7 +13,7 @@ class VisaagencyController extends Controller
     public function index()
     {
         $visaOffice = VisaApplicationOffice::all();
-        return view('backend.visaoffice.visaoffice',[
+        return view('backend.page.visaoffice.visaoffice',[
             'visaOffice_data' => $visaOffice
         ]);
     }

@@ -15,7 +15,7 @@ class VisasubmissionController extends Controller
     public function index()
     {
         $visaSubmissionData = VisaSubmission::all();
-        return view('backend.visasubmission.visasubmission',[
+        return view('backend.page.visasubmission.visasubmission',[
             'visaSubmissionData' => $visaSubmissionData
         ]);
 

@@ -43,7 +43,7 @@ class AccountsController extends Controller
         $agents = Agents::all();
         $transection_data = Accounts::latest() -> paginate(5);
         $transections = $this->calculateBalances($transection_data);
-            return view('backend.accounts.accounts',[
+            return view('backend.page.accounts.accounts',[
                 'all_agents'=> $agents,
                 'transections' => $transection_data
             ]);

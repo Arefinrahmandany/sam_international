@@ -13,7 +13,7 @@ class TransectionController extends Controller
     public function index()
     {
          $all_data = Transaction::latest() -> get();
-        return view('backend.accounts.balanceSheet',[
+        return view('backend.page.accounts.balanceSheet',[
             'all_Transaction' => $all_data
         ]);
 

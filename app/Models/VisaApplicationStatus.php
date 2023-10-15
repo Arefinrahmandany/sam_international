@@ -14,7 +14,7 @@ class VisaApplicationStatus extends Model
     protected $table = 'visa_application_statuses';
 
     //table names
-    protected $fillable = ['passport_number','visa_status','issueDate','expiryDate'];
+    protected $guarded =[];
 
 
 

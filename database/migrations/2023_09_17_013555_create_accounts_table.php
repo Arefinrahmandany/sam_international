@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('receiveby')->nullable();
             $table->string('paymentSystem');
+            $table->boolean('status')->default(true);
+            $table->boolean('tresh')->default(false);
             $table->timestamps();
         });
     }

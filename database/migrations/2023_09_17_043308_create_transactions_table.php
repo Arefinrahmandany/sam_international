@@ -16,6 +16,8 @@ return new class extends Migration
             $table->dateTime('transaction_date')->nullable();
             $table->string('credit')->nullable();
             $table->string('debit')->nullable();
+            $table->boolean('status')->default(true);
+            $table->boolean('tresh')->default(false);
             $table->timestamps();
         });
     }

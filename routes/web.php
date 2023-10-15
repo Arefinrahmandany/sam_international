@@ -4,10 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AgentsController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\PassportController;
 use App\Http\Controllers\VisaagencyController;
 use App\Http\Controllers\TransectionController;
 use App\Http\Controllers\VisasubmissionController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Visa_status_checkController;
 use App\Http\Controllers\Medical_applicationController;
 use App\Http\Controllers\PassporteligibilityController;
@@ -25,9 +28,33 @@ use App\Http\Controllers\PassporteligibilityController;
 
 // Home route
 
+Route::group(['middleware' => 'admin.redirect'],function(){
+
+    // Show Dashboard
+    Route::get('/',[FrontEndController::class, 'index']) -> name('home.index');
+    Route::get('/login-page',[AdminAuthController::class, 'showloginForm']) -> name('admin.login.form');
+    Route::post('/admin-login',[AdminAuthController::class, 'login']) -> name('admin.login');
+
+
+});
+
+//admin page route
+
+Route::group(['middleware' => 'admin'],function(){
+
+    // Show Dashboard
+    Route::get('/dashboard',[AdminPageController::class, 'showdashboard']) -> name('admin.dashboard');
+    Route::get('/admin-logout',[AdminAuthController::class, 'logout']) -> name('admin.logout');
+
+    // user permission route
+    Route::get('/admin-logout',[AdminAuthController::class, 'logout']) -> name('admin.logout');
+
+});
+
+
+
 //Route for Accounts
 
-Route::get('/',[AccountsController::class, 'index']) -> name('accounts-home.index');
 Route::get('accounts-create',[AccountsController::class, 'create']) -> name('Accounts.create');
 Route::post('Accounts-payment-receive',[AccountsController::class, 'paymentstore']) -> name('Accounts.paymentstore');
 Route::get('account-invoice-table',[AccountsController::class, 'table']) -> name('invoice-table.table');
@@ -115,14 +142,5 @@ Route::post('visa-agency-store',[VisaagencyController::class, 'store']) -> name(
 
 
 
-
-//Route for users
-
-Route::get('sign_up', function () {
-    return view('backend.sign_up');
-});
-Route::get('login', function () {
-    return view('login');
-});
 
 

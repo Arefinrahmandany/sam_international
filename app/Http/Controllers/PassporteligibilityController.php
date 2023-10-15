@@ -13,7 +13,7 @@ class PassporteligibilityController extends Controller
     public function index()
     {
         $data = ApplicantEligibility::all();
-        return view('backend.eligibility.eligibility',[
+        return view('backend.page.eligibility.eligibility',[
         'all_data' => $data
         ]);
     }
