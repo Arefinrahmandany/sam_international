@@ -11,6 +11,7 @@ use App\Http\Controllers\TransectionController;
 use App\Http\Controllers\VisasubmissionController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Visa_status_checkController;
 use App\Http\Controllers\Medical_applicationController;
 use App\Http\Controllers\PassporteligibilityController;
@@ -47,7 +48,7 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('/admin-logout',[AdminAuthController::class, 'logout']) -> name('admin.logout');
 
     // user permission route
-    Route::get('/admin-logout',[AdminAuthController::class, 'logout']) -> name('admin.logout');
+    Route::resource('/permission',PermissionController::class);
 
 });
 

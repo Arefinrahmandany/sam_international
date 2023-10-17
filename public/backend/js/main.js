@@ -10,8 +10,8 @@
         }, 1);
     };
     spinner();
-    
-    
+
+
     // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 300) {
@@ -32,7 +32,7 @@
         return false;
     });
 
-
+/*
     // Progress Bar
     $('.pg-bar').waypoint(function () {
         $('.progress .progress-bar').each(function () {
@@ -112,7 +112,7 @@
             responsive: true
         }
     });
-    
+
 
 
     // Single Line Chart
@@ -201,7 +201,8 @@
             responsive: true
         }
     });
+*/
 
-    
+
 })(jQuery);
 

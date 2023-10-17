@@ -6,13 +6,7 @@
 <!-- form start -->
     <div class="container pt-4">
 
-        @if ($errors -> any())
-            <p class="alert alert-danger">{{$errors -> first()}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
-        @endif
-
-        @if( Session::has('success'))
-            <p class="alert alert-success">{{Session::get('success')}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></p>
-        @endif
+        @include(validate)
 
         <div class="col-lg-12">
             <div class="card">
