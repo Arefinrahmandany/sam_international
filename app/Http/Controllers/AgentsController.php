@@ -14,8 +14,8 @@ class AgentsController extends Controller
     public function index()
     {
         $agents = Agents::latest() -> get();
-        return view('backend.agents.agents',[
-        'agents_all' => $agents
+        return view('backend.page.agents.index',[
+        'agents' => $agents
         ]);
     }
 
@@ -25,7 +25,11 @@ class AgentsController extends Controller
      */
     public function create()
     {
-        return view('backend.page.agents.agentCretae');
+        $agents = Agents::latest() -> get();
+        return view('backend.page.agents.agents',[
+            'agents'    => $agents,
+            'form_type'     => 'new_agent'
+        ]);
     }
 
     /**
@@ -44,7 +48,6 @@ class AgentsController extends Controller
             'name'      => $request -> name,
             'phone'     => $request -> phone,
             'email'     => $request -> email,
-            'nid'       => $request -> nid,
             'address'   => $request -> address,
         ]);
         //redirect to back same page
@@ -97,8 +100,11 @@ class AgentsController extends Controller
     {
         //send data for Edit
         $edit_data = Agents::findorfail($id);
-        return view('backend.agents.agentEditForm',[
-            'edit_data' => $edit_data
+        $agents = Agents::latest() -> get();
+        return view('backend.page.agents.agents',[
+            'agents'    =>$agents,
+            'edit_data' => $edit_data,
+            'form_type' => 'edit'
 
         ]);
     }
@@ -116,11 +122,10 @@ class AgentsController extends Controller
             'name'      => $request -> name,
             'phone'     => $request -> phone,
             'email'     => $request -> email,
-            'nid'       => $request -> nid,
             'address'   => $request -> address,
         ]);
 
-        return back() -> with('success','Data successfully update');
+        return redirect()->route('agents.create')->with('success','Data successfully update');
     }
 
     /**

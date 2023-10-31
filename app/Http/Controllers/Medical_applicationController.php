@@ -13,7 +13,7 @@ class Medical_applicationController extends Controller
     public function index()
     {
         $data = Medical::all();
-        return view('backend.page.medical.medical',[
+        return view('backend.page.medical.index',[
             'all_data' => $data
         ]);
 

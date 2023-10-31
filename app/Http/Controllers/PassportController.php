@@ -25,9 +25,8 @@ class PassportController extends Controller
     public function index()
     {
         $data = NewPassport::latest() -> get();
-        return view('backend.page.passports.passports',[
+        return view('backend.page.passports.index',[
             'all_data' => $data
-
         ]);
     }
 
@@ -38,9 +37,12 @@ class PassportController extends Controller
     {
         $countries_data = countries::all();
         $agents = Agents::all();
-        return view('backend.passports.passportCreate',[
+        $data = NewPassport::latest() -> get();
+        return view('backend.page.passports.passports',[
+            'all_data'      => $data,
             'all_countries' => $countries_data,
-            'all_agents' => $agents
+            'all_agents'    => $agents,
+            'form_type'     => 'create'
         ]);
     }
 
@@ -75,21 +77,26 @@ class PassportController extends Controller
 
             $file_name = null;
 
-        }*/
+        }
+*/
+    //multiple image upload 
 
+    $paperImg = [];
 
-        if( $request -> hasFile('photo')){
+        if( $request -> hasFile('gallery')){
 
+    $gallery = $request -> file('gallery');
 
-            $img = $request -> file('photo');
+    foreach ($gallery as $key) {
 
-            $file_name = md5(time().rand()) . '. ' .  $img -> clientExtension();
+        $file_name = md5(time().rand()) . '.'. $key -> clientExtension();
 
-            $img -> move(public_path('photos/passportsPaper/'), $file_name);
+        $key -> move(public_path('photos/passportsPaper/'), $file_name);
 
-        }else{
+        array_push($paperImg , $file_name);
 
-            $file_name = null;
+    }
+
         }
 
         $newPassport = NewPassport::create([
@@ -101,7 +108,7 @@ class PassportController extends Controller
             'applying_country' => $request -> applying_country,
             'agent_via' => $request -> agents,
             'amount' => $request -> payment,
-            'photos' => $file_name,
+            'photos' => json_encode( $paperImg ),
         ]);
 
         $newPassportdata = [
@@ -111,7 +118,7 @@ class PassportController extends Controller
             'applying_country' => $request -> applying_country,
             'agent_via' => $request -> agents,
         ];
-
+/*
 
         $newPassport -> notify( new NewPassportNotification($newPassportdata));
 
@@ -128,7 +135,7 @@ class PassportController extends Controller
             'passport_number' => $request -> passpoertNumber,
             'amount' => $request -> payment,
         ]));
-
+*/
     //redirect to back same page
     return redirect()->route('passports.index')->with('success', 'Data successfully inserted, and a confirmation email has been sent.');
 

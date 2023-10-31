@@ -2,88 +2,198 @@
 
 @section('main-content')
 
-
 <!--**********************************
-            Content body start
-        ***********************************-->
+                Content body start
+            ***********************************-->
 
-            <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
-                    </ol>
-                </div>
-            </div>
-            <!-- row -->
+<!-- form start -->
+<div class="container pt-4">
 
-            <div class="container-fluid">
-                <h4 class="card-title p-3">Agents Table</h4>
-                <div class="table-responsive">
-                    <div class="bg-light text-center rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-3"><a class="btn btn-primary" href="{{route('agent.create')}}" role="button">Add New Agent</a></h6>
-                            <a href="" class="text-dark">Show All</a>
+
+
+    <div class="col-lg-12">
+        <div>
+
+            <div>
+
+                @if ($form_type == 'new_agent')
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title">Create New Agent</h4>
                         </div>
-                        <!-- Search Button -->
-                        <div class="col-4 search-container">
-                            <input type="text" class="search-input" id="searchInput" placeholder="Search...">
-                            <button for="searchInput" class="search-button" id="searchButton">Search</button>
+                        <div class="basic-form">
+
+                            <form method="post" action="{{ route('agents.store') }}">
+
+                                @csrf
+                                @include('validate')
+
+                                <div class="form-row d-flex">
+
+                                    <div class="form-group col-md-5 p-2">
+                                        <label>Name</label>
+                                        <input type="text" name="name" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-5 p-2">
+                                        <label>Address</label>
+                                        <input type="text" name="address" class="form-control">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-row d-flex">
+                                    <div class="form-group col-md-5 p-1">
+                                        <label>Phone</label>
+                                        <input type="tel" name="phone" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-5 p-1">
+                                        <label>E-mail</label>
+                                        <input type="email" name="email" class="form-control">
+                                    </div>
+                                </div>
+
+                                <button type="submit" name="submit" class="btn btn-dark m-3">Submit</button>
+
+                            </form>
+
                         </div>
-                        <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                                <thead>
-                                    <tr class="text-dark">
-                                        <tr>
-                                            <td><input class="form-check-input" type="checkbox" id="selectAll" checked></td>
-                                            <th>Sl.</th>
-                                            <th>Name</th>
-                                            <th>Phone</th>
-                                            <th>Address</th>
-                                            <th>Email</th>
-                                            <th>Balance</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ( $agents_all as  $agents_all)
-                                    <tr>
-                                        <td><input class="form-check-input" type="checkbox" id="selectAll"></td>
-                                        <td>{{$loop-> index + 1}}</td>
-                                        <td>{{$agents_all-> name}}</td>
-                                        <td>{{$agents_all-> phone}}</td>
-                                        <td>{{$agents_all-> address}}</td>
-                                        <td>{{$agents_all-> email}}</td>
-                                        <td>{{$agents_all-> balance}}</td>
-                                        <td>
-                                            <a class="btn btn-primary" href="{{route('agent.show',$agents_all-> id)}}">View</a>
-                                            <a class="btn btn-warning" href="{{route('agent.edit',$agents_all-> id)}}">Edit</a>
-                                            <a class="btn btn-danger delete-btn" href="{{route('agent.destroy',$agents_all -> id)}}">Delete</i></a>
-                                        </td>
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <td colspan="12">No Data found.</td>
-                                    </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+
                     </div>
-                    <!-- Recent Sales End -->
                 </div>
-                <div class="container-fluid mb-3 p-4">
-                    <button type="button" onclick="printTable()" id="print-button" class="btn btn-primary mb-3">Print</button>
+                @endif
+
+
+                @if ($form_type == 'edit' )
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title">Edit Agent Data</h4>
+                            <a href="{{ route('agents.create') }}">Back</a>
+                        </div>
+                        <div class="basic-form">
+
+                            <form method="post" action="{{ route('agents.update', $edit_data -> id) }}">
+
+                                @csrf
+                                @method('PUT')
+                                @include('validate')
+
+                                <div class="form-row d-flex">
+
+                                    <div class="form-group col-md-5 p-2">
+                                        <label>Name</label>
+                                        <input type="text" value="{{ $edit_data -> name}}" name="name" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-5 p-2">
+                                        <label>Address</label>
+                                        <input type="text" value="{{ $edit_data -> adress}}" name="address" class="form-control">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-row d-flex">
+                                    <div class="form-group col-md-5 p-1">
+                                        <label>Phone</label>
+                                        <input type="tel" value="{{ $edit_data -> phone}}" name="phone" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-5 p-1">
+                                        <label>E-mail</label>
+                                        <input type="email" value="{{ $edit_data -> email}}" name="email" class="form-control">
+                                    </div>
+                                </div>
+
+                                <button type="submit" name="submit" class="btn btn-dark m-3">Submit</button>
+
+                            </form>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                @endif
+
+
+            </div>
+
+            <div>
+                <div class="table-responsive">
+
+                    <table class="table table-striped text-center table-hover mb-0">
+                        @include('validate-table')
+                        <thead>
+                            <tr class="text-dark">
+                                <tr>
+                                    <th>Sl.</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>E-mail</th>
+                                    <th>Total Passport Submit</th>
+                                    <th>Passport on Process</th>
+                                    <th>Passport Rejected</th>
+                                    <th>Balance (Due)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($agents as $agent )
+
+                            <tr>
+                                <td>{{ $loop -> index + 1}}</td>
+                                <td>{{ $agent -> name }}</td>
+                                <td>{{ $agent -> phone }}</td>
+                                <td>{{ $agent -> address }}</td>
+                                <td>{{ $agent -> email }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <a class="btn btn-sm btn-warning"  href="{{ route('agents.edit',$agent -> id) }}"><i class="fa fa-edit"></i></a>
+                                    <form method="post" action="{{ route('agents.destroy', $agent -> id) }}" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger delete-btn" onclick="return confirm('Are you sure, You want to delete?')" type="submit"><i class="fa fa-trash"></i></button>
+                                    </form>
+
+                                </td>
+                            </tr>
+
+                            @empty
+
+                            <tr>
+                                <td colspan="9" class="text-danger">No Data found.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+
+                    </table>
                 </div>
             </div>
 
-            <!-- #/ container -->
-        <!--**********************************
-            Content body end
-        ***********************************-->
 
 
+        </div>
+
+
+        </div>
+    </div>
 
 
 @endsection

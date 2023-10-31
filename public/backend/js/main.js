@@ -32,6 +32,12 @@
         return false;
     });
 
+
+
+    //Data Table
+
+    $('.data-table-all').DataTable();
+
 /*
     // Progress Bar
     $('.pg-bar').waypoint(function () {

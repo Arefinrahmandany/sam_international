@@ -22,12 +22,15 @@
 
     <!-- Libraries Stylesheet -->
     <link href="{{ asset('backend/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('backend/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url('https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css')}}" rel="stylesheet">
+
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
+
     <link href="{{ asset('backend/css/style.css') }}" rel="stylesheet">
 </head>
 
@@ -53,26 +56,27 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="" class="nav-item nav-link active"><img class="me-2" src="{{ asset('backend/img/icon/home_icn.png') }}">Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-item nav-link active"><img class="me-2" src="{{ asset('backend/img/icon/home_icn.png') }}">Dashboard</a>
 
-                    <a href="{{ route('admin.dashboard') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/accounting_icon.png') }}">Accounts</a>
-                    <a href="{{ route('agent.index')}}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/agent_icon.png') }}">Agents</a>
+                    <a href="{{ route('transection.index') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/accounting_icon.png') }}">Accounts</a>
                     <a href="{{ route('passports.index') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/passport_icon.png') }}">Passport Entry</a>
-                    <a href="{{ route('medical.index') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/medical_icon.png') }}">Medical</a>
-                    <a href="{{ route('visa-application.index') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/visaSubmission_icon.png') }}">Visa Submission</a>
+                    <a href="{{ route('Medical-application.index') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/medical_icon.png') }}">Medical</a>
+                    <a href="{{ route('visa-submission.index') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/visaSubmission_icon.png') }}">Visa Submission</a>
                     <a href="{{ route('visa-status.index') }}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/visaStatus_icon.png') }}">Visa Check</a>
+                    <a href="{{ route('agents.index')}}" class="nav-item nav-link"><img class="me-2" src="{{ asset('backend/img/icon/agent_icon.png') }}">Agents</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img class="me-2" src="{{ asset('backend/img/icon/menPower_icon.png') }}">Man Power</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{{ route('Eligibility.index') }}" class="dropdown-item">Passport Eligible status</a>
+                            <a href="{{ route('passport-eligibility.index') }}" class="dropdown-item">Passport Eligible status</a>
                             <a href="{{ route('visa-agency.index') }}" class="dropdown-item">Visa Agency</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img class="me-2" src="{{ asset('backend/img/icon/passportEligible_icon.png') }}">Users</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{{ route('permission.index') }}" class="dropdown-item">Admin</a>
-                            <a href="typography.html" class="dropdown-item">Accounts</a>
+                            <a href="{{ route('admin-user.index') }}" class="dropdown-item">Admin</a>
+                            <a href="{{ route('permission.index') }}" class="dropdown-item">Permissions</a>
+                            <a href="{{ route('role.index') }}" class="dropdown-item">Role</a>
                             <a href="element.html" class="dropdown-item">Staff</a>
                             <a href="element.html" class="dropdown-item">Customers</a>
                         </div>
@@ -226,6 +230,7 @@
     <script src="{{ asset('backend/lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ asset('backend/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
     <script src="{{ asset('backend/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js') }}"></script>
 
     <!-- Template Javascript -->
     <script src="{{ asset('backend/js/main.js') }}"></script>

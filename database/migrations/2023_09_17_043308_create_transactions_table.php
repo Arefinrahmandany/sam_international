@@ -13,9 +13,15 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('transaction_date')->nullable();
+            $table->string('transectionNum')->unique();
+            $table->string('reciveBy')->nullable();
+            $table->string('agent')->nullable();
+            $table->string('reciveFrom')->nullable();
+            $table->string('details')->nullable();
             $table->string('credit')->nullable();
             $table->string('debit')->nullable();
+            $table->string('due')->nullable();
+            $table->string('paymentSystem')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('tresh')->default(false);
             $table->timestamps();

@@ -13,7 +13,7 @@ class AdminPageController extends Controller
 
     public function showdashboard(){
 
-        return view('backend.page.accounts.accounts');
+        return view('backend.page.dashboard.index');
 
     }
 }

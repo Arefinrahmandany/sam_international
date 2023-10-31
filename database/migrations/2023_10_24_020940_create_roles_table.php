@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('agents', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone')->unique();
-            $table->string('email')->unique();
-            $table->string('details')->unique();
-            $table->integer('debit')->nullable();
-            $table->integer('credit')->nullable();
-            $table->string('address')->nullable();
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->text('permissions');
             $table->boolean('status')->default(true);
             $table->boolean('tresh')->default(false);
             $table->timestamps();
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('agents');
+        Schema::dropIfExists('roles');
     }
 };

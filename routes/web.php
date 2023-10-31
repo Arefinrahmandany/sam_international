@@ -6,7 +6,9 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\PassportController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\VisaagencyController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\TransectionController;
 use App\Http\Controllers\VisasubmissionController;
 use App\Http\Controllers\Admin\AdminAuthController;
@@ -43,6 +45,13 @@ Route::group(['middleware' => 'admin.redirect'],function(){
 
 Route::group(['middleware' => 'admin'],function(){
 
+
+    // user role route
+    Route::resource('/admin-user',AdminController::class);
+
+    Route::get('/admin-user-status-update/{id}',[AdminController::class, 'updateStatus'])->name('admin.status.update');
+    Route::get('/admin-user-tresh-update/{id}',[AdminController::class, 'updateTresh'])->name('admin.tresh.update');
+
     // Show Dashboard
     Route::get('/dashboard',[AdminPageController::class, 'showdashboard']) -> name('admin.dashboard');
     Route::get('/admin-logout',[AdminAuthController::class, 'logout']) -> name('admin.logout');
@@ -50,9 +59,48 @@ Route::group(['middleware' => 'admin'],function(){
     // user permission route
     Route::resource('/permission',PermissionController::class);
 
+   // user role route
+    Route::resource('/role',RoleController::class);
+
+
+    // transection route
+    Route::resource('/transection',TransectionController::class);
+    Route::get('/transection-expense',[TransectionController::class, 'expense']) -> name('transection.expense');
+    Route::post('/expense-store',[TransectionController::class, 'expenseStore']) -> name('transection.expenseStore');
+
+
+    // Agents route
+    Route::resource('/agents',AgentsController::class);
+
+
+    // accounts route
+    Route::resource('/accounts',AccountsController::class);
+
+    // passports route
+    Route::resource('/passports',PassportController::class);
+
+    // Medical-Application route
+    Route::resource('/Medical-application',Medical_applicationController::class);
+
+    // Visa Submission route
+    Route::resource('/visa-submission',VisasubmissionController::class);
+
+    // Passport Eligibility route
+    Route::resource('/passport-eligibility',PassporteligibilityController::class);
+
+
+    // Visa Agency route
+    Route::resource('/visa-agency',VisaagencyController::class);
+
+
+
+
+    // Visa Status route
+    Route::resource('/visa-status',Visa_status_checkController::class);
+
 });
 
-
+/*
 
 //Route for Accounts
 
@@ -90,7 +138,9 @@ Route::get('passportDelet/{id}',[PassportController::class, 'destroy'])->name('p
 Route::post('passportupdate/{id}',[PassportController::class, 'update'])->name('passports.update');
 Route::post('passportStore',[PassportController::class,'store'])->name('passports.store');
 
+
 Route::get('/image/{id}', 'ImageController@show')->name('image.show');
+
 
 //Route for Medical
 Route::get('medical',[Medical_applicationController::class, 'index']) -> name('medical.index');
@@ -143,5 +193,5 @@ Route::post('visa-agency-store',[VisaagencyController::class, 'store']) -> name(
 
 
 
-
+*/
 

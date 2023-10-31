@@ -13,8 +13,8 @@ class VisaagencyController extends Controller
     public function index()
     {
         $visaOffice = VisaApplicationOffice::all();
-        return view('backend.page.visaoffice.visaoffice',[
-            'visaOffice_data' => $visaOffice
+        return view('backend.page.visaoffice.index',[
+            'visaOffice_data'   =>  $visaOffice,
         ]);
     }
 
@@ -23,7 +23,12 @@ class VisaagencyController extends Controller
      */
     public function create()
     {
-        return view('backend.visaoffice.visaoffice-New');
+        $visaOffice = VisaApplicationOffice::all();
+        return view('backend.page.visaoffice.visaoffice',[
+            'visaOffice_data'   =>  $visaOffice,
+            'form_type'         =>  'create'
+
+            ]);
     }
 
     /**
@@ -35,7 +40,6 @@ class VisaagencyController extends Controller
         $this-> validate($request,[
             'name' => 'required',
             'phone' => 'required',
-            'email' => 'email',
         ]);
         VisaApplicationOffice::create([
             'name' => $request -> name,
@@ -52,7 +56,7 @@ class VisaagencyController extends Controller
      */
     public function show($id)
     {
-        return view('backend.visaoffice.visaofficeSingleView');
+        //
     }
 
     /**
@@ -60,23 +64,29 @@ class VisaagencyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $visaOffice = VisaApplicationOffice::all();
+        $edit_data = VisaApplicationOffice::findorfail($id);
+        return view('backend.page.visaoffice.visaoffice',[
+            'visaOffice_data'   =>  $visaOffice,
+            'edit'              =>  $edit_data,
+            'form_type'         =>  'edit'
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         $update_data = VisaApplicationOffice::findorfail($id);
 
         // data store to table
 
         $update_data -> update([
-            'name' => $request -> name,
-            'phone' => $request -> phone,
-            'email' => $request -> email,
-            'address' => $request -> address,
+            'name'      => $request -> name,
+            'phone'     => $request -> phone,
+            'email'     => $request -> email,
+            'address'   => $request -> address,
         ]);
 
         return back() -> with('success','Data successfully update');
