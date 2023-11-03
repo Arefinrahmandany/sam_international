@@ -36,7 +36,12 @@
 
     //Data Table
 
-    $('.data-table-all').DataTable();
+        $('#example').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'excel', 'pdf', 'print'
+            ]
+        } );
 
 /*
     // Progress Bar

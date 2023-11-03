@@ -23,7 +23,9 @@
     <!-- Libraries Stylesheet -->
     <link href="{{ asset('backend/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet"/>
-    <link href="{{ url('https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css')}}" rel="stylesheet">
+
+    <!-- Data Table Libraries Stylesheet -->
+    <link href="{{ url('https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css') }}" rel="stylesheet">
 
 
     <!-- Customized Bootstrap Stylesheet -->
@@ -202,11 +204,11 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                            &copy; <a href="#">arefin rahman</a>, All Right Reserved.
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                            Designed By <a href="">Arefin Rahman</a>
                         </div>
                     </div>
                 </div>
@@ -230,7 +232,15 @@
     <script src="{{ asset('backend/lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ asset('backend/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
     <script src="{{ asset('backend/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js') }}"></script>
+
+
+<!-- JavaScript Libraries for data table-->
+
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js') }}"></script>
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js') }}"></script>
+    <script src="{{ url('https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.js') }}"></script>
+
+
 
     <!-- Template Javascript -->
     <script src="{{ asset('backend/js/main.js') }}"></script>

@@ -10,11 +10,14 @@ use App\Models\Accounts;
 use App\Models\countries;
 use App\Mail\notification;
 use App\Models\NewPassport;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use function Termwind\render;
 use Illuminate\Support\Facades\Mail;
-use App\Notifications\NewPassportNotification;
 use Intervention\Image\Facades\Image;
+use App\Notifications\NewPassportNotification;
+use App\Mail\MailForPaymentRecive;
+use Illuminate\Validation\Rules\Unique;
 
 class PassportController extends Controller
 {
@@ -52,6 +55,7 @@ class PassportController extends Controller
     public function store(Request $request)
     {
 
+
         //validate
         $this-> validate($request,[
             'passpoertNumber' => 'required',
@@ -79,7 +83,7 @@ class PassportController extends Controller
 
         }
 */
-    //multiple image upload 
+    //multiple image upload
 
     $paperImg = [];
 
@@ -100,42 +104,46 @@ class PassportController extends Controller
         }
 
         $newPassport = NewPassport::create([
-            'passport_number' => $request -> passpoertNumber,
-            'name' => $request -> name,
-            'email' => $request -> email,
-            'phone' => $request -> phone,
-            'address' => $request -> address,
-            'applying_country' => $request -> applying_country,
-            'agent_via' => $request -> agents,
-            'amount' => $request -> payment,
-            'photos' => json_encode( $paperImg ),
+            'passport_number'   => $request -> passpoertNumber,
+            'name'              => $request -> name,
+            'email'             => $request -> email,
+            'phone'             => $request -> phone,
+            'address'           => $request -> address,
+            'applying_country'  => $request -> applying_country,
+            'agent_via'         => $request -> agents,
+            'amount'            => $request -> payment,
+            'photos'            => json_encode( $paperImg ),
         ]);
 
         $newPassportdata = [
-            'passport_number' => $request -> passpoertNumber,
-            'name' => $request -> name,
-            'email' => $request -> email,
-            'applying_country' => $request -> applying_country,
-            'agent_via' => $request -> agents,
+            'passport_number'   => $request -> passpoertNumber,
+            'name'              => $request -> name,
+            'email'             => $request -> email,
+            'applying_country'  => $request -> applying_country,
+            'agent_via'         => $request -> agents,
         ];
-/*
-
-        $newPassport -> notify( new NewPassportNotification($newPassportdata));
 
         //send data to Accounts Table
-        Accounts::create([
-            'receiveFrom' => $request -> agents,
-            'description' => $request -> passpoertNumber . $request -> visa_process,
-            'due' => $request -> payment,
+        Transaction::create([
+            'transectionNum'=> $request -> passpoertNumber . $request -> applying_country,
+            'reciveFrom'    => $request -> agents,
+            'details'       => $request -> passpoertNumber . $request -> visa_process . $request -> agents,
+            'due'           => $request -> payment,
         ]);
 
         // Send confirmation email
-        Mail::to($request->email)->send(new sendMail ([
-            'name' => $request->name, // Pass any additional data you want to include in the email
-            'passport_number' => $request -> passpoertNumber,
-            'amount' => $request -> payment,
+        $mailData = Mail::to($request->email)->send(new MailForPaymentRecive ([
+                    'name'              => $request->name, // Pass any additional data you want to include in the email
+                    'passport_number'   => $request -> passpoertNumber,
+                    'amount'            => $request -> payment,
         ]));
+
+
+/*
+        $newPassport -> notify( new NewPassportNotification($newPassportdata));
 */
+
+
     //redirect to back same page
     return redirect()->route('passports.index')->with('success', 'Data successfully inserted, and a confirmation email has been sent.');
 
@@ -172,9 +180,9 @@ class PassportController extends Controller
         $agents = Agents::all();
         $edit_data = NewPassport::findorfail($id);
         return view('backend.passports.passportEditForm',[
-            'edit_data' => $edit_data,
+            'edit_data'     => $edit_data,
             'all_countries' => $countries_data,
-            'all_agents' => $agents
+            'all_agents'    => $agents
         ]);
 
 
@@ -191,14 +199,14 @@ class PassportController extends Controller
         // data store to table
 
         $update_data -> update([
-            'passport_number' => $request -> passpoertNumber,
-            'name' => $request -> name,
-            'email' => $request -> email,
-            'phone' => $request -> phone,
-            'address' => $request -> address,
-            'applying_country' => $request -> applying_country,
-            'agent_via' => $request -> agents,
-            'amount' => $request -> payment,
+            'passport_number'   => $request -> passpoertNumber,
+            'name'              => $request -> name,
+            'email'             => $request -> email,
+            'phone'             => $request -> phone,
+            'address'           => $request -> address,
+            'applying_country'  => $request -> applying_country,
+            'agent_via'         => $request -> agents,
+            'amount'            => $request -> payment,
         ]);
 
         return back() -> with('success','Data successfully update');

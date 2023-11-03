@@ -9,10 +9,10 @@
 </div>
 
 <div class="container">
-    <div class="card">
-        <div class="table-responsive">
+    <div class="card p-4">
+        <div class="table-responsive p-2">
 
-            <table class="table table-striped text-center table-hover mb-0 data-table-all">
+            <table id="example" class="table table-striped text-center table-hover mb-0 data-table-all">
                 @include('validate-table')
                 <thead>
                     <tr class="text-dark">
@@ -50,6 +50,7 @@
                     <tr>
                         <td colspan="9" class="text-danger">No Data found.</td>
                     </tr>
+
                     @endforelse
                 </tbody>
 
