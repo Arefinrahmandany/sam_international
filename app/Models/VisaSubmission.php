@@ -11,9 +11,9 @@ class VisaSubmission extends Model
 
     protected $guarded =[];
 
-    public function countries()
+    public function country()
         {
-            return  $this -> belongsTo(countries::class,'applyingcountry','name');
+            return  $this-> belongsTo(countries::class,'applyingcountry','id');
         }
 
 }

@@ -13,9 +13,9 @@ class VisaOfficeController extends Controller
      */
     public function index()
     {
-        $visaOffice = VisaOffice::all();
+        $visaOffices = VisaOffice::latest()->get();
         return view('admin.adminPages.visaAgency.index',[
-            'visaOffice' => $visaOffice,
+            'visaOffices' => $visaOffices,
             'form_type' => 'create'
         ]);
     }
@@ -33,6 +33,13 @@ class VisaOfficeController extends Controller
      */
     public function store(Request $request)
     {
+
+        //validate
+        $this-> validate($request,[
+            'name' => 'required',
+            'cell' => 'required',
+        ]);
+
         VisaOffice::create([
             'name'      => $request -> name,
             'phone'     => $request -> cell,
@@ -57,9 +64,11 @@ class VisaOfficeController extends Controller
      */
     public function edit(string $id)
     {
+        $visaOffices = VisaOffice::latest()->get();
         $visaOffice = VisaOffice::findorfail($id);
         return view('admin.adminPages.visaAgency.index',[
             'visaOffice' => $visaOffice,
+            'visaOffices' => $visaOffices,
             'form_type' => 'edit'
         ]);
     }

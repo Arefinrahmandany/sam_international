@@ -33,32 +33,62 @@
                     </div>
                 </div>
             </div>
-
-            <div>
-                <div class="col-12">
-                    <div class="bg-light rounded h-100 p-4">
-                        <h6 class="mb-4">Statement</h6>
-                        <div class="table-responsive">
-                            <table class="table">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <div class="data_table">
+                            <table id="example" class="table table-striped table-hover table-bordered">
+                                <h6 class="mb-4">{{ $agent -> name }} Statment </h6>
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Detail</th>
-                                        <th scope="col">Debit</th>
-                                        <th scope="col">Credit</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" class="text-center">#</th>
+                                        <th scope="col" class="text-center">Date</th>
+                                        <th scope="col" class="text-center">Detail</th>
+                                        <th scope="col" class="text-center">Debit</th>
+                                        <th scope="col" class="text-center">Credit</th>
+                                        <th scope="col" class="text-center">Due</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @forelse ( $agent_data as $data )
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>USA</td>
-                                        <td>123</td>
+                                        <th scope="row">{{ $loop -> index+1 }}</th>
+                                        <td>{{ $data -> created_at->format('d.m.Y') }}</td>
+                                        <td>{{ $data -> details }}</td>
+                                        <td class="text-end">
+                                            @if ($data -> credit == null)
+                                            @else
+                                            {{ number_format($data -> credit, 2, '.', ',') }}
+                                            @endif
+                                        </td>
+                                        <td class="text-end">
+                                            @if ($data -> debit == null)
+                                            @else
+                                            {{ number_format($data -> debit, 2, '.', ',') }}
+                                            @endif
+                                        </td>
+                                        <td class="text-end">
+                                            @if ($data -> due == null)
+                                            @else
+                                            {{ number_format($data -> due, 2, '.', ',') }}
+                                            @endif
+                                        </td>
                                     </tr>
+                                    @empty
+                                    @endforelse
+                                </tbody>
+                                <tfoot>
+                                    <tr class="text-end">
+                                        <td colspan="3" class="text-end">Total Balance</td>
+                                        <td colspan="3" class="text-start">
+                                            @if ($totalAmount == null)
+                                            @else
+                                            {{ number_format($totalAmount, 2, '.', ',') }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </tfoot>
+
                             </table>
                         </div>
                     </div>

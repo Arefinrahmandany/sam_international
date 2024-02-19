@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\AdminPages;
 
-use App\Http\Controllers\Controller;
+use App\Models\TravelAgency;
 use Illuminate\Http\Request;
+use App\Models\Passports_new;
+use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
@@ -12,15 +15,29 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
-    }
+       // Get the current date
+        $currentDate = Carbon::now()->toDateString();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+
+        $passport_receive = Passports_new::whereDate('created_at', $currentDate)->count();
+
+        $bmet_pass = Passports_new::where('bmet_status','pass')->whereDate('updated_at', $currentDate)->count();
+        $bmet_reject = Passports_new::whereDate('updated_at', $currentDate)->where('bmet_status','rejected')->count();
+
+        $dayTicketSaleTotal = TravelAgency::whereDate('created_at', $currentDate)->sum('total_price');
+        $dayTicketSaleQty = TravelAgency::whereDate('created_at', $currentDate)->sum('qty');
+
+        // Get all passports
+        $passports = Passports_new::latest()->get();
+
+        return view('admin.index', [
+            'bmet_pass' => $bmet_pass,
+            'bmet_reject' => $bmet_reject,
+            'passport_receive' => $passport_receive,
+            'passports' => $passports,
+            'dayTicketSaleTotal' => $dayTicketSaleTotal,
+            'dayTicketSaleQty' => $dayTicketSaleQty
+        ]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminPages;
 
 use App\Models\AgentsBd;
+use App\Models\Transection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +15,24 @@ class AgentsBdController extends Controller
      */
     public function index()
     {
+        $agents = AgentsBd::all();
+
+        $balances = [];
+        foreach ($agents as $agent) {
+            $agentTran = Transection::where('agent', $agent->id)->get();
+
+            $totalDebit = $agentTran->sum('debit');
+            $totalCredit = $agentTran->sum('credit');
+            $totalDue = $agentTran->sum('due');
+            $balance = $totalDebit + $totalDue - $totalCredit;
+
+            $balances[$agent->id] = $balance;
+        }
+
         $agents_data = AgentsBd::latest()->get();
         return view('admin.adminPages.agents_bd.index',[
             'agent_data' => $agents_data,
+            'balance' => $balances,
             'form_type' => 'create'
         ]);
     }
@@ -37,8 +53,6 @@ class AgentsBdController extends Controller
         //validate
         $this-> validate($request,[
             'name' => 'required',
-            'cell' => 'required|starts_with:01,0088,+88,02|unique:agents_bds',
-            'email' => 'email| unique:agents_bds',
         ]);
         // data store to table
         AgentsBd::create([
@@ -58,24 +72,20 @@ class AgentsBdController extends Controller
      */
     public function show(string $id)
     {
-
-     /*
-        $all_transection = Transaction::WHERE('agent',$id)->get();
         //calculet Debit & Credit
-        $totalDebit = NewPassport::where('agent_via', $id)->sum('amount');
-        $totalCredit = Transaction::where('agent', $id)->sum('credit');
-        $totalAmount = $totalDebit - $totalCredit;
+        $totalDebit = Transection::where('agent', $id)->where('tresh','0')->sum('debit');
+        $totalCredit = Transection::where('agent', $id)->where('tresh','0')->sum('credit');
+        $totalDue = Transection::where('agent', $id)->where('tresh','0')->sum('due');
+        $totalAmount = $totalDebit - $totalCredit - $totalDue;
 
 
-       // $transaction_first = NewPassport::where('agent', $id)->first();
-        $transactions = NewPassport::where('agent_via', $id)->get();
-
-        $agent = Agents::findOrfail($id);
-*/
+        $agents_transactions = Transection::where('agent', $id)->get();
 
         $agent = AgentsBd::findorFail($id);
         return view('admin.adminPages.agents_bd.show',[
-            'agent' => $agent
+            'agent' => $agent,
+            'totalAmount' => $totalAmount,
+            'agent_data' => $agents_transactions
         ]);
     }
 

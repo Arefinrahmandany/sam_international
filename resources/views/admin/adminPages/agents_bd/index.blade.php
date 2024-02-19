@@ -9,8 +9,8 @@
             <div class="row page-titles mb-3  mx-0">
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Agents</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)" class="link-underline-light link-dark">Agents</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)" class="link-underline-light link-dark">Home</a></li>
                     </ol>
                 </div>
             </div>
@@ -141,12 +141,11 @@
 
                                             <thead>
                                                 <tr class="text-dark">
-                                                    <th scope="col">Sl.</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Email</th>
-                                                    <th scope="col">Phone</th>
-                                                    <th scope="col">Adress</th>
-                                                    <th scope="col">Action</th>
+                                                    <th class="text-center">Sl.</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">Phone</th>
+                                                    <th class="text-center">Balance</th>
+                                                    <th class="text-center">Action</th>
                                                 </tr>
 
                                             </thead>
@@ -155,13 +154,13 @@
 
                                             @forelse ($agent_data as $per)
                                                 <tr>
-                                                    <td scope="row">{{ $loop -> index +1 }}</td>
-                                                    <td>{{ $per -> name }}</td>
-                                                    <td>{{ $per -> email }}</td>
+                                                    <td class="text-center">{{ $loop -> index +1 }}</td>
+                                                    <td><a href="{{ route('agentsBd.show',$per->id) }}" class="text-decoration-none">{{ $per -> name }}</a></td>
                                                     <td>{{ $per -> cell }}</td>
-                                                    <td>{{ $per -> address }}</td>
-                                                    <td>
-                                                        <a class="btn btn-sm btn-info"  href="{{ route('agentsBd.show',$per->id) }}"><i class="fa fa-eye"></i></a>
+                                                    <td class="text-end">
+                                                        {{ number_format(($balance[$per->id] ?? 0), 2, '.', ',') }}
+                                                    </td>
+                                                    <td class="text-center">
                                                         <a class="btn btn-sm btn-warning"  href="{{route('agentsBd.edit',$per -> id)}}"><i class="fa fa-edit"></i></a>
                                                         <a class="btn btn-sm btn-danger"  href="{{route('agentsBd.tresh.update',$per -> id)}}"><i class="fa fa-trash"></i></a>
                                                         {{--

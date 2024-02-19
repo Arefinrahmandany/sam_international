@@ -13,9 +13,9 @@ class Passports_new extends Model
     protected $guarded =[];
 
 
-    public function Agents()
+    public function agents()
     {
-        return $this->belongsTo(AgentsBd::class, 'agent_via', 'id');
+        return $this->belongsTo(AgentsBd::class, 'agentsBD', 'id');
     }
 
 }

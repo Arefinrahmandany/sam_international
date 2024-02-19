@@ -47,9 +47,7 @@
                             @include('validation.validate')
 
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <a href="index.html" class="">
-                                <h3 class="text-primary"></i>MS SAM INTERNATIONAL</h3>
-                            </a>
+                            <a href="{{ route('home.index') }}" class="text-unstyle text-decoration-none text-black fs-2"><img src="{{ url('assets/img/logo.png') }}" class="img-fluid" style="width: 100px; height: auto;">International</a>
                             <h3>Sign In</h3>
                         </div>
                         <div class="form-floating mb-3">

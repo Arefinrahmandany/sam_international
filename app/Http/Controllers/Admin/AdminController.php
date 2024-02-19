@@ -16,7 +16,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $all_admin = Admin::latest()-> where('tresh',false)->get();
+        $all_admin = Admin::latest()-> where('trash',0)-> where('status',1)->get();
         $roles = Roles::latest()->get();
         return view('admin.adminPages.users.index',[
             'all_admin' => $all_admin,
@@ -74,7 +74,11 @@ class AdminController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $admin      = Admin::findorFail($id);
+        return view('admin.userEditForm',[
+            'user'      => $admin,
+            'form_type' => 'show',
+        ]);
     }
 
     /**
@@ -83,13 +87,23 @@ class AdminController extends Controller
     public function edit(string $id)
     {
         $admin      = Admin::findorFail($id);
-        $all_admin  = Admin::latest()-> where('tresh',false)->get();
+        $all_admin  = Admin::latest()-> where('trash',0)->where('status',1)->get();
         $roles      = Roles::latest()->get();
         return view('admin.adminPages.users.index',[
             'all_admin'     => $all_admin,
             'admin_data'    => $admin,
             'roles'         => $roles,
-            'form_type'     => ('edit'),
+            'form_type'     => 'edit',
+        ]);
+
+    }
+
+    public function userEditForm(string $id)
+    {
+        $admin      = Admin::findorFail($id);
+        return view('admin.userEditForm',[
+            'user'      => $admin,
+            'form_type' => 'edit',
         ]);
 
     }
@@ -107,7 +121,7 @@ class AdminController extends Controller
             'name'      => $request -> name,
             'email'     => $request -> email,
             'username'  => $request -> userName,
-            'role_id'  => $request -> role,
+            'role_id'   => $request -> role,
             'cell'      => $request -> cell,
             'location'  => $request -> location,
             'dob'       => $request -> dob
@@ -115,6 +129,27 @@ class AdminController extends Controller
 
         return redirect()->route('users.index')->with('success','Data successfully update');
 
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function userupdate(Request $request, string $id)
+    {
+        $update_data = Admin::findorfail($id);
+
+        // data store to table
+        $update_data -> update([
+            'name'      => $request -> name,
+            'email'     => $request -> email,
+            'username'  => $request -> userName,
+            'cell'      => $request -> cell,
+            'location'  => $request -> location,
+            'dob'       => $request -> dob,
+            'bio'       => $request -> bio,
+        ]);
+
+        return redirect()->route('users.show',$id)->with('success','Data successfully update');
     }
 
     /**
@@ -159,13 +194,13 @@ class AdminController extends Controller
 
     $data =  Admin::findorFail($id);
 
-    if($data -> tresh){
+    if($data -> trash){
         $data -> update([
-            'tresh'=>false
+            'trash'=>false
         ]);
     }else{
         $data -> update([
-            'tresh'=>true
+            'trash'=>true
         ]);
     }
 
@@ -175,30 +210,23 @@ class AdminController extends Controller
 
     public function passwordChangeForm(){
 
-        return view('backend.page.user.userSettings.passwordChange');
+        return view('admin.passwordChange');
 
     }
 
     public function passwordChange(Request $request)
     {
+        $user = Auth::guard('admin')->user();
          // Check Old Password
-        if(!password_verify($request->old_password,Auth::guard('admin')->user()->password)){
-
+        if(!password_verify($request->oldPassword,$user->password)){
             return back()->with('danger','Password not match');
+        }
 
-}
-
-        $data = Admin::findorfail(Auth::guard('admin')->user()->id);
-        $data -> UPDATE([
-            'password' => Hash::make($request-> new_password)
+        $password = Admin::findorfail($user->id);
+        $password -> UPDATE([
+            'password' => Hash::make($request-> newPassword)
         ]);
-
-
         return back()->with('success','Your Password change');
-
     }
-
-
-
 
 }

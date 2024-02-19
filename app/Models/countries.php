@@ -9,6 +9,6 @@ class countries extends Model
 {
     use HasFactory;
 
-
+    protected $guarded =[];
 
 }

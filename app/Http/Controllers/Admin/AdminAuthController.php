@@ -23,14 +23,11 @@ class AdminAuthController extends Controller
      */
     public function login(Request $request)
     {
-
                //validetion
-
             $this-> validate($request,[
                 'auth'      => 'required',
                 'password'  => 'required',
             ]);
-
 
             // Authentication System
 
@@ -38,7 +35,6 @@ class AdminAuthController extends Controller
             ||Auth::guard('admin') -> attempt(['cell'=>$request->auth,'password'=>$request->password])
             ||Auth::guard('admin') -> attempt(['email'=>$request->auth,'password'=>$request->password]))
         {
-
             if(Auth::guard('admin')->user()->status && Auth::guard('admin')->user()-> tresh == false)
             {
                 return redirect()->route('dashboard.index');
@@ -46,7 +42,6 @@ class AdminAuthController extends Controller
                 Auth::guard('admin')->logout();
                 return redirect()->route('admin.login.form')-> with('warning','Your registration canceled, please contact with authority');
             }
-
         }else{
             return redirect()->route('admin.login.form')-> with('warning','check your User Id & Password');
         }
@@ -99,5 +94,11 @@ class AdminAuthController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function logout(){
+
+        Auth::guard('admin') -> logout();
+        return redirect()->route('home.index');
+
     }
 }

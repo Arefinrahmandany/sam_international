@@ -15,7 +15,8 @@ class VisaStatusCheckController extends Controller
     {
         $visaStatusCheck = VisaStatusCheck::latest()->get();
         return view('admin.adminPages.VisaStatusCheck.index',[
-            'visaStatusCheck' => $visaStatusCheck
+            'visaStatusCheck' => $visaStatusCheck,
+            'form_type' => 'create'
         ]);
     }
 
@@ -24,11 +25,7 @@ class VisaStatusCheckController extends Controller
      */
     public function create()
     {
-        $visaStatusCheck = VisaStatusCheck::latest()->get();
-        return view('admin.adminPages.VisaStatusCheck.form',[
-            'visaStatusCheck' => $visaStatusCheck,
-            'form_type'=>'create'
-        ]);
+        //
     }
 
     /**
@@ -52,7 +49,11 @@ class VisaStatusCheckController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $visaStatusCheck = VisaStatusCheck::latest()->get();
+        return view('admin.adminPages.VisaStatusCheck.form',[
+            'visaStatusCheck' => $visaStatusCheck,
+            'form_type'=>'edit'
+        ]);
     }
 
     /**

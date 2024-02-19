@@ -9,8 +9,8 @@
             <div class="row page-titles mb-3  mx-0">
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Visa Office</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)" class="link-underline-light link-dark">Visa Office</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)" class="link-underline-light link-dark">Home</a></li>
                     </ol>
                 </div>
             </div>
@@ -78,11 +78,11 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4 class="card-title">Edit Admin</h4>
-                                    <a href="{{ route('visaOffice.index') }}">Back</a>
+                                    <a href="{{ route('visaoffice.index') }}">Back</a>
                                 </div>
 
                                 <div class="basic-form">
-                                    <form method="post" action="{{ route('visaoffice.update', $visaOffice -> id) }}">
+                                    <form method="post" action="{{ route('visaoffice.update', $visaOffice ->id) }}">
 
                                         @csrf
                                         @method('PUT')
@@ -91,12 +91,12 @@
 
                                             <div class="form-group col-md-6">
                                                 <label>NAME</label>
-                                                <input type="text" value="{{ $visaOffice -> name }}" name="name" class="form-control">
+                                                <input type="text" value="{{ $visaOffice->name }}" name="name" class="form-control">
                                             </div>
 
                                             <div class="form-group col-md-6">
                                                 <label>Phone</label>
-                                                <input type="tel" value="{{ $visaOffice -> cell }}" name="cell" class="form-control">
+                                                <input type="tel" value="{{ $visaOffice -> phone }}" name="cell" class="form-control">
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -123,12 +123,11 @@
 
                     </div>
 
-                    <div class="card col-lg-8">
+                    <div class="container">
                         <div class="row">
-                            <div class="card-body col-lg-12">
-                                <div class="data_table table-responsive">
-                                    <div class="bg-light rounded h-100 p-4">
-                                        <table id="example" class="table table-striped table-hover table-bordered">
+                            <div class="col-12 table-responsive">
+                                <div class="data_table">
+                                    <table id="example" class="table table-striped table-hover table-bordered">
 
                                         @include('validation.validate-table')
 
@@ -146,7 +145,7 @@
 
                                             <tbody>
 
-                                            @forelse ($visaOffice as $per)
+                                            @forelse ($visaOffices as $per)
                                                 <tr>
                                                     <td scope="row">{{ $loop -> index +1 }}</td>
                                                     <td>{{ $per -> name }}</td>
@@ -155,13 +154,13 @@
                                                     <td>{{ $per -> address }}</td>
                                                     <td>
                                                         <a class="btn btn-sm btn-warning"  href="{{route('visaoffice.edit',$per -> id)}}"><i class="fa fa-edit"></i></a>
-                                                        {{--
-                                                        <form method="post" action="{{ route('admin-user.destroy',$per -> id) }}" class="d-inline">
+
+                                                        <form method="post" action="{{ route('visaoffice.destroy',$per -> id) }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                             <button class="btn btn-sm btn-danger delete-btn" type="submit"><i class="fa fa-trash"></i></button>
                                                         </form>
-                                                        --}}
+
                                                     </td>
                                                 </tr>
 
@@ -182,5 +181,5 @@
 
 
     </div>
-</div>
+
 @endsection

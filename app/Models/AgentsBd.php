@@ -11,4 +11,10 @@ class AgentsBd extends Model
 
     protected $guarded =[];
 
+    // Define the relationship with the Transaction model
+    public function transactions()
+    {
+        return $this->hasMany(Transection::class, 'agent', 'id');
+    }
+
 }

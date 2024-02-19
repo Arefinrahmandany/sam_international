@@ -5,54 +5,66 @@
 <!--**********************************
                 Content body start
             ***********************************-->
-
-            <div class="row page-titles mb-3  mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Passports</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
-                    </ol>
-                </div>
-            </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Passports</a></li>
+        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+    </ol>
+</nav>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4 mb-3">
 
-        <div class="col-12">
-            <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4"><a href="{{ route('passports.create') }}">Passports <i class="fa fa-plus"></i></a></h6>
-                <div class="table-responsive">
-                    <table class="table">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <div class="data_table">
+                        <table id="example" class="table table-striped table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Passport Number</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Applying Country</th>
-                                <th scope="col">Agent</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">created_at</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="text-center">#</th>
+                                <th scope="col" class="text-center">Passport Number</th>
+                                <th scope="col" class="text-center">Name</th>
+                                <th scope="col" class="text-center">Applying Country</th>
+                                <th scope="col" class="text-center">Work Type</th>
+                                <th scope="col" class="text-center">Agent</th>
+                                <th scope="col" class="text-center">Amount</th>
+                                <th scope="col" class="text-center">Created At</th>
+                                <th scope="col" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ( $passports as $po_data)
+                            @forelse ( $passports as $data )
                             <tr>
                                 <th scope="row">{{ $loop -> index + 1}}</th>
-                                <td>{{ $po_data -> passport_number }}</td>
-                                <td>{{ $po_data -> name }}</td>
-                                <td>{{ $po_data -> email }}</td>
-                                <td>{{ $po_data -> address }}</td>
-                                <td>{{ $po_data -> applying_country }}</td>
-                                <td>{{ $po_data -> Agents-> name ?? "" }}</td>
-                                <td>{{ $po_data -> amount }}</td>
-                                <td>{{ $po_data -> created_at->format('d-m-y') }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-info"  href="{{ route('passports.show',$po_data->id) }}"><i class="fa fa-eye"></i></a>
-                                    <a class="btn btn-sm btn-warning"  href="{{route('passports.edit',$po_data->id)}}"><i class="fa fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-danger"  href="{{route('passports.tresh.update',$po_data->id)}}"><i class="fa fa-trash"></i></a>
+                                    <a href="{{ route('passports.show',$data->id) }}" class="text-decoration-none">{{ $data -> passport }}</a>
+                                </td>
+                                <td>{{ $data -> name }}</td>
+                                <td>{{ $data -> applying_country }}</td>
+                                <td>{{ optional($data->services)->service }}</td>
+                                <td>{{ optional($data->agents)->name }}</td>
+                                <td class="text-center">
+                                    @if($data->amount == null )
+                                    <form action="{{ route('passports.amount',$data ->id) }}" method="Post">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="text" name="amount" value="{{ $data->amount }}" class="form-control text-center" style="width: 8rem">
+                                        <!-- Hidden submit button -->
+                                        <input type="submit" style="display: none;">
+                                    </form>
+                                    @else
+                                    {{ number_format($data->amount, 2, '.', ',') }}
+                                    @endif
+                                </td>
+                                <td  class="text-center">{{ $data -> created_at->format('d-m-y') }}</td>
+                                <td class="text-center">
+                                    @if($data -> passportStatus == 'delivered')
+                                    <a class="btn btn-sm btn-info"  href="{{ route('passports.show',$data->id) }}"><i class="fa fa-eye"></i></a>
+                                    @else
+                                    <a class="btn btn-sm btn-warning"  href="{{route('passports.edit',$data->id)}}"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-sm btn-danger"  href="{{route('passports.tresh.update',$data->id)}}"><i class="fa fa-trash"></i></a>
+                                    @endif
                                 </td>
                             </tr>
                             @empty
@@ -62,8 +74,7 @@
                 </div>
             </div>
         </div>
-
-
+        </div>
 
     </div>
 </div>

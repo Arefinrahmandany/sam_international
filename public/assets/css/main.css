@@ -1,0 +1,5 @@
+.underline {
+    border-bottom: 1px solid #000; /* You can adjust the color and style as needed */
+    padding-bottom: 10px; /* Optional: Add padding for spacing */
+    margin-bottom: 10px; /* Optional: Add margin for spacing */
+}

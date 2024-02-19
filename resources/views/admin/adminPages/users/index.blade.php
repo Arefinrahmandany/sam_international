@@ -9,8 +9,8 @@
             <div class="row page-titles mb-3  mx-0">
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Users</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)" class="link-underline-light link-dark">Users</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)" class="link-underline-light link-dark">Home</a></li>
                     </ol>
                 </div>
             </div>
@@ -70,8 +70,8 @@
                                 <div class="row">
 
                                     <div class="form-group col-md-6">
-                                        <label>Role</label>
-                                        <select name="role" id="" class="form-control">
+                                        <label for="role">Role</label>
+                                        <select name="role" id="role" class="form-control">
                                             <option value="">--Select--</option>
                                             @foreach ($roles as $role)
                                                 <option value="{{ $role -> id }}">{{ $role -> name }}</option>
@@ -205,7 +205,6 @@
                             <tbody>
                                 @forelse ($all_admin as $per)
                                                 @if ($per -> role_id !=='2')
-
                                                 <tr>
                                                     <td>{{ $loop -> index +1 }}</td>
                                                     <td>{{ $per -> name }}</td>

@@ -1,15 +1,29 @@
+@php
+use App\Models\Admin;
+use Carbon\Carbon;
+
+    // Get the authenticated admin user
+    $user = Auth::guard('admin')->user();
+    if ($user && $user->roles) {
+        // Access the role's name
+        $roleName = $user->roles->name;
+    } else {
+        // Set a default value or handle the case where the role is not defined
+        $roleName = 'Role not defined';
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Admin</title>
+    <title>Sam International</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('assets/img/logo.png') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="{{ url('https://fonts.googleapis.com') }}">
@@ -27,8 +41,12 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
+    <!-- Customized Data-table Stylesheet -->
+    <link href="{{ asset('assets/css/datatables.min.css') }}" rel="stylesheet">
+
     <!-- Template Stylesheet -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -46,7 +64,7 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="{{ route('dashboard.index') }}" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                    <h4 class="text-primary"><img src="{{ url('assets/img/logo.png') }}" class="img-fluid" style="width: 100px; height:auto;"></h4>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -55,25 +73,84 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">{{ Auth::guard('admin')->user()->name }}</h6>
-                        <span>Admin</span>
+                        <span>{{ $roleName }}</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="{{ route('dashboard.index') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a href="{{ route('accounting.index') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Accounts</a>
-                    <a href="{{ route('passports.index') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Passport Entry</a>
-                    <a href="{{ route('medical.index') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Medical</a>
-                    <a href="{{ route('visaSubmission.index') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Visa Submission</a>
-                    <a href="{{ route('visaStatusCheck.index') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Visa Check</a>
-                    <a href="{{ route('agentsBd.index') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Agents</a>
-                    <a href="{{-- route('') --}}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Saudi Employment</a>
+
+                    @if(in_array( 'Petty Cash', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <a href="{{ route('transection.pettyCash') }}" class="nav-item nav-link"><i class="fa fa-book me-2"></i>Petty Cash</a>
+                    @endif
+
+                    @if(in_array( 'Accounts', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <a href="{{ route('transection.index') }}" class="nav-item nav-link"><i class="fa fa-calculator me-2"></i>Accounts</a>
+                    @endif
+
+                    @if(in_array( 'Accounts', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <a href="{{ route('airTicket.index') }}" class="nav-item nav-link"><i class="fa fa-plane me-2"></i>Air Ticket</a>
+                    @endif
+
+                    @if(in_array( 'Passport Entry', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Man Power</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Passport</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{{-- route('') --}}" class="dropdown-item">Passport Eligible status</a>
-                            <a href="{{ route('visaoffice.index') }}" class="dropdown-item">Visa Agency</a>
+                            <a href="{{ route('passports.index') }}" class="dropdown-item">Passports</a>
+                            <a href="{{ route('passports.create') }}" class="dropdown-item">Add Passports</a>
                         </div>
                     </div>
+                    @endif
+
+                    @if(in_array( 'Passport Entry', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Office</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{ route('staff.index') }}" class="dropdown-item">Staff</a>
+                            <a href="{{ route('service.index') }}" class="dropdown-item">Our Service</a>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(in_array( 'Medical', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <a href="{{ route('medical.index') }}" class="nav-item nav-link"><i class="fa fa-syringe me-2"></i>Medical</a>
+                    @endif
+
+                    @if(in_array( 'Man Power', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Man Power</a>
+                        <div class="dropdown-menu bg-transparent border-0 text-end h-4">
+                            <a href="{{ route('bmet.index') }}" class="dropdown-item">BMET</a>
+                            <a href="{{ route('manpower.index') }}" class="dropdown-item">BMET Status</a>
+                            <a href="{{ route('passportDelivery.index') }}" class="dropdown-item">Passports Delivery</a>
+                            <a href="{{ route('manpower.rlcreate') }}" class="dropdown-item">RL Licence</a>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(in_array( 'Man Power', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>KSA Process</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <h5><a href="{{ route('embassy.index') }}" class="dropdown-item">Embassy</a></h5>
+                            <h5><a href="{{ route('okala.index') }}" class="dropdown-item">Okala</a></h5>
+                            <h5><a href="{{ route('mofa.index') }}" class="dropdown-item">MOFA</a></h5>
+                            <h5><a href="{{ route('saudiEmp.index') }}" class="dropdown-item">Saudi Employment</a></h5>
+                            <h5><a href="{{ route('visaSubmission.index') }}" class="dropdown-item">Visa Submission</a></h5>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(in_array( 'Man Power', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Agents</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{ route('agentsBd.index') }}" class="dropdown-item">Agents</a>
+                            <a href="{{ route('agentsTransaction.index') }}" class="dropdown-item">Agents Transaction</a>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(in_array( 'Users', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Users</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -82,29 +159,12 @@
                             <a href="{{ route('user-role.index') }}" class="dropdown-item">Role</a>
                         </div>
                     </div>
-                    <a href="{{-- route('') --}}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Recycle Bin</a>
-                    <a href="{{-- route('') --}}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Password Change</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Blog</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{{-- route('elements.button') --}}" class="dropdown-item">Content</a>
-                            <a href="{{-- route('elements.typography') --}}" class="dropdown-item">Licence</a>
-                            <a href="{{-- route('elements.index') --}}" class="dropdown-item">Portfolio</a>
-                            <a href="{{-- route('elements.index') --}}" class="dropdown-item">Service</a>
-                        </div>
-                    </div>
-                    <a href="{{ route('elements.widget') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                    <a href="{{ route('elements.form') }}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
-                    <a href="{{ route('elements.table') }}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                    <a href="{{ route('elements.chart') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{{ route('elements.signup') }}" class="dropdown-item">Sign Up</a>
-                            <a href="{{ route('elements.error404') }}" class="dropdown-item">404 Error</a>
-                            <a href="{{ route('elements.blank') }}" class="dropdown-item">Blank Page</a>
-                        </div>
-                    </div>
+                    @endif
+
+                    @if(in_array( 'Recycle Bin', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                    <a href="{{ route('transection.recycle') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Recycle Bin</a>
+                    @endif
+
                 </div>
             </nav>
         </div>
@@ -118,7 +178,7 @@
                 <a href="{{ route('dashboard.index') }}" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
                 </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
+                <a href="#" class="sidebar-toggler flex-shrink-0 link-underline-light">
                     <i class="fa fa-bars"></i>
                 </a>
                 <form class="d-none d-md-flex ms-4">
@@ -143,7 +203,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="{{ asset('assets/img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="{{ asset('assets/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -153,7 +213,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="{{ asset('assets/img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="{{ asset('assets/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -191,12 +251,13 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="{{ asset('assets/img/avatar.png') }}" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <span class="d-none d-lg-inline-flex">{{ $user->name }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            <a href="{{ route('users.show',$user->id) }}" class="dropdown-item">My Profile</a>
+                            <a href="{{ route('users.EditForm',$user->id) }}" class="dropdown-item">Profile Edit</a>
+                            <a href="{{ route('users.passwordChangeForm',$user->id) }}" class="dropdown-item">Password Change</a>
+                            <a href="{{ route('dashboard.logout') }}" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -249,8 +310,9 @@
                 </div>
 
                 <!-- JavaScript Libraries -->
-                <script src="{{ url('https://code.jquery.com/jquery-3.4.1.min.js') }}"></script>
-                <script src="{{ url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js') }}"></script>
+                <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+                <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+
                 <script src="{{ asset('assets/lib/chart/chart.min.js') }}"></script>
                 <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
                 <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
@@ -258,6 +320,11 @@
                 <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
                 <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
                 <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+                <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
+                <script src="{{ asset('assets/js/pdfmake.min.js') }}"></script>
+                <script src="{{ asset('assets/js/vfs_fonts.js') }}"></script>
+
 
                 <!-- Template Javascript -->
                 <script src="{{ asset('assets/js/main.js') }}"></script>
