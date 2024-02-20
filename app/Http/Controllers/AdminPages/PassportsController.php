@@ -66,6 +66,11 @@ class PassportsController extends Controller
      */
     public function store(Request $request)
     {
+        //validate
+        $this-> validate($request,[
+            'passport'=> 'required||unique:Passports,passport',
+        ]);
+
         //multiple image upload
 
         $paperImg = [];
@@ -99,7 +104,7 @@ class PassportsController extends Controller
         ]);
 
         //redirect to back same page
-        return redirect()->route('passports.index')->with('success-table', 'Data successfully inserted .');
+        return back()->with('success', 'Data successfully inserted .');
 
     }
 

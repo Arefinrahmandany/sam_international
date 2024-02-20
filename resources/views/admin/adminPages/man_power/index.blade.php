@@ -30,6 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                     @forelse ($passports as $data)
                     <tr>
                         <form method="POST" action="{{ route('manpower.update',$data->id) }}">

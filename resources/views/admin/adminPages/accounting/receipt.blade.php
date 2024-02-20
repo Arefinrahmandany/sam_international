@@ -46,10 +46,11 @@
         <div class="invoice-box p-5">
             <ul class="list-group list-unstyled">
                 <li><h3>Recipt</h3></li>
+                <li><img src="{{ asset('assets/img/logo.png') }}" style="width: 100px; height: auto;"></li>
                 <li><h5 style="margin-bottom: 0px;"><strong>Sam Internation</strong></h5></li>
-                <li><p style="margin-bottom: 0px;">26, Chamelibagh, 4th Floor,</p></li>
-                <li><p style="margin-bottom: 0px;">Shantinagar, Dhaka-1217.</p></li>
-                <li><p>Phone: 9336574 (Off.), 01613984300, 01817515161</p></li>
+                <li><p style="margin-bottom: 0px;">Green City Regency, 8th Floor,</p></li>
+                <li><p style="margin-bottom: 0px;">26,27,27/1, Kakrail, Dhaka-1000.</p></li>
+                <li><p>Phone: 02226664744 (Off.), 01913984300, 01817515161</p></li>
             </ul>
         </div>
 

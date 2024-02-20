@@ -131,6 +131,7 @@ use Carbon\Carbon;
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>KSA Process</a>
                         <div class="dropdown-menu bg-transparent border-0">
+                            <h5><a href="{{ route('ksaProcess.index') }}" class="dropdown-item">Home</a></h5>
                             <h5><a href="{{ route('embassy.index') }}" class="dropdown-item">Embassy</a></h5>
                             <h5><a href="{{ route('okala.index') }}" class="dropdown-item">Okala</a></h5>
                             <h5><a href="{{ route('mofa.index') }}" class="dropdown-item">MOFA</a></h5>

@@ -17,14 +17,15 @@ use App\Http\Controllers\AdminPages\PassportsController;
 use App\Http\Controllers\AdminPages\VisaOfficeController;
 use App\Http\Controllers\AdminPages\Staff\StaffController;
 use App\Http\Controllers\AdminPages\TransectionController;
+use App\Http\Controllers\AdminPages\ManPower\MofaController;
 use App\Http\Controllers\AdminPages\VisaSubmissionController;
 use App\Http\Controllers\AdminPages\Accounting\BankController;
 use App\Http\Controllers\AdminPages\VisaStatusCheckController;
 use App\Http\Controllers\AdminPages\passportEligibleController;
 use App\Http\Controllers\AdminPages\Travel\AirTicketController;
-use App\Http\Controllers\AdminPages\ManPower\MofaController;
 use App\Http\Controllers\AdminPages\ManPower\ManpowerController;
 use App\Http\Controllers\AdminPages\Visaprocess\OkalaController;
+use App\Http\Controllers\AdminPages\ManPower\KsaProcessController;
 use App\Http\Controllers\AdminPages\Visaprocess\EmbassyController;
 use App\Http\Controllers\AdminPages\ManPower\PassportReturnController;
 use App\Http\Controllers\AdminPages\OfficeManagement\ServiceController;
@@ -134,6 +135,9 @@ Route::group(['middleware' => 'admin'],function(){
 
     //Route For Medical
     Route::resource('/medical',MedicalController::class);
+
+
+    Route::resource('/ksaProcess',KsaProcessController::class);
 
     //Route For embassy
     Route::resource('/embassy',EmbassyController::class);
