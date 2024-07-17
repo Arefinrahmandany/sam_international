@@ -15,11 +15,12 @@
 </nav>
 <main>
     <!-- main Section Start -->
-    <div class="container px-4">
+    <div class="container">
 
-        <div class="row card p-2 m-3">
-            <div class="col-md-12 card-body d-flex">
-                <div class="m-2 p-2">
+        <div class="card p-2 m-3">
+            <div class="row card-body d-flex justify-content-between">
+
+                <div class="col-sm-1">
                     <h3>
                         <form action="{{ route('transection.dailyStatement') }}" method="post">
                             @csrf
@@ -27,23 +28,56 @@
                         </form>
                     </h3>
                 </div>
-                <div class="m-2 p-2">
+
+                <div class="col-sm-1">
                     <b><a href="{{ route('bank.index') }}" class="btn text-info shadow p-3 mb-5 bg-body-tertiary rounded"><b>Banking Transections</b></a></b>
                 </div>
-                <div class="m-2 p-2">
-                    <b><a href="{{ route('staff.index') }}" class="btn text-warning shadow p-3 mb-5 bg-body-tertiary rounded"><b>Salary Statement</b></a></b>
+
+                <div class="col-sm-1">
+                    <h3>
+                        <form action="{{ route('staff.salaryStatement') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn text-danger shadow p-3 mb-5 bg-body-tertiary rounded"><b>Salary Statement</b></button>
+                        </form>
+                    </h3>
                 </div>
-                <div class="m-2 p-2">
+
+                <div class="col-sm-1">
                     <form action="{{ route('office.expenses') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn text-success shadow p-3 mb-5 bg-body-tertiary rounded"><b>Office Expenses</b></button>
                     </form>
                 </div>
+
+                <div class="col-sm-1">
+                    <form action="{{ route('office.revenue') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn text-success shadow p-3 mb-5 bg-body-tertiary rounded"><b>Office Revenue</b></button>
+                    </form>
+                </div>
+
+                <div class="col-sm-1">
+                    <form action="{{ route('office.balanceSheet') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn text-success shadow p-3 mb-5 bg-body-tertiary rounded"><b>Balance Sheet</b></button>
+                    </form>
+                </div>
+
+                <div class="col-sm-1">
+                    <a href="{{ route('transaction.typeShow') }}" class="btn text-success shadow p-3 mb-5 bg-body-tertiary rounded">Transaction Types</a>
+                </div>
+
+                @if(in_array( 'Admin', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                <div class="col-sm-1">
+                    <a href="{{ route('transection.recycle') }}" class="btn text-success shadow p-3 mb-5 bg-body-tertiary rounded">Recycle Bin</a>
+                </div>
+                @endif
+
             </div>
         </div>
 
         <div class="row">
-            <h3>Transections</h3>c
+            <h3>Transections</h3>
             <div class="col-12 table-responsive">
                 <div class="data_table">
                     <table id="example" class="table table-striped table-hover table-bordered shadow p-3 mb-5 bg-body-tertiary rounded">
@@ -64,7 +98,7 @@
                             @forelse ( $transection as $data )
                             <tr>
                                 <td style="display: none;">{{ $loop-> index +1 }}</td>
-                                <td>{{ $data->created_at->format('d.m.Y') }}</td>
+                                <td>{{ $data->created_at->format("d.m.Y") }}</td>
                                 <td>{{ $data->voucherNo }}</td>
                                 <td>{{ $data->details }}</td>
                                 <td>
@@ -87,9 +121,14 @@
                                 </td>
                                 <td>{{ $data->paymentSystem }}</td>
                                 <td>
-                                    @if(in_array( 'Petty Cash', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                                    <div class="d-flex">
+                                    @if(in_array( 'Accounts', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
                                     <a class="btn btn-sm btn-danger"  href="{{route('transection.TransectionTresh',$data->id)}}"><i class="fa fa-trash"></i></a>
                                     @endif
+                                    @if(in_array( 'Accounts', json_decode(Auth::guard('admin')->user()-> roles-> permissions) ) )
+                                    <a class="btn btn-sm btn-warning"  href="{{route('transection.TransectionTresh',$data->id)}}"><i class="fa fa-edit"></i></a>
+                                    @endif
+                                    </div>
                                 </td>
                             </tr>
                             @empty

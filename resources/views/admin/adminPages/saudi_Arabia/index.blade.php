@@ -43,7 +43,7 @@
                             @forelse ( $passports_data as $po_data)
                             <tr>
                                 <th scope="row">{{ $loop -> index + 1}}</th>
-                                <td>{{ $po_data -> passport_number }}</td>
+                                <td>{{ $po_data -> passport }}</td>
                                 <td>{{ $po_data -> name }}</td>
                                 <td>{{ $po_data -> applying_country }}</td>
                                 <td>{{ optional($po_data->agents)->name }}</td>

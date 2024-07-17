@@ -17,4 +17,9 @@ class Transection extends Model
         return $this->belongsTo(AgentsBd::class, 'agent', 'id');
     }
 
+	public function trashBy()
+    {
+        return $this->belongsTo(Admin::class,'trash_by', 'id');
+    }
+
 }

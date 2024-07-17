@@ -69,7 +69,7 @@
                             </span>
                         </li>
                         <li class="text-muted">
-                            @if (!empty($data->agentsBD))
+                            @if (!empty($data->agentsBd))
                                 {{ $data->agents->name }}
                             @elseif (!empty($data->reciveFrom))
                                 {{ $data->reciveFrom }}
@@ -137,6 +137,10 @@
 <div class="container">
     <div p-2>
         <button type="button" onclick="printDiv()" class="btn btn-primary mb-3">Print Receipt</button>
+    </div>
+<div p-2>
+<a href="{{route('transection.pettyCash')}}" class="btn btn-danger mb-3">Back</a>
+        <button type="button" class="btn btn-primary mb-3">Print Receipt</button>
     </div>
 </div>
 

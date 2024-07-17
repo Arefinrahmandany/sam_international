@@ -94,7 +94,7 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
                                         </td>
                                         <td width=345 style='width:258.75pt;padding:0in 5.4pt 0in 5.4pt'>
                                             <p class="MsoNormal" style='line-height:150%'>
-                                                <span style="line-height:150%;">: {{ $data->passport_number }}. DATE: {{ $data->passport_expire_date }}</span>
+                                                <span style="line-height:150%;">: {{ $data->passport }} DATE: {{ $data->passport_expire_date }}</span>
                                             </p>
                                         </td>
                                         </tr>
@@ -109,7 +109,7 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
                                         </td>
                                         <td width=345 style='width:258.75pt;padding:0in 5.4pt 0in 5.4pt'>
                                         <p class=MsoNormal><span style='font-size:12.0pt;font-family:"Times New Roman","serif"'>:
-                                        </span><span style='font-size:12.0pt;font-family:"Times New Roman","serif"'>{{ $data -> occupation }}</span></p>
+                                        </span><span style='font-size:12.0pt;font-family:"Times New Roman","serif"'>{{ optional($data->mofas)->occupetion }}</span></p>
                                         </td>
                                         </tr>
                                         <tr>

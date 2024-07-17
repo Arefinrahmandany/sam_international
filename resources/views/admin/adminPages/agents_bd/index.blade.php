@@ -23,114 +23,18 @@
 
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-3">
-                        @if($form_type == 'create')
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">Agent Information</h4>
 
-                                </div>
-                                <div class="basic-form">
 
-                                    <form method="post" action="{{ route('agentsBd.store') }}">
-
-                                        @csrf
-                                        @include('validation.validate')
-
-                                        <div class="row">
-
-                                            <div class="form-group col-md-6">
-                                                <label>NAME</label>
-                                                <input type="text" value="" name="name" class="form-control">
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label>Phone</label>
-                                                <input type="tel" value="" name="cell" class="form-control">
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label>Email</label>
-                                                <input type="email" value="" name="email" class="form-control">
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label>Address</label>
-                                                <input type="text" value="" name="address" class="form-control">
-                                            </div>
-
-                                        </div>
-
-                                        <button type="submit" name="submit" class="btn btn-dark m-3">Submit</button>
-
-                                    </form>
-
-                                </div>
-
-                            </div>
+                    <div class="row d-flex justify-content-between mb-2">
+                        <div class="col-md-2">
+                            <a class="btn btn-primary" href="{{ route('agentsBd.create') }}"><i class="fa fa-plus"></i> New Agent</a>
                         </div>
-                        @endif
-
-                        @if($form_type == 'edit')
-
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">Edit Admin</h4>
-                                    <a href="{{ route('agentsBd.index') }}">Back</a>
-                                </div>
-
-                                <div class="basic-form">
-
-                                    <form method="post" action="{{ route('agentsBd.update', $agent -> id) }}">
-
-                                        @csrf
-                                        @method('PUT')
-                                        @include('validation.validate')
-
-                                        <div class="row">
-
-                                            <div class="form-group col-md-6">
-                                                <label>NAME</label>
-                                                <input type="text" value="{{ $agent -> name }}" name="name" class="form-control">
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label>Phone</label>
-                                                <input type="tel" value="{{ $agent -> cell }}" name="cell" class="form-control">
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label>Email</label>
-                                                <input type="email" value="{{ $agent -> email }}" name="email" class="form-control">
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label>Adress</label>
-                                                <input type="text" value="{{ $agent -> address }}" name="address" class="form-control">
-                                            </div>
-
-                                        </div>
-
-
-
-
-                                        <button type="submit" name="submit" class="btn btn-dark m-3">Submit</button>
-
-                                    </form>
-
-                                </div>
-
-                            </div>
+                        <div class="col-md-2 text-end">
+                            <a class="btn btn-sm btn-outline-warning" href=""><i class="fa fa-recycle"></i></a>
                         </div>
-
-                        @endif
-
-
                     </div>
 
-                    <div class="card col-lg-8">
+                    <div class="card col-lg-12">
                         <div class="row">
                             <div class="card-body col-lg-12">
                                 <div class="data_table table-responsive">
@@ -144,6 +48,7 @@
                                                     <th class="text-center">Sl.</th>
                                                     <th class="text-center">Name</th>
                                                     <th class="text-center">Phone</th>
+                                                    <th class="text-center">Social Link</th>
                                                     <th class="text-center">Balance</th>
                                                     <th class="text-center">Action</th>
                                                 </tr>
@@ -152,17 +57,37 @@
 
                                             <tbody>
 
-                                            @forelse ($agent_data as $per)
+                                            @forelse ($agent_data as $data)
                                                 <tr>
                                                     <td class="text-center">{{ $loop -> index +1 }}</td>
-                                                    <td><a href="{{ route('agentsBd.show',$per->id) }}" class="text-decoration-none">{{ $per -> name }}</a></td>
-                                                    <td>{{ $per -> cell }}</td>
+                                                    <td>{{ $data -> name }}</td>
+                                                    <td>{{ $data -> cell }}</td>
+                                                    <td>
+                                                        {{ $data -> cell }}
+                                                    </td>
                                                     <td class="text-end">
-                                                        {{ number_format(($balance[$per->id] ?? 0), 2, '.', ',') }}
+                                                        {{ number_format(($balance[$data->id] ?? 0), 2, '.', ',') }}
                                                     </td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-sm btn-warning"  href="{{route('agentsBd.edit',$per -> id)}}"><i class="fa fa-edit"></i></a>
-                                                        <a class="btn btn-sm btn-danger"  href="{{route('agentsBd.tresh.update',$per -> id)}}"><i class="fa fa-trash"></i></a>
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="">
+                                                                <a href="{{ route('agentsBd.show',$data->id) }}" class="btn btn-sm btn-outline-info">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </a>
+
+                                                            </div>
+                                                            <div class="">
+                                                                <a class="btn btn-sm btn-warning"  href="{{route('agentsBd.edit',$data -> id)}}">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="">
+                                                                <a class="btn btn-sm btn-danger"  href="{{route('agentsBd.tresh.update',$data -> id)}}">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
                                                         {{--
                                                         <form method="post" action="{{ route('admin-user.destroy',$per -> id) }}" class="d-inline">
                                                         @csrf

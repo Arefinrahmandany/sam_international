@@ -20,4 +20,14 @@ class Admin extends User
             return  $this -> belongsTo(Roles::class,'role_id','id');
         }
 
+        public function passport()
+        {
+            return  $this -> hasOne(Passports::class,'user_id');
+        }
+
+	public function transection()
+        {
+            return  $this -> hasOne(Transection::class,'trash_by', 'id');
+        }
+
 }

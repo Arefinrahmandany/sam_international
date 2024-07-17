@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\AdminPages;
 
 use Carbon\Carbon;
+use App\Models\Bank;
 use App\Models\AgentsBd;
 use App\Models\Transection;
 use Illuminate\Http\Request;
+use App\Models\BankTransaction;
+use App\Models\TransactionType;
 use App\Models\AgentTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -58,72 +61,75 @@ class TransectionController extends Controller
         $voucherNo = $this->generateUniqueVoucherNo();// Generates a unique random number between 1000 and 9999
         $today = Carbon::today();
 
-        $agentsBd = AgentsBd::latest()->get();
+        $bank = Bank::all();
+        $transactionTypes = TransactionType::all();
+        $agentsBd = AgentsBd::where('trash',0)->where('status',1)->latest()->get();
         return view('admin.adminPages.accounting.pettyCash',[
             'agentsBd' => $agentsBd,
+            'bank' => $bank,
             'voucherNo' => $voucherNo,
+            'transactionTypes' => $transactionTypes,
             'today'=>$today
         ]);
     }
-
     /**
      * Display a listing of the resource.
      */
     public function dailyStatement(Request $request)
     {
-        $today = $request->input('date', Carbon::today()->format('Y-m-d'));
+         $today = Carbon::today();
 
-        // Total Debit and Credit where 'tresh' is 0
-        $debit = Transection::where('tresh', 0)->sum('debit');
-        $credit = Transection::where('tresh', 0)->sum('credit');
+    if (!empty($request->date)) {
+        $requestDate = Carbon::parse($request->date);
+    } else {
+        $requestDate = $today;
+    }
 
-        // Balance calculation
-        $balance = $debit - $credit;
+    // Format $requestDate to 'Y-m-d' if needed
+    $requestDate = $requestDate->format('Y-m-d');
+
+        // Get the balance carried forward (B/D) from the previous day
+        $previousDay = Carbon::parse($today)->subDay();
+
+        // Get the total of Previous Days Sum of Debit
+        $previousDayDebit = Transection::whereDate('created_at','<', $requestDate)
+            ->where('tresh', false)
+            ->where('status', true)
+            ->sum('debit');
+
+            // Get the total of Previous Days Sum of Crdeit
+        $previousDayCredit = Transection::whereDate('created_at','<', $requestDate)
+            ->where('tresh', false)
+            ->where('status', true)
+            ->sum('credit');
+        // Get the balance carried forward (B/D) from the previous day
+        $previousDayBalance = $previousDayDebit - $previousDayCredit ;
 
         // Day Transactions where 'created_at' is >= start of day and 'tresh' is 0
-        $dayTransaction = Transection::where('created_at', '>=', Carbon::parse($today)->startOfDay())
-            ->where('tresh', 0)
-            ->get();
+        $dayTransaction = Transection::whereDate('created_at', $requestDate)
+                ->where('tresh', false)
+                ->where('status', true)
+                ->get();
 
-        // Day Due Transactions where 'created_at' is >= start of day and 'tresh' is 0
-        $dayDueTransaction = Transection::where('created_at', '>=', Carbon::parse($today)->startOfDay())
-            ->where('tresh', 0)
-            ->sum('due');
+        // Total Debit and Credit where 'tresh' is 0
 
-        // Transaction Debits where 'created_at' is within the day, 'debit' > 0, and 'tresh' is 0
-        $transaction_debit = Transection::where('created_at', '>=', Carbon::parse($today)->startOfDay())
-            ->where('created_at', '<', Carbon::parse($today)->endOfDay())
-            ->where('debit', '>', 0)
-            ->where('tresh', 0)
-            ->get();
+         $totalDebit = $dayTransaction->sum('debit');
+        $totalCredit = $dayTransaction->sum('credit');
 
-        // Transaction Credits where 'created_at' is within the day, 'credit' > 0, and 'tresh' is 0
-        $transaction_credit = Transection::where('created_at', '>=', Carbon::parse($today)->startOfDay())
-            ->where('created_at', '<', Carbon::parse($today)->endOfDay())
-            ->where('credit', '>', 0)
-            ->where('tresh', 0)
-            ->get();
+        $dayBalance = $totalDebit - $totalCredit;
 
-        // Day Debit and Credit calculation
-        $day_debit = $transaction_debit->where('tresh', 0)->sum('debit');
-        $day_credit = $transaction_credit->where('tresh', 0)->sum('credit');
-
-        // Day Balance calculation
-        $day_balance = $day_debit - $day_credit;
-
-        // Balance_bd calculation
-        $balance_bd = $balance - $day_balance;
+        $balance_cd = $previousDayBalance + $dayBalance ;
+        $totalDebit = $dayTransaction->sum('debit') + $previousDayBalance ;
+        $dayBalance = $totalDebit - $totalCredit;
 
         return view('admin.adminPages.accounting.daily_ending', [
-            'day_debit' => $day_debit,
-            'day_credit' => $day_credit,
-            'balance_bd' => $balance_bd,
-            'balance' => $balance,
-            'debit' => $transaction_debit,
-            'credit' => $transaction_credit,
-            'dayTransaction' => $dayTransaction,
-            'dayDueTransaction' => $dayDueTransaction,
-            'today' => $today
+            'balance_bd'        => $previousDayBalance,
+            'dayTransaction'    => $dayTransaction,
+            'totalDebit'        => $totalDebit,
+            'totalCredit'       => $totalCredit,
+            'dayBalance'        => $dayBalance,
+            'balance_cd'        => $balance_cd,
+            'requestDate'       => $requestDate
         ]);
     }
 
@@ -132,8 +138,6 @@ class TransectionController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $user_id = Auth::guard('admin')->user()->id;
         $debitCredit = null;
         $transection_details = null;
@@ -149,35 +153,36 @@ class TransectionController extends Controller
             $debitCredit = ['due' => $request->amount];
         }
 
-        $agentId = $request->agentsBd;
-        $agentName = null; // Initialize the variable
-
-        if (!empty($agentId)) {
-            // Use try-catch to handle potential exceptions when querying the database
-            try {
-                // Eager load the 'agentDetails' relationship
-                $Transection = Transection::with('agentDetails')->where('agent', 'LIKE', '%' . $agentId . '%')->firstOrFail();
-                $agentName = optional($Transection->agentDetails)->name;
-            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-                // Handle the case where no Transection is found for the given agent ID
-                // $agentName is already null in this case
-            }
+        // Get agents Name
+        if(!empty($request->agentsBd) && empty($request->reciveFrom) ){
+            $agentId = $request->agentsBd;
+            $agent_data = AgentsBd::where('id',$agentId)->first();
+            $agentName = $agent_data->name;
+        }else{
+            $reciveFrom = $request->reciveFrom;
         }
 
-        $transection_details = [
-            'details' => ($request->reciveFrom || empty($request->agentsBd))
-                ? $request->paid_to . ' ' . $request->detail
-                : (empty($request->reciveFrom) ? $agentName : $request->reciveFrom) . ' purpose ' . $request->detail,
-        ];
 
-        if($request->agentsBd == !null){
+
+        // Determine $bankingName
+        $bankingName = ($request->paymentSystem == 'banking' || $request->paymentSystem == 'check') ? $request->bankingDetail : '';
+
+        if(!empty($request->reciveFrom) && empty($request->agentsBd) && empty($request->payment)){
+            $transection_details = ['details' => strtoupper('Receive From ' . $reciveFrom.' '.$request->detail.' '.$bankingName)];
+        }elseif(empty($request->reciveFrom) && !empty($request->agentsBd) && empty($request->payment)){
+            $transection_details = ['details' => strtoupper('Receive From '. $agentName.' '.$request->detail.' '.$bankingName)];
+        }else{
+            $transection_details = ['details' => strtoupper($request->payment.' for '.$request->detail.' '.$bankingName)];
+        }
+
+        if(!empty($request->agentsBd) && $request->agentsBd !== 'new' ){
             $voucherNo = $this->generateUniqueVoucherNo();
             AgentTransaction::create([
                 'voucherNo'     => $voucherNo,
                 'reciveBy'      => $user_id,
-                'agent'         => $request-> agentsBD,
-                'detail'        => 'Receive from '. $agentName .' '. $request->detail,
-                'credit'        => $request-> amount,
+                'agent'         => (int)$request->agentsBd,
+                'detail'        => strtoupper('Receive from '.$agentName .' '.$request->detail.' '.$bankingName),
+                'credit'        => $request->amount,
                 'paymentSystem' => $request->paymentSystem,
             ]);
         }
@@ -189,9 +194,25 @@ class TransectionController extends Controller
             'reciveFrom'    => $request->reciveFrom,
             'agent'         => $request->agentsBd,
             'paid_to'       => $request->payment,
+            'type'          => $request->transactionTypes,
             'paymentSystem' => $request->paymentSystem,
             'user_id' => $user_id,
         ] + $transection_details + $debitCredit);
+
+        $type = TransactionType::where('type', $request->transactionTypes)->first();
+        if( empty($type) ){
+            TransactionType::Create([
+                'type' => $request->transactionTypes,
+            ]);
+        }else{
+
+        }
+
+        if($request->paymentSystem === 'banking' || $request->paymentSystem === 'check'){
+            BankTransaction::create([
+                'voucherNo' => $request->voucherNo,
+            ]+ $transection_details + $debitCredit);
+        }
 
         // Redirect back to the same page with a success message
         return view('admin.adminPages.accounting.receipt', compact('data'));
@@ -202,10 +223,33 @@ class TransectionController extends Controller
      */
     public function recycle()
     {
-        $transaction = Transection::latest()->get();
-        return view('admin.adminPages.Recycling Bin.recyclingBin',[
+        $transaction = Transection::latest()->where('tresh', 1)->get();
+        return view('admin.adminPages.accounting.recycle_bin',[
             'transaction' => $transaction
         ]);
+    }
+
+    /**
+     * Restore the Trash resource.
+     */
+    public function restore(string $id)
+    {
+	
+        $get_transaction = Transection::findorfail($id);
+
+            $get_transaction -> update([
+                'tresh'=>false,
+            ]);
+
+        return back()->with('success-table','Data restore successfull');
+
+    }
+/**
+     * Show the form for editing the specified resource.
+     */
+    public function show(string $id)
+    {
+         //
     }
 
     /**
@@ -213,7 +257,7 @@ class TransectionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+         //
     }
 
     /**
@@ -221,21 +265,22 @@ class TransectionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         //
     }
-
 
     public function transectionTresh($id)
     {
         $data =  Transection::findorFail($id);
+	$user_id = Auth::guard('admin')->user()->id;
 
         if($data -> tresh){
             $data -> update([
-                'tresh'=>false
+                'tresh'=>false,
             ]);
         }else{
             $data -> update([
-                'tresh'=>true
+                'tresh'=>true,
+		'trash_by'=>$user_id,
             ]);
         }
 
@@ -248,6 +293,54 @@ class TransectionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+	$data =  Transection::findOrFail($id);
+	$data->delete();
+	return back()->with('success-table','Data Deleted successfull');
+        
     }
+
+     /**
+     * Remove the specified resource from storage.
+     */
+    public function destroySingle(string $id)
+    {
+	$data =  Transection::findOrFail($id);
+	$data->delete();
+	return back()->with('danger-table','Data Deleted successfull');
+        
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function typeStore(Request $request)
+    {
+        TransactionType::create([
+            'type' => $request->type,
+        ]);
+        return back()->with('success','Data Inserted Successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function typeShow(Request $request)
+    {
+        $type = TransactionType::all();
+        return view('admin.adminPages.accounting.type',[
+            'types' => $type,
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function typeDestroy(string $id)
+    {
+        $data = TransactionType::findorFail($id);
+        $data->delete();
+
+        return back()->with('danger-table','Data deleted Successfully');
+    }
+
 }

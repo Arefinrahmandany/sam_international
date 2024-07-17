@@ -10,4 +10,10 @@ class Service extends Model
     use HasFactory;
 
     protected $guarded =[];
+
+    public function passport()
+    {
+        return $this->hasOne(Passports::class,'service');
+    }
+
 }

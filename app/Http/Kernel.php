@@ -4,6 +4,9 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+use App\Jobs\MonthlySalaryJob;
+use Illuminate\Console\Scheduling\Schedule;
+
 class Kernel extends HttpKernel
 {
     /**
@@ -70,4 +73,10 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Admin\AdminAuthMiddleware::class,
         'admin.redirect' => \App\Http\Middleware\Admin\AdminAuthRedirectMiddleware::class,
     ];
+
+    protected function schedule(Schedule $schedule)
+    {
+        // Schedule the MonthlySalaryJob to run at the end of each month
+        $schedule->job(new MonthlySalaryJob)->monthlyOn(28, '23:59');
+    }
 }

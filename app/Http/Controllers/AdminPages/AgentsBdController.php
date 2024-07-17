@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminPages;
 use App\Models\AgentsBd;
 use App\Models\Transection;
 use Illuminate\Http\Request;
+use App\Models\AgentTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class AgentsBdController extends Controller
 
         $balances = [];
         foreach ($agents as $agent) {
-            $agentTran = Transection::where('agent', $agent->id)->get();
+            $agentTran = AgentTransaction::where('agent', $agent->id)->get();
 
             $totalDebit = $agentTran->sum('debit');
             $totalCredit = $agentTran->sum('credit');
@@ -29,7 +30,10 @@ class AgentsBdController extends Controller
             $balances[$agent->id] = $balance;
         }
 
-        $agents_data = AgentsBd::latest()->get();
+        $agents_data = AgentsBd::latest()
+                ->where('trash',0)
+                ->where('status',1)
+                ->get();
         return view('admin.adminPages.agents_bd.index',[
             'agent_data' => $agents_data,
             'balance' => $balances,
@@ -38,13 +42,15 @@ class AgentsBdController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      */
     public function create()
     {
-        //
-    }
+        return view('admin.adminPages.agents_bd.show',[
+            'form_type' => 'create',
+        ]);
 
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -53,6 +59,7 @@ class AgentsBdController extends Controller
         //validate
         $this-> validate($request,[
             'name' => 'required',
+            'cell' => 'required|unique:agents_bds,cell',
         ]);
         // data store to table
         AgentsBd::create([
@@ -63,29 +70,31 @@ class AgentsBdController extends Controller
         ]);
         //redirect to back same page
         return back() -> with('success','Agent successfully inserted');
-
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+        if($request->rowOnPage){
+            $rowOnPage = $request->rowOnPage;
+        }else{
+            $rowOnPage = "10";
+        }
         //calculet Debit & Credit
-        $totalDebit = Transection::where('agent', $id)->where('tresh','0')->sum('debit');
-        $totalCredit = Transection::where('agent', $id)->where('tresh','0')->sum('credit');
-        $totalDue = Transection::where('agent', $id)->where('tresh','0')->sum('due');
-        $totalAmount = $totalDebit - $totalCredit - $totalDue;
+        $totalDebit = AgentTransaction::where('agent', $id)->where('trash','0')->where('status','1')->sum('debit');
+        $totalCredit = AgentTransaction::where('agent', $id)->where('trash','0')->where('status','1')->sum('credit');
+        $totalAmount = $totalDebit - $totalCredit;
 
-
-        $agents_transactions = Transection::where('agent', $id)->get();
-
+        $agents_transactions = AgentTransaction::where('agent',$id)->paginate($rowOnPage);
         $agent = AgentsBd::findorFail($id);
         return view('admin.adminPages.agents_bd.show',[
             'agent' => $agent,
+            'rowOnPage' => $rowOnPage,
             'totalAmount' => $totalAmount,
-            'agent_data' => $agents_transactions
+            'agent_data' => $agents_transactions,
+            'form_type' => 'show',
         ]);
     }
 
@@ -98,7 +107,7 @@ class AgentsBdController extends Controller
         $agents_data = AgentsBd::latest()->get();
         $agent = AgentsBd::findorFail($id);
 
-        return view('admin.adminPages.agents_bd.index',[
+        return view('admin.adminPages.agents_bd.show',[
             'agent_data' => $agents_data,
             'agent' => $agent,
             'form_type' => 'edit'
@@ -137,18 +146,18 @@ class AgentsBdController extends Controller
      * Tresh Update
      */
 
-    public function updateTresh($id)
+    public function trash($id)
     {
 
     $data =  AgentsBd::findorFail($id);
 
-    if($data -> tresh){
+    if($data -> trash){
         $data -> update([
-            'tresh'=>false
+            'trash'=>false
         ]);
     }else{
         $data -> update([
-            'tresh'=>true
+            'trash'=>true
         ]);
     }
 

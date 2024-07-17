@@ -24,12 +24,18 @@ use App\Http\Controllers\AdminPages\VisaStatusCheckController;
 use App\Http\Controllers\AdminPages\passportEligibleController;
 use App\Http\Controllers\AdminPages\Travel\AirTicketController;
 use App\Http\Controllers\AdminPages\ManPower\ManpowerController;
+use App\Http\Controllers\AdminPages\ManPower\VisaHomeController;
 use App\Http\Controllers\AdminPages\Visaprocess\OkalaController;
 use App\Http\Controllers\AdminPages\ManPower\KsaProcessController;
 use App\Http\Controllers\AdminPages\Visaprocess\EmbassyController;
+use App\Http\Controllers\AdminPages\Reports\AgentsReportController;
+use App\Http\Controllers\AdminPages\Reports\ManpowerReportController;
 use App\Http\Controllers\AdminPages\ManPower\PassportReturnController;
+use App\Http\Controllers\AdminPages\Reports\PassportsReportController;
 use App\Http\Controllers\AdminPages\OfficeManagement\ServiceController;
 use App\Http\Controllers\AdminPages\ManPower\PassportDeliveryController;
+use App\Http\Controllers\AdminPages\Reports\VisaProcessReportController;
+use App\Http\Controllers\AdminPages\Accounting\AddPassportRateController;
 use App\Http\Controllers\AdminPages\OfficeManagement\ManagementController;
 
 /*
@@ -54,9 +60,6 @@ Route::group(['middleware' => 'admin.redirect'],function(){
 
 });
 
-
-
-
 Route::group(['middleware' => 'admin'],function(){
 
     Route::Post('/dashboard',[AdminAuthController::class, 'login'])->name('dashboard.login');
@@ -78,22 +81,39 @@ Route::group(['middleware' => 'admin'],function(){
     Route::resource('/user-role',RolesController::class);
 
     Route::resource('/staff',StaffController::class);
+    Route::post('/staff-salary-statement',[StaffController::class, 'salaryStatement'])->name('staff.salaryStatement');
     Route::get('/staff-trash/{id}',[StaffController::class, 'trash'])->name('staff.trash');
 
-
     Route::post('/office-expenses',[ManagementController::class, 'expenses'])->name('office.expenses');
+    Route::post('/office-revenue',[ManagementController::class, 'revenue'])->name('office.revenue');
+    Route::post('/office-balanceSheet',[ManagementController::class, 'balanceSheet'])->name('office.balanceSheet');
 
     //Route For Admin Users permission
     Route::resource('/user-permission',PermissionController::class);
 
     //Route For Admin Users after login
-    Route::resource('/passports',PassportsController::class);
-    Route::put('/passports-amount-update/{id}',[PassportsController::class, 'amount'])->name('passports.amount');
-    Route::get('/passports-tresh-update/{id}',[PassportsController::class, 'updateTresh'])->name('passports.tresh.update');
-    Route::put('/passports-amountUpdate/{id}',[PassportsController::class, 'amountUpdate'])->name('passports.amountUpdate');
+    Route::get('/passports',[PassportsController::class, 'index'])->name('passports.index');
+    Route::get('/passports-create',[PassportsController::class, 'create'])->name('passports.create');
+    Route::POST('/passports-store',[PassportsController::class, 'store'])->name('passports.store');
+    Route::get('/passports-show/{id}',[PassportsController::class, 'show'])->name('passports.show');
+    Route::get('/passports-edit/{id}',[PassportsController::class, 'edit'])->name('passports.edit');
+    Route::put('/passports_update/{id}',[PassportsController::class, 'update'])->name('passports.update');
+    Route::get('/passports-amountPage',[PassportsController::class, 'amountPage'])->name('passports.amountPage');
+    Route::post('/passports-amount-update',[PassportsController::class, 'amount'])->name('passports.amount');
+    Route::post('/passports-trash/{id}',[PassportsController::class, 'trash'])->name('passports.trash');
+    Route::POST('/passports-destroy/{id}',[PassportsController::class, 'destroy'])->name('passports.destroy');
+    Route::GET('/passports-Recycle',[PassportsController::class, 'recycle'])->name('passports.recycle');
+    Route::POST('/passports-Restore/{id}',[PassportsController::class, 'restore'])->name('passports.restore');
 
-    Route::resource('/agentsBd',AgentsBdController::class);
-    Route::get('/agentsBd-tresh-update/{id}',[AgentsBdController::class, 'updateTresh'])->name('agentsBd.tresh.update');
+    Route::get('/agentsBd-index',[AgentsBdController::class, 'index'])->name('agentsBd.index');
+    Route::get('/agentsBd-create',[AgentsBdController::class, 'create'])->name('agentsBd.create');
+    Route::post('/agentsBd-store',[AgentsBdController::class, 'store'])->name('agentsBd.store');
+    Route::get('/agentsBd-show/{id}',[AgentsBdController::class, 'show'])->name('agentsBd.show');
+    Route::get('/agentsBd-edit/{id}',[AgentsBdController::class, 'edit'])->name('agentsBd.edit');
+    Route::post('/agentsBd-update/{id}',[AgentsBdController::class, 'update'])->name('agentsBd.update');
+    Route::get('/agentsBd-tresh-update/{id}',[AgentsBdController::class, 'trash'])->name('agentsBd.tresh.update');
+    Route::post('/agentsBd-destroy/{id}',[AgentsBdController::class, 'destroy'])->name('agentsBd.destroy');
+
 
     //Route For dashboard after login
 
@@ -101,18 +121,33 @@ Route::group(['middleware' => 'admin'],function(){
 
 
     Route::resource('/transection',TransectionController::class);
+    Route::get('/transection-pettyCash/{id}',[TransectionController::class, 'destroySingle'])->name('transection.destroySingle');
+
     Route::get('/transection-pettyCash',[TransectionController::class, 'pettyCash'])->name('transection.pettyCash');
     Route::get('/transection-recycle',[TransectionController::class, 'recycle'])->name('transection.recycle');
+    Route::post('/transection-restore/{id}',[TransectionController::class, 'restore'])->name('transaction.restore');
     Route::get('/transection-transectionTresh/{id}',[TransectionController::class, 'transectionTresh'])->name('transection.TransectionTresh');
     Route::post('/transection-dailyStatement',[TransectionController::class, 'dailyStatement'])->name('transection.dailyStatement');
 
+    Route::get('/transaction-typeShow',[TransectionController::class, 'typeShow'])->name('transaction.typeShow');
+    Route::post('/transaction-typeStore',[TransectionController::class, 'typeStore'])->name('transaction.typeStore');
+    Route::POST('/transaction-typeDestroy/{id}',[TransectionController::class, 'typeDestroy'])->name('transaction.typeDestroy');
+
+
     Route::resource('/bank',BankController::class);
+    Route::get('/bank-transactions',[BankController::class,'transactions'])->name('bank.transactions');
     Route::get('/bank-trash/{id}',[BankController::class, 'trash'])->name('bank.trash');
+
+
+    Route::get('/Add-Passport-Rate',[AddPassportRateController::class, 'index'])->name('addRate.index');
+
+
 
     Route::resource('/service',ServiceController::class);
 
 
     Route::resource('/agentsTransaction',AgentController::class);
+    Route::post('/agents-transactions',[AgentController::class, 'transactions'])->name('agents.transactions');
     Route::POST('/agentsTransaction-trash/{id}',[AgentController::class, 'trash'])->name('agentsTransaction.trash');
 
     //Route For Man Power
@@ -128,27 +163,45 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('/bmet-Reject',[BMETController::class, 'passportRejected'])->name('bmet.passportRejected');
     Route::get('/bmet-return/{id}',[BMETController::class, 'passportReturn'])->name('bmet.passportReturn');
 
-    Route::resource('/passportDelivery',PassportDeliveryController::class);
-    Route::PUT('/passportDelivery/{id}',[PassportDeliveryController::class, 'deliver'])->name('passport.deliver');
+    Route::get('/passportDelivery',[PassportDeliveryController::class, 'index'])->name('passportDelivery.index');
+    Route::post('/passportDelivery-delivery',[PassportDeliveryController::class, 'delivery'])->name('passport.deliver');
+
+
+    //Route For All Reports
+    Route::post('/agentsReport',[AgentsReportController::class, 'index'])->name('agentsReport.index');
+    Route::post('/manpowerReport',[ManpowerReportController::class, 'index'])->name('manpowerReport.index');
+    Route::post('/passportsReport',[PassportsReportController::class, 'index'])->name('passportsReport.index');
+    Route::post('/visaProcessReport',[VisaProcessReportController::class, 'index'])->name('visaProcessReport.index');
 
     Route::resource('/passportReturn',PassportReturnController::class);
 
     //Route For Medical
     Route::resource('/medical',MedicalController::class);
 
+    Route::resource('/visaHome',VisaHomeController::class);
+
 
     Route::resource('/ksaProcess',KsaProcessController::class);
 
     //Route For embassy
     Route::resource('/embassy',EmbassyController::class);
-    Route::PUT('/embassy-update/{id}',[EmbassyController::class, 'update'])->name('embassy.update');
+    Route::get('/embassy-trash/{id}',[EmbassyController::class, 'trash'])->name('embassy.trash');
+
     //Route For mofa
     Route::resource('/mofa',MofaController::class);
+
     //Route For okala
     Route::resource('/okala',OkalaController::class);
 
     //Trave Agency Route
     Route::resource('/airTicket',AirTicketController::class);
+    Route::get('/airTicket-seller',[AirTicketController::class, 'seller'])->name('airTicket.seller');
+    Route::post('/airTicket-seller',[AirTicketController::class, 'sellerStore'])->name('seller.store');
+    Route::get('/airTicket-seller-edit/{id}',[AirTicketController::class, 'edit'])->name('seller.edit');
+    Route::post('/airTicket-seller/show{id}',[AirTicketController::class, 'show'])->name('seller.show');
+    Route::post('/airTicket-seller/update{id}',[AirTicketController::class, 'update'])->name('seller.update');
+    Route::get('/ticket-sales',[AirTicketController::class, 'sales'])->name('ticket.sales');
+    Route::get('/ticket-sellerShow/{id}',[AirTicketController::class, 'sellerShow'])->name('ticket.sellerShow');
 
     Route::get('/medical-report/{id}',[MedicalController::class, 'medicalReportEdit'])->name('medical.reportEdit');
 

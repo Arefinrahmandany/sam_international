@@ -65,14 +65,14 @@ table tr th :last-child{
                                     <td>ইঞ্জাজ নম্বর </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{$data -> incharge_number}}</td>
+                                    <td>{{optional($data->embassys)->incharge_number}}</td>
                                     <td> رقم إنجاز </td>
                                 </tr>
                                 <tr>
                                     <td>ভিসা নম্বর </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> visa_number }}</td>
+                                    <td>{{ optional($data->mofas)->visaNumber }}</td>
                                     <td> رقم المستند </tdclass=>
                                 </tr>
                                 <tr>
@@ -86,7 +86,7 @@ table tr th :last-child{
                                     <td>পাসপোর্ট নম্বর</td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> passport_number }}</td>
+                                    <td>{{ $data -> passport }}</td>
                                     <td> رقم الجواز </td>
                                 </tr>
                                 <tr>
@@ -107,21 +107,21 @@ table tr th :last-child{
                                     <td>লিঙ্গ </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> sex }}</td>
+                                    <td>{{ $data -> gender }}</td>
                                     <td> الجنس </td>
                                 </tr>
                                 <tr>
                                     <td>মুসানেদ </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> supports }}</td>
+                                    <td>{{ optional($data->embassys)->supports }}</td>
                                     <td> مساند </td>
                                 </tr>
                                 <tr>
                                     <td>ওকালা </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> okala }}</td>
+                                    <td>{{ optional($data->embassys)->okala }}</td>
                                     <td> الوكالة </td>
                                 </tr>
                                 <tr>
@@ -141,28 +141,28 @@ table tr th :last-child{
                                     <td>পুলিশ ক্লিয়ারেন্স </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> police_clearance }}</td>
+                                    <td>{{ optional($data->embassys)->police_clearance }}</td>
                                     <td> ورقة الشرطة  </td>
                                 </tr>
                                 <tr>
                                     <td>লাইসেন্স </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> licence }}</td>
+                                    <td>{{ optional($data->embassys)->licence }}</td>
                                     <td> الرخصة </td>
                                 </tr>
                                 <tr>
                                     <td>পেশা </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> occupation }}</td>
+                                    <td>{{ optional($data->mofas)->occupetion }}</td>
                                     <td> المهنة </td>
                                 </tr>
                                 <tr>
                                     <td>যোগ্যতাএবং অভিজ্ঞতা সার্টিফিকেট </td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $data -> qualification }}</td>
+                                    <td>{{ optional($data->embassys)->qualification }}</td>
                                     <td> المؤهل وشهادة الخبرة </td>
                                 </tr>
                                 <tr>
@@ -170,12 +170,15 @@ table tr th :last-child{
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        @if( $data -> finger )
+                             {{--           @php
+                                            $finger= $data->mofas->finger;
+                                        @endphp
+                                        @if( $finger )
                                             Done
                                         @else
                                             N/A
                                         @endif
-                                    </td>
+                                    --}}</td>
                                     <td>البصمة</td>
                                 </tr>
 

@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('cell')->nullable();
             $table->string('email')->nullable();
             $table->string('details')->nullable();
-            $table->integer('debit')->nullable();
-            $table->integer('credit')->nullable();
             $table->string('address')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('tresh')->default(false);

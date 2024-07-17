@@ -185,25 +185,4 @@ style='font-family:"Traditional Arabic"'>&nbsp;</span></p>
                                 </div>
                             </div>
 
-                            <script>
-
-                            function printDiv() {
-                                    var printContents = document.getElementById('printDiv').innerHTML;
-                                    var originalContents = document.body.innerHTML;
-
-                                    document.body.innerHTML = printContents;
-
-                                    window.print();
-
-                                    document.body.innerHTML = originalContents;
-
-                                    // Redirect to another page after printing
-                                    setTimeout(function() {
-                                        window.location.href = "{{ route('saudiEmp.sponserDestroy', ['id' => Auth::guard('admin')->user()->id]) }}";
-                                    }, 1000); // Adjust the delay as needed (in milliseconds)
-
-                                }
-
-                            </script>
-
         @endsection

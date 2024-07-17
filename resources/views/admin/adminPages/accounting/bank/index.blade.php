@@ -3,14 +3,13 @@
 @section('main-content')
 
 
-<div class="row page-titles mb-3  mx-0">
-    <div class="col p-md-0">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{-- route('transection.index') --}}"  class="link-underline-light link-dark">Account</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="link-underline-light link-dark">Bank Page</a></li>
-        </ol>
-    </div>
-</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Accounts</a></li>
+        <li class="breadcrumb-item"><a href="#">Bank</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add Bank Accounts</li>
+    </ol>
+</nav>
 
 <main>
 <!-- main Section Start -->
@@ -79,7 +78,7 @@
 
                 </div>
 
-                <div class="col-md-8 card table-responsive m-2">
+                <div class="col-md-8 card table-responsive m-2 p-2">
                     @include('validation.validate-table')
                     <table id="example" class="table table-bordered table-hover">
                         <thead>

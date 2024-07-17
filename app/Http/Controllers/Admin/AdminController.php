@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin;
 use App\Models\Roles;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -115,6 +116,15 @@ class AdminController extends Controller
     {
         $update_data = Admin::findorfail($id);
 
+        //Single Image Upload by Asraful sir
+        if( $request -> hasFile('userPhoto')){
+            $img = $request -> file('userPhoto');
+            $file_name = md5(time().rand()) . '.' .  $img->clientExtension();
+            $img -> move(storage_path('app/public/users/'),$file_name);
+        }else{
+            $file_name = null;
+        }
+
         // data store to table
 
         $update_data -> update([
@@ -124,7 +134,8 @@ class AdminController extends Controller
             'role_id'   => $request -> role,
             'cell'      => $request -> cell,
             'location'  => $request -> location,
-            'dob'       => $request -> dob
+            'dob'       => $request -> dob,
+            'photo'     => json_encode($file_name),
         ]);
 
         return redirect()->route('users.index')->with('success','Data successfully update');
@@ -138,6 +149,15 @@ class AdminController extends Controller
     {
         $update_data = Admin::findorfail($id);
 
+        //Single Image Upload by Asraful sir
+        if( $request -> hasFile('userPhoto')){
+            $img = $request -> file('userPhoto');
+            $file_name = md5(time().rand()) . '.' .  $img->clientExtension();
+            $img -> move(storage_path('app/public/users/'),$file_name);
+        }else{
+            $file_name = null;
+        }
+
         // data store to table
         $update_data -> update([
             'name'      => $request -> name,
@@ -147,6 +167,7 @@ class AdminController extends Controller
             'location'  => $request -> location,
             'dob'       => $request -> dob,
             'bio'       => $request -> bio,
+            'photo'     => json_encode($file_name),
         ]);
 
         return redirect()->route('users.show',$id)->with('success','Data successfully update');

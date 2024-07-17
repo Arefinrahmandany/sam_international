@@ -29,22 +29,32 @@
                         <div class="p-1">
                             <label class="form-lable" for="search">Search</label>
                             <div style="display: flex; align-items: center;">
-                                <input type="text" name="search" class="form-control" id="search">
+                                <select class="form-select" name="type">
+                                    <option value="{{ $searchType ?? '' }}">{{ $searchType }}</option>
+                                    <option value="">-- Select All --</option>
+                                    @foreach( $type as $data )
+                                    <option value="{{ $data->type }}">{{ $data->type }}</option>
+                                    @endforeach
+                                </select>
                                 <button type="submit" class="btn btn-sm"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+            <div>
+                <button type="submit" class="btn btn-primary" onclick="printDiv()"><i class="fa fa-printer"></i>Print</button>
+            </div>
         </div>
         <div id="printDiv" class="card row">
             <div class="card body col-md-12">
                 <div class="p-3 mt-2 mb-2 d-flex justify-content-between">
                     <div>
-                        <h3></h3>
+                        <h6>Duration:<br> From :{{ $startDate }} <br> To : {{ $endDate }}</h6>
                     </div>
                     <div>
-                        <h4>Office Expenses</h4>
+                        <h4>Office Expenses</h4><br>
+                        <p>{{ $searchType }}</p>
                     </div>
                     <div>
                         <h4>Detail Information</h4>
@@ -56,8 +66,7 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Description</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,17 +75,13 @@
                             <td>{{ $loop -> index + 1 }}</td>
                             <td>{{ $data-> created_at->format('d.m.Y') }}</td>
                             <td>{{ $data -> details }}</td>
-                            <td>{{ $data -> debit }}</td>
-                            <td>{{ $data -> credit }}</td>
+                            <td class="text-end">{{ number_format($data -> credit, 2, '.', ',') }}</td>
                         </tr>
                         @empty
                         @endforelse
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="mt-2 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" onclick="printDiv()"><i class="fa fa-printer"></i>Print</button>
         </div>
     </div>
 

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\AdminPages;
 
+use App\Models\BMET;
+use App\Models\Passports;
+use App\Models\Transection;
 use App\Models\TravelAgency;
-use Illuminate\Http\Request;
-use App\Models\Passports_new;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\AdminPages\OfficeManagement\ManagementController;
 
 class DashboardController extends Controller
 {
@@ -16,19 +18,41 @@ class DashboardController extends Controller
     public function index()
     {
        // Get the current date
-        $currentDate = Carbon::now()->toDateString();
+        $currentDate = Carbon::now();
 
+        // Set the start date to the first day of the current month
+        $startDate = $currentDate->firstOfMonth()->toDateString();
 
-        $passport_receive = Passports_new::whereDate('created_at', $currentDate)->count();
+        // Set the end date to the last day of the current month
+        $endDate = $currentDate->endOfMonth()->toDateString();
 
-        $bmet_pass = Passports_new::where('bmet_status','pass')->whereDate('updated_at', $currentDate)->count();
-        $bmet_reject = Passports_new::whereDate('updated_at', $currentDate)->where('bmet_status','rejected')->count();
+        $passport_receive = Passports::whereDate('created_at', $currentDate)->count();
 
-        $dayTicketSaleTotal = TravelAgency::whereDate('created_at', $currentDate)->sum('total_price');
-        $dayTicketSaleQty = TravelAgency::whereDate('created_at', $currentDate)->sum('qty');
+        $monthlyExpenses = Transection::whereBetween('created_at', [$startDate, $endDate])
+                    ->where('type', 'LIKE', '%Expense%')
+                    ->sum('credit');
+
+        $bmet_pass = BMET::where('bmet_status', 'pass')
+                    ->where('status', 1)
+                    ->whereDate('updated_at', $currentDate)
+                    ->count();
+
+        $bmet_reject = BMET::whereDate('updated_at', $currentDate)->where('bmet_status','rejected')->count();
+
+        $dayTicketSaleTotal = TravelAgency::whereDate('created_at', $currentDate)
+                ->sum('total_sale_price');
+
+        $dayTicketSaleQty = TravelAgency::whereDate('created_at', $currentDate)
+                ->sum('qty');
+
+        // Create an instance of ManagementController
+        $managementController = new ManagementController();
+
+        // Call the public method to get financial metrics
+        $financialMetrics = $managementController->getFinancialMetrics($startDate, $endDate);
 
         // Get all passports
-        $passports = Passports_new::latest()->get();
+        $passports = Passports::latest()->get();
 
         return view('admin.index', [
             'bmet_pass' => $bmet_pass,
@@ -36,47 +60,15 @@ class DashboardController extends Controller
             'passport_receive' => $passport_receive,
             'passports' => $passports,
             'dayTicketSaleTotal' => $dayTicketSaleTotal,
-            'dayTicketSaleQty' => $dayTicketSaleQty
+            'dayTicketSaleQty' => $dayTicketSaleQty,
+            'monthlyExpenses' => $monthlyExpenses,
+            'financialMetrics' => $financialMetrics, // Add financial metrics to the view
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function getFinancialMetricsPublic($startDate, $endDate)
     {
-        //
+        return $this->getFinancialMetrics($startDate, $endDate);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

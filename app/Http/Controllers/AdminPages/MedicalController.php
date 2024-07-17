@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\AdminPages;
 
-use App\Http\Controllers\Controller;
-use App\Models\Passports_new;
 use App\Models\Medical;
+use App\Models\Passports;
 use Illuminate\Http\Request;
+use App\Models\Passports_new;
+use App\Http\Controllers\Controller;
 
 class MedicalController extends Controller
 {
@@ -14,11 +15,64 @@ class MedicalController extends Controller
      */
     public function index()
     {
-        $Passports_data = Passports_new::latest()->where('tresh','0')->get();
+        $passports_data = Medical::latest()->where('trash','0')->where('status','1')->get();
+        $passport_data = Passports::latest()->where('trash','0')->where('status','1')->get();
         return view('admin.adminPages.medical.index',[
-            'data' => $Passports_data,
+            'medical_data' => $passports_data,
+            'passport_data' => $passport_data,
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'passport' => 'required',
+        ]);
+
+        $existingMedical = Medical::where('passport', $request->passport)->first();
+
+        if ($existingMedical) {
+            // Update existing record
+            $issueDateStat = $existingMedical->issueDate;
+
+            if(empty($issueDateStat)){
+
+                $request->validate([
+                    'issueDate' => 'required',
+                    'expiryDate' => 'nullable',
+                ]);
+
+                $existingMedical->update([
+                    'issueDate' => $request->issueDate,
+                    'expiryDate' => $request->expiryDate,
+                ]);
+                return back()->with('success', 'Medical Data inserted!');
+
+            }elseif(!empty($issueDateStat)){
+                $existingMedical->update([
+                    'expiryDate' => $request->expiryDate,
+                ]);
+                return back()->with('success', 'Medical Data Expiry Date Updated !!!');
+            }
+
+            return back()->with('success', 'Medical Data updated!');
+        } else {
+            // Create a new record
+            $request->validate([
+                'issueDate' => 'required|date',
+                'expiryDate' => 'nullable|date',
+            ]);
+
+            Medical::create([
+                'passport' => $request->passport,
+                'issueDate' => $request->issueDate,
+                'expiryDate' => $request->expiryDate,
+            ]);
+
+            return back()->with('success', 'Medical Data inserted!');
+        }
+    }
+
 
     /**
      * Show the form for editing the specified resource.

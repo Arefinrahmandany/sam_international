@@ -13,10 +13,18 @@
         <div class="col-md-6 card">
             <div class="card-body">
                 @if( $form_type == 'edit' )
-                <form method="POST" action="{{ route('users.userupdate',$user->id) }}">
+                <form method="POST" action="{{ route('users.userupdate',$user->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     @include('validation.validate')
+                    <div class="form-group">
+                        <div class="row mb-2">
+                            <span id="showImg" style="width: 200px; height: auto;">
+                                <img class="form-control" src="{{ Storage::url('users/'.json_decode($user->photo)) }}" alt="{{ $user->name }}">
+                            </span>
+                            <input type="file" name="userPhoto" class="form-control">
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <div class="m-1 p-1">

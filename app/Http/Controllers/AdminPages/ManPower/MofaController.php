@@ -11,9 +11,11 @@ class MofaController extends Controller
 {
     public function index()
     {
-        $passport = Passports::all();
+        $passport = Passports::latest()->get();
+        $mofa = Mofa::latest()->get();
         return view('admin.adminPages.man_power.ksaProcess.Mofa.index',[
-            'passport' => $passport
+            'passport' => $passport,
+            'mofa' => $mofa
         ]);
 
     }

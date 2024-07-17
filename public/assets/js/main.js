@@ -237,4 +237,30 @@ function validatePasswords() {
     return true; // Allow form submission
 }
 
+function calculateAge() {
+    // Get the birth date input value
+    var dobInput = document.getElementById('dob').value;
+
+    // Create a Date object from the input value
+    var dob = new Date(dobInput);
+
+    // Get the current date
+    var currentDate = new Date();
+
+    // Calculate the age
+    var ageInMilliseconds = currentDate - dob;
+    var ageInSeconds = ageInMilliseconds / 1000;
+    var ageInMinutes = ageInSeconds / 60;
+    var ageInHours = ageInMinutes / 60;
+    var ageInDays = ageInHours / 24;
+    var ageInYears = ageInDays / 365.25; // taking into account leap years
+
+    // Extract the years and days
+    var years = Math.floor(ageInYears);
+    var days = Math.floor((ageInYears - years) * 365.25);
+
+    // Set the calculated age to the age input field
+    document.getElementById('age').value = years + " years, " + days + " days";
+}
+
 

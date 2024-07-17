@@ -64,7 +64,7 @@ class PermissionController extends Controller
         $permissions    =   Permission::latest() -> get();
         $per            =   Permission::findOrFail($id);
 
-        return view('admin.adminPages.user.permission.index',[
+        return view('admin.adminPages.users.permissions.index',[
             'all_permission'=> $permissions,
             'form_type'     => 'edit',
             'edit'          => $per

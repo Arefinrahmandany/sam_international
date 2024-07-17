@@ -5,7 +5,9 @@ namespace App\Http\Controllers\AdminPages\Accounting;
 use App\Models\Bank;
 use App\Models\Transection;
 use Illuminate\Http\Request;
+use App\Models\BankTransaction;
 use App\Http\Controllers\Controller;
+use App\Models\AgentsBd;
 use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 
 class BankController extends Controller
@@ -16,7 +18,6 @@ class BankController extends Controller
     public function index()
     {
         $banks = Bank::all();
-
         $balances = [];
 
         foreach ($banks as $bank) {
@@ -39,6 +40,39 @@ class BankController extends Controller
         ]);
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    public function transactions(Request $request)
+    {
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+        $searchAgent = $request->agents;
+        $searchBanks = $request->banks;
+
+        $agents = AgentsBd::all();
+        $banks = Bank::all();
+
+        $bankTransaction = BankTransaction::latest()->where('trash','0')->where('status','1');
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $bankTransaction->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        if (!empty($searchBanks)) {
+            $bankTransaction->where('details','LIKE', '%' . $searchBanks . '%');
+        }
+        if (!empty($searchAgent)) {
+            $bankTransaction->where('details','LIKE', '%' . $searchAgent . '%');
+        }
+        $bankTransaction = $bankTransaction->get();
+
+        return view('admin.adminPages.accounting.bank.bankTransactions',[
+            'agents'  =>  $agents,
+            'banks'  =>  $banks,
+            'bankTransaction'  =>  $bankTransaction,
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -46,7 +80,7 @@ class BankController extends Controller
     public function store(Request $request)
     {
         Bank::create([
-            'bank_name'         => $request->bank_name,
+            'bank_name'         => strtoupper($request->bank_name),
             'bank_branch_name'  => $request->bank_branch_name,
             'account_name'      => $request->account_name,
             'account_number'    => $request->account_number,

@@ -78,7 +78,31 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <script>
+                                        var check = function() {
+                                            if (document.getElementById('password').value ==
+                                                document.getElementById('confirm_password').value) {
+                                                document.getElementById('message').style.color = 'green';
+                                                document.getElementById('message').innerHTML = 'matching';
+                                            } else {
+                                                document.getElementById('message').style.color = 'red';
+                                                document.getElementById('message').innerHTML = 'not matching';
+                                            }
+                                        }
+                                    </script>
 
+                                    <div class="col-md-6">
+                                        <label>Password</label>
+                                        <input type="password" name="password" class="form-control" id="password" onkeyup='check();'>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Confirm Password</label>
+                                        <input type="password" name="confirm_password" class="form-control" id="confirm_password" onkeyup='check();'>
+                                    </div>
+                                    <span id='message'></span>
                                 </div>
 
                                 <button type="submit" name="submit" class="btn btn-dark m-3">Submit</button>
@@ -204,7 +228,7 @@
                         </thead>
                             <tbody>
                                 @forelse ($all_admin as $per)
-                                                @if ($per -> role_id !=='2')
+                                                @if ($per -> role_id !== 4)
                                                 <tr>
                                                     <td>{{ $loop -> index +1 }}</td>
                                                     <td>{{ $per -> name }}</td>
@@ -219,7 +243,7 @@
                                                         @if($per -> photo == 'avatar.png')
                                                         <img src="{{ url('assets/img/avatar.png') }}" alt="user" style="width:60px; height:auto; radius:50%;">
                                                         @else
-                                                        <img src="{{ url('assets/img/users/'.$per->photo ) }}" alt="upload_photo" style="width:60px; height:auto; radius:50%;">
+                                                        <img src="{{ asset('smssam/storage/app/public/users/'.json_decode($per->photo)) }}" alt="upload_photo" style="width:60px; height:auto; radius:50%;">
                                                         @endif
                                                     </td>
 

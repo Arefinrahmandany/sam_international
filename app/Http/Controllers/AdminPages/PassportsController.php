@@ -16,19 +16,51 @@ use App\Models\AgentTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+
 class PassportsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $passports = Passports::latest()->where('trash','0')->get();
-        return view('admin.adminPages.passports.index',[
-            'passports' => $passports
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+        $searchCountry = $request->country;
+        $searchAgent = $request->agents;
+        $searchType = $request->service;
+
+        $service = Service::all();
+        $country = countries::all();
+        $agents = AgentsBd::all();
+        $passports = Passports::latest()->where('trash','0')->where('status','1');
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $passports->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        if (!empty($searchCountry)) {
+            $passports->where('applying_country', $searchCountry);
+        }
+        if (!empty($searchAgent)) {
+            $passports->where('agentsBD', $searchAgent);
+        }
+        if (!empty($searchType)) {
+            $passports->where('service', $searchType);
+        }
+        $passports = $passports->get();
+
+        return view('admin.adminPages.passports.index', [
+            'passports' => $passports,
+            'service' => $service,
+            'country' => $country,
+            'agents' => $agents,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'searchCountry' => $searchCountry,
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -68,23 +100,141 @@ class PassportsController extends Controller
     {
         //validate
         $this-> validate($request,[
-            'passport'=> 'required||unique:Passports,passport',
+            'passport'=> 'required|unique:passports,passport',
         ]);
 
         //multiple image upload
-
         $paperImg = [];
-
         if( $request -> hasFile('gallery')){
             $gallery = $request -> file('gallery');
             foreach ($gallery as $key) {
                 $file_name = md5(time().rand()) . '.'. $key -> clientExtension();
-                $key -> move(public_path('photos/passportsPaper/'), $file_name);
+                $key -> move(storage_path('app/public/passports/'), $file_name);
                 array_push($paperImg , $file_name);
             }
         }
         //Store ALl Requested data
         Passports::create([
+            'name'                  => $request->name,
+            'passport'              => $request->passport,
+            'passport_issue_date'   => $request->passport_issue_date,
+            'passport_expire_date'  => $request->passport_expire_date,
+            'father'                => $request->fatherName,
+            'mother'                => $request->motherName,
+            'nid'                   => $request->nid,
+            'dob'                  => $request->dob,
+            'pob'                  => $request->pob,
+            'gender'                => $request->gender,
+            'religion'              => $request->religion,
+            'cell'                  => $request->cell,
+            'service'               => $request->service,
+            'agentsBD'              => $request->agentsBD,
+            'applying_country'      => $request->applying_country,
+            'work_type'             => $request->work_type,
+            'attested'              => $request->attested,
+            'visaExp'               => $request->visaExp,
+            'photos'                => json_encode( $paperImg ),
+            'user_id'               => Auth::guard('admin')->user()->id,
+        ]);
+
+        //redirect to back same page
+        return back()->with('success', 'Data successfully inserted .');
+    }
+
+    public function amountPage()
+    {
+        $passports = Passports::latest()->where('trash', 0)->where('status',1)->get();
+        $passportList = Passports::latest()->where('trash', 0)->where('status',1)->where('amount',null)->get();
+        return view('admin.adminPages.passports.passportsRate',[
+            'passports' => $passports,
+            'passportList' => $passportList
+        ]);
+    }
+
+    public function amount(Request $request)
+    {
+        $passportNumber = $request->passport;
+
+        // Retrieve the model instance
+        $update_data = Passports::where('passport', $passportNumber)->first();
+
+        // Check if the model exists
+        if ($update_data) {
+            $update_data->update([
+                'amount' => $request->amount,
+            ]);
+
+            $agent = $update_data->agentsBD;
+            $service = $update_data->service;
+            if($update_data->service){
+                $services = Service::where('id',$service)->first();
+                $service = $services->service;
+            }
+
+            $voucherNo = $this->generateUniqueVoucherNo();
+            AgentTransaction::create([
+                'voucherNo'     => $voucherNo,
+                'reciveBy'      => Auth::guard('admin')->user()->id,
+                'agent'         => $agent,
+                'detail'        => strtoupper('Due For '.$passportNumber . ", Agent - " . $update_data->agent->name .' for '.$service.' In - '. $update_data->applying_country ),
+                'debit'         => $request->amount,
+                'paymentSystem' => 'due',
+            ]);
+
+            return back()->with('success-table','Amount update successfully');
+        } else {
+            // Handle the case where the model is not found
+            return back()->with('error', 'Passport not found');
+        }
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $passports = Passports::findorfail($id);
+        return view('admin.adminPages.passports.form',[
+            'passports'     => $passports,
+            'form_type'     => 'show'
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+
+        $service = Service::all();
+        $visaOffices = VisaOffice::latest()->get();
+        $agents = AgentsBd::all();
+        $countries_data = countries::all();
+        $passport_data = Passports::with(['agent','servic'])->findorFail($id);
+
+
+        return view('admin.adminPages.passports.form',[
+
+            'agency' => $visaOffices,
+            'service'    => $service,
+            'all_agents'    => $agents,
+            'all_countries' => $countries_data,
+            'edit' => $passport_data,
+            'form_type'     => 'edit'
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+
+
+        $update_data = Passports::findorFail($id);
+        // data store to table
+        $update_data -> update([
             'passport'              => $request->passport,
             'name'                  => $request->name,
             'email'                 => $request->email,
@@ -99,106 +249,60 @@ class PassportsController extends Controller
             'gender'                => $request->gender,
             'religion'              => $request->religion,
             'cell'                  => $request->cell,
-            'photos'                => json_encode( $paperImg ),
-            'user_id'               => Auth::guard('admin')->user()->id,
+            'dob'                  => $request->dob,
+            'age'                  => $request->age,
         ]);
-
-        //redirect to back same page
-        return back()->with('success', 'Data successfully inserted .');
-
-    }
-
-    public function amount(Request $request,string $id)
-    {
-        $update_data = Passports::findorFail($id);
-
-        $update_data->update([
-            'amount' => $request->amount,
-        ]);
-
-        $voucherNo = $this->generateUniqueVoucherNo();
-        AgentTransaction::create([
-            'voucherNo'     => $voucherNo,
-            'reciveBy'      => Auth::guard('admin')->user()->id,
-            'agent'         => $update_data-> agentsBD,
-            'detail'        => 'Due For '.$update_data-> passport_number . ", Agent - " . $update_data->agents->name .' Applying country - '. $update_data->applying_country,
-            'debit'         => $request-> amount,
-            'paymentSystem' => 'due',
-        ]);
-
-        return back()->with('success-table','Amount update successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $passports = Passports_new::findorfail($id);
-        return view('admin.adminPages.passports.form',[
-            'passports'     => $passports,
-            'form_type'     => 'show'
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $agents = AgentsBd::all();
-        $countries_data = countries::all();
-        $passport_data = Passports_new::findorFail($id);
-        return view('admin.adminPages.passports.form',[
-            'all_agents'    => $agents,
-            'all_countries' => $countries_data,
-            'edit' => $passport_data,
-            'form_type'     => 'edit'
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $passport_number = $request->passport;
-        $update_data = Passports_new::where('passport_number',$passport_number);
-
-        // data store to table
-        $update_data -> update([
-            'passport_number'       => $request->passport_number,
-            'passport_issue_date'   => $request->passport_issue_date,
-            'passport_expire_date'   => $request->passport_expire_date,
-            'visa_process'           => $request->visa_process,
-            'name'                  => $request->name,
-            'phone'                 => $request->phone,
-            'birthdate'             => $request->birthdate,
-            'address'               => $request->address,
-            'email'                 => $request->email,
-            'religion'              => $request->religion,
-            'okala'                 => $request->okala,
-            'first_Party'           => $request->first_Party,
-            'nationality'           => $request->nationality,
-            'age'                   => $request->age,
-            'sex'                   => $request->sex,
-            'occupation'            => $request->occupation,
-            'incharge_number'       => $request->incharge_number,
-            'visa_number'           => $request->visa_number,
-            'applying_country'      => $request->applying_country,
-            'supports'              => $request->supports,
-            'agentsBD'              => $request->agentsBD,
-            'licence'               => $request->licence,
-            'qualification'         => $request->qualification,
-            'police_clearance'      => $request->police_clearance,
-            'finger'                => $request->finger,
-            'training'              => $request->training,
-            'attested'              => $request->attested,
-            'medical_report'        => $request->medical_report,
-        ]);
-
         return redirect()->route('passports.index')->with('success','Data successfully update');
+    }
 
+    /**
+     * Tresh Update
+     */
+    public function trash($id)
+    {
+        $data =  Passports::findorFail($id);
+        if($data -> trash){
+            $data -> update([
+                'trash'     =>false,
+                'trash_by'   => Auth::guard('admin')->user()->id,
+            ]);
+        }else{
+            $data -> update([
+                'trash'     =>true,
+                'trash_by'   => Auth::guard('admin')->user()->id,
+            ]);
+        }
+        return back()->with('success-table','Data Deleted successfull');
+    }
+
+    /**
+     * Trash Storage Place
+     */
+    public function recycle()
+    {
+        $trashPassports=Passports::latest()->where('trash', 1)->get();
+        return view('admin.adminPages.passports.passportRecycle',[
+            'trashPassports' => $trashPassports ,
+        ]);
+    }
+
+    /**
+     * Tresh Data Restore
+     */
+    public function restore($id)
+    {
+        $data =  Passports::findorFail($id);
+
+        if($data -> trash){
+            $data -> update([
+                'trash'=>false,
+            ]);
+        }else{
+            $data -> update([
+                'trash'=>true,
+            ]);
+        }
+        return back()->with('success-table','Data Restore successfull');
     }
 
 
@@ -211,31 +315,5 @@ class PassportsController extends Controller
         $delete_data -> delete();
         return back() -> with('success','Data successfully inserted');
     }
-
-    /**
-     * Tresh Update
-     */
-
-    public function updateTresh($id)
-    {
-        $data =  Passports_new::findorFail($id);
-
-        if($data -> tresh){
-            $data -> update([
-                'tresh'=>false
-            ]);
-        }else{
-            $data -> update([
-                'tresh'=>true
-            ]);
-        }
-
-        return back()->with('success-table','Data Deleted successfull');
-
-    }
-
-
-
-
 
 }

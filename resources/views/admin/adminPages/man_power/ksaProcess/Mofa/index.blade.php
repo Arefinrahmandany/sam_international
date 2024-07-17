@@ -13,7 +13,7 @@
     <div class="container pt-4 px-4">
         <div class="row g-4 mb-3">
             <h5>Mofa Submission</h5>
-            <div class="card">
+            <div class="card d-flex justify-content-center">
                 <div class="card-body">
                     <form method="POST" action="{{ route('mofa.store') }}">
                         @csrf
@@ -101,6 +101,45 @@
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="row d-flex justify-content-center table-responsive">
+            <table id="example" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Passport Number</th>
+                        <th class="text-center">Visa Number</th>
+                        <th class="text-center">Sponser Name</th>
+                        <th class="text-center">Occupetion</th>
+                        <th class="text-center">Purpose</th>
+                        <th class="text-center">Fingerprint</th>
+                        <th class="text-center">Training</th>
+                        <th class="text-center">Attested</th>
+                        <th class="text-center">Medical Report</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse( $mofa as $data )
+                    <tr>
+                        <td class="text-center">{{ $loop -> index +1 }}</td>
+                        <td>{{ $data -> passport }}</td>
+                        <td>{{ $data -> visaNumber }}</td>
+                        <td>{{ $data -> sponser }}</td>
+                        <td>{{ $data -> occupetion }}</td>
+                        <td>{{ $data -> purpose }}</td>
+                        <td class="text-center">{{ $data->finger ? 'Yes' : 'No' }}</td>
+                        <td class="text-center">{{ $data->training ? 'Yes' : 'No' }}</td>
+                        <td class="text-center">{{ $data->attested ? 'Yes' : 'No' }}</td>
+                        <td class="text-center">{{ $data->medical_report ? 'Fit' : 'Unfit' }}</td>
+                        <td class="text-center">
+                            <a href="" class="btn btn-sm btn-outline-info"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+                    @empty
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </main>

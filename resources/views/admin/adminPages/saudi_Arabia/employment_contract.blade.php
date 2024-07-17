@@ -55,7 +55,7 @@
                     <tr style="padding: 1px;margin:6px;">
                         <td>1<sup>st</sup> Party</td>
                         <td> : </td>
-                        <td>{{ $data -> first_Party }}</td>
+                        <td>{{ $data ->embassys-> first_Party }}</td>
                     </tr>
                     <tr style="padding: 1px;margin:6px;">
                         <td>2<sup>nd</sup> Party</td>
@@ -70,12 +70,12 @@
                     <tr style="padding: 1px;margin:6px;">
                         <td>Passport No </td>
                         <td> : </td>
-                        <td>{{ $data -> passport_number }}</td>
+                        <td>{{ $data -> passport }}</td>
                     </tr>
                     <tr style="padding: 1px;margin:6px;">
                         <td>Profession </td>
                         <td> : </td>
-                        <td>{{ $data -> occupation }}</td>
+                        <td>{{ $data ->mofas-> occupetion }}</td>
                     </tr>
                 </table>
                 <div>

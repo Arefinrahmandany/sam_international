@@ -140,6 +140,8 @@
 
                                                 @forelse ($roles as $role)
 
+                                                @if ($role -> name !== 'Super Admin')
+
                                                 <tr>
                                                     <td>{{ $loop -> index +1 }}</td>
                                                     <td>{{ $role -> name }}</td>
@@ -171,6 +173,7 @@
 
                                                     </td>
                                                 </tr>
+                                                @endif
 
                                                 @empty
 

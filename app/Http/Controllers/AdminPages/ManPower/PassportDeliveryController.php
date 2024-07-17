@@ -2,26 +2,37 @@
 
 namespace App\Http\Controllers\AdminPages\ManPower;
 
-use App\Http\Controllers\Controller;
+use App\Models\Passports;
 use Illuminate\Http\Request;
-use App\Models\Passports_new;
+use App\Models\PassportDelivery;
+use App\Http\Controllers\Controller;
 
 class PassportDeliveryController extends Controller
 {
     public function index()
     {
-        $all_passports = Passports_new::where('bmet_status','pass')->get();
+        $all_passports = Passports::where('passportStatus','!=', null)->latest()->get();
+        $working_passports = Passports::where('passportStatus','=', null)->latest()->get();
         return view('admin.adminPages.delivery.index',[
-            'all_passports' => $all_passports
+            'all_passports' => $all_passports,
+            'working_passports' => $working_passports
         ]);
     }
 
-    public function deliver(Request $request, string $id)
+    public function delivery(Request $request)
     {
-        $updateData = Passports_new::findorfail($id);
+        $passport_number = $request->passport;
+        $passport_status = $request->workStatus;
+
+        PassportDelivery::create([
+            'passport'   => $request->passport,
+            'workStatus' => $request->workStatus,
+        ]);
+
+        $updateData = Passports::where('passport',$passport_number);
 
         $updateData->update([
-            'passportStatus' => 'delivered',
+            'passportStatus' => $passport_status,
         ]);
 
         //redirect to back same page

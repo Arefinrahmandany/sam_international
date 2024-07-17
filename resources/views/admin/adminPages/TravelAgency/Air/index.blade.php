@@ -85,7 +85,6 @@
                 </div>
 
                 <div class="row d-flex justify-content-between mt-2">
-
                     <div class="col-md-3">
                         <label class="form-label" for="agentsBd">Buyer Name</label>
                         <select class="form-select" id="agentsBd" name="agentsBd" onchange="toggleFields()">
@@ -122,11 +121,29 @@
                         <span id="totalAmount">0.00</span>
                     </div>
                 </div>
-                <div class="row pt-4">
-                    <div class="d-flex justify-content-end">
+                <div class="row d-flex mt-2">
+                    <div class="col-md-3">
+                        <label class="form-label" for="ticketSellerName">Purchase From</label>
+                        <select class="form-select" id="ticketSellerName" name="ticketSellerName">
+                            <option value="">--Select--</option>
+                            <!-- Display existing options using a loop -->
+                            @forelse ($ticketSeller as $data)
+                                <option value="{{ $data->id }}">{{ $data->name }}</option>
+                            @empty
+                            @endforelse
+                            <!-- Provide an option for entering a new value -->
+                            <option value="new">Or enter a new Name</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label" for="price">Purchase Price</label>
+                        <input type="text" name="purchasePrice" class="form-control" id="price">
+                    </div>
+                    <div class="col-md-2 pt-4 justify-content-end text-end">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
@@ -134,8 +151,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <table id="example" class="table table-hover table-responsive">
+        <div class="col-md-12 table-responsive">
+            <table id="example" class="table table-hover">
                 <thead>
                     <tr>
                         <th class="text-center">#</th>
@@ -180,7 +197,6 @@
         </div>
     </div>
 </div>
-
 </main>
 
 <script>
@@ -217,7 +233,5 @@
         // For example, you can use the following line to submit the form programmatically
         // document.getElementById('airTicketForm').submit();
     }
-
-
 </script>
 @endsection

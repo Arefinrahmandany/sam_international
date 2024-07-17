@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('gender');
             $table->string('religion');
             $table->string('cell');
+            $table->date('dob');
+            $table->string('age');
             $table->text('photos');
             $table->string('user_id');
             $table->boolean('status')->default(1);

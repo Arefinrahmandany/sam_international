@@ -11,10 +11,38 @@ class StaffController extends Controller
 {
     public function index()
     {
-        $allStaff = Staff::where('trash',0)->latest()->get();
+        $allStaff = Staff::where('trash',0)->where('status',1)->latest()->get();
         return view('admin.adminPages.staffManagement.index',[
             'allStaff'  => $allStaff,
             'form_type' => 'create'
+        ]);
+    }
+
+    public function salaryStatement(Request $request)
+    {
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+        $searchStaff = $request->staff;
+
+        $allStaff = Staff::where('trash',0)->latest()->get();
+        $allTransaction = Transection::latest()
+            ->where('tresh','0')
+            ->where('status','1')
+            ->where('type','Salary to employees Expense');
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $allTransaction->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        if (!empty($searchStaff)) {
+            $allTransaction->where('details', 'LIKE', '%' .$searchStaff.'%'  );
+        }
+        $allTransaction = $allTransaction->get();
+        return view('admin.adminPages.officeManagement.salary',[
+            'allTransaction' => $allTransaction,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'allStaff' => $allStaff,
+            'searchStaff' => $searchStaff,
         ]);
     }
 
@@ -37,6 +65,12 @@ class StaffController extends Controller
 
     public function store(Request $request)
     {
+        //validate
+        $this-> validate($request,[
+            'name' => 'required',
+            'cell' => 'required|unique:staff,cell',
+        ]);
+
         Staff::create([
             'name'          => $request->name,
             'cell'          => $request->cell,
@@ -96,9 +130,8 @@ class StaffController extends Controller
             ]);
         }
 
-        return back()->with('success-table','Data Deleted successfull');
+        return back()->with('danger-table','Data Deleted successfull');
     }
-
 
 
 }

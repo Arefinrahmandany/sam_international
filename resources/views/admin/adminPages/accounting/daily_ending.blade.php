@@ -8,6 +8,7 @@
     $today = Carbon::today();
 @endphp
 
+
 <!--**********************************
                 Content body start
             ***********************************-->
@@ -33,42 +34,60 @@
                             <form action="{{ route('transection.dailyStatement') }}" method="post">
                                 @csrf
                                 <label class="form-lable" for="date">Date</label>
-                                <input type="date" name="date" value="{{ Carbon::parse($today)->format('Y-m-d') }}" class="form-control" id="date">
+                                <div class="">
+                                    <input type="date" name="date" value="{{ $requestDate }}" class="form-control font-weight-bold border border-2 border-primary" id="date">
+                                </div>
                                 <input type="submit" style="display: none;">
                             </form>
                         </h5>
                     </div>
                     <div>
-                        <h3>Sam International</h3>
+                        <div class="text-center">
+                            <img class="img-fluid logo-print text-center" src="{{ url('assets/img/logo.png') }}" style="height: 50px;">
+                        </div>
+                        <div class="text-center">
+                            <h3>SAM International</h3>
+                        </div>
                     </div>
+                    <style>
+
+                        @media print {
+                            .logo-print {
+                                height: 50px;
+                                width: auto;
+                                display: block; /* Show the logo for print */
+                                margin: 0 auto; /* Center-align the logo */
+                            }
+                        }
+                    </style>
                     <div>
                         <h4>Day Transaction Sheet</h4>
-                        <table>
+                        <table class="table table-bordered table-responsive border border-black">
                             <tbody>
                                 <tr>
                                     <td>Total Debit :</td>
                                     <td class="text-end">
-                                        @if ($day_debit == null)
+                                        @if ($totalDebit == null)
                                         @else
-                                        {{ number_format($day_debit, 2, '.', ',') }}
+                                        {{ number_format($totalDebit, 2, '.', ',') }}
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Total credit :</td>
                                     <td class="text-end">
-                                        @if ($day_credit == null)
+                                        @if ($totalCredit == null)
                                         @else
-                                        {{ number_format($day_credit, 2, '.', ',') }}
+                                        {{ number_format($totalCredit, 2, '.', ',') }}
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Balance :</td>
                                     <td class="text-end">
-                                        @if ($balance == null)
+                                        @if ($dayBalance == null)
                                         @else
-                                        {{ number_format($balance, 2, '.', ',') }}
+                                        {{ number_format($dayBalance, 2, '.', ',') }}
                                         @endif
                                     </td>
                                 </tr>
@@ -78,7 +97,7 @@
                 </div>
 
                 <div class="card mt-2 p-2">
-                <table class="table table-bordered table-responsive">
+                <table class="table table-bordered table-responsive border border-black">
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
@@ -125,19 +144,19 @@
                             <td></td>
                             <td></td>
                             <td class="text-end"><b>Total : </b></td>
-                            <td>
+                            <td class="text-end">
                                 <b>
-                                    @if ($day_debit == null)
+                                    @if ($totalDebit == null)
                                     @else
-                                    {{ number_format($day_debit, 2, '.', ',') }}
+                                    {{ number_format($totalDebit, 2, '.', ',') }}
                                     @endif
                                 </b>
                             </td>
-                            <td>
+                            <td class="text-end">
                                 <b>
-                                    @if ($day_credit == null)
+                                    @if ($totalCredit == null)
                                     @else
-                                    {{ number_format($day_credit, 2, '.', ',') }}
+                                    {{ number_format($totalCredit, 2, '.', ',') }}
                                     @endif
                                 </b>
                             </td>
@@ -146,9 +165,9 @@
                             <td colspan="3" class="text-end"><b>Total Balance C/D : </b></td>
                             <td colspan="2" >
                                 <b>
-                                    @if ($balance == null)
+                                    @if ($balance_cd == null)
                                     @else
-                                    {{ number_format($balance, 2, '.', ',') }}
+                                    {{ number_format($balance_cd, 2, '.', ',') }}
                                     @endif
                             </b>
                             </td>
@@ -170,17 +189,28 @@
 <script>
 
 function printDiv() {
-        var printContents = document.getElementById('printDiv').innerHTML;
-        var originalContents = document.body.innerHTML;
+    var printContents = document.getElementById('printDiv').innerHTML;
+    var originalContents = document.body.innerHTML;
 
-        document.body.innerHTML = printContents;
+    document.body.innerHTML = printContents;
+
+    var linesPerPage = 60; // Set the number of lines per page
+    var contentArray = printContents.split('\n');
+
+    for (var i = 0; i < contentArray.length; i += linesPerPage) {
+        var chunk = contentArray.slice(i, i + linesPerPage).join('\n');
+        document.body.innerHTML = chunk;
 
         window.print();
 
-        document.body.innerHTML = originalContents;
+        if (i + linesPerPage < contentArray.length) {
+            var newPage = document.createElement('div');
+            newPage.className = 'page-break'; // Add a class for styling page breaks
+            document.body.appendChild(newPage);
+        }
+    }
 
-        // Redirect to another page after printing
-        //window.location.href = "{{ route('transection.index') }}"; // Replace '/your-target-page' with the actual URL
+    document.body.innerHTML = originalContents;
 
     }
 

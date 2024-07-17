@@ -22,7 +22,12 @@ return new class extends Migration
             $table->string('details')->nullable();
             $table->string('qty')->nullable();
             $table->string('price')->nullable();
-            $table->string('total_price')->nullable();
+            $table->decimal('total_sale_price', 10, 2)->nullable();
+            $table->string('ticketSellerName')->nullable();
+            $table->string('sellerDetails')->nullable();
+            $table->string('purchaseQty')->nullable();
+            $table->string('purchasePrice')->nullable();
+            $table->decimal('total_purchase_price', 10, 2)->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('trash')->default(false);
             $table->timestamps();

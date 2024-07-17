@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Passports_new;
 use App\Models\SaudiaSponserChart;
 use App\Http\Controllers\Controller;
+use App\Models\Passports;
 use Illuminate\Support\Facades\Auth;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
@@ -14,7 +15,7 @@ class SaudiEmpController extends Controller
 {
     public function index()
     {
-        $passports_new=Passports_new::latest()->where('tresh','0')->where('applying_country','Saudi Arabia')->get();
+        $passports_new=Passports::latest()->where('trash','0')->where('applying_country','Saudi Arabia')->get();
         return view('admin.adminPages.saudi_Arabia.index',[
             'passports_data'=> $passports_new
         ]);
@@ -22,21 +23,21 @@ class SaudiEmpController extends Controller
 
     public function employmentContract(string $id)
     {
-        $passports_new = Passports_new::findorfail($id);
+        $passports_new = Passports::findorfail($id);
         return view('admin.adminPages.saudi_Arabia.employment_contract',[
             'data'=> $passports_new
         ]);
     }
     public function ksaEmbassyFrom(string $id)
     {
-        $passports_new=Passports_new::findorfail($id);
+        $passports_new=Passports::findorfail($id);
         return view('admin.adminPages.saudi_Arabia.ksa_visa_embassy_app_from',[
             'data'=> $passports_new
         ]);
     }
     public function linkUpEmbassy(string $id)
     {
-        $passports_new=Passports_new::findorfail($id);
+        $passports_new=Passports::findorfail($id);
         return view('admin.adminPages.saudi_Arabia.link_up_embassy',[
             'data'=> $passports_new
         ]);
@@ -48,7 +49,7 @@ class SaudiEmpController extends Controller
         $sponserList = SaudiaSponserChart::where('user_id',$id)->get();
         $sponserListTotal = SaudiaSponserChart::where('user_id',$id)->count();
         $passportNumbers = $sponserList->pluck('passport_number')->toArray();
-        $passports=Passports_new::whereIn('passport_number',$passportNumbers)->get();
+        $passports=Passports::whereIn('passport',$passportNumbers)->get();
         return view('admin.adminPages.saudi_Arabia.sponser',[
             'data'=> $passports,
             'sponserListTotal'=> $sponserListTotal,
@@ -59,12 +60,12 @@ class SaudiEmpController extends Controller
 
     public function sponserStore(Request $request, string $id)
     {
-        $passport_info = Passports_new::findorfail($id);
-        $passport_number = $passport_info->passport_number;
+        $passport_info = Passports::findorfail($id);
+        $passport = $passport_info->passport;
         $user_id = Auth::guard('admin')->user()->id;
 
         SaudiaSponserChart::create([
-            'passport_number' => $passport_number,
+            'passport_number' => $passport,
             'user_id' => $user_id,
         ]);
 
@@ -81,8 +82,7 @@ class SaudiEmpController extends Controller
 
     public function ksavisaapp(string $id)
     {
-
-        $passports_new=Passports_new::findorfail($id);
+        $passports_new=Passports::findorfail($id);
         return view('admin.adminPages.saudi_Arabia.ksa_visa_app_from',[
             'data'=> $passports_new
         ]);
